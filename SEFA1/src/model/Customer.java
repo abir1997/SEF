@@ -18,4 +18,8 @@ public class Customer extends User{
 		double usedPts = 0;
 		while(sales)
 	}
+
+	public Sales getSales() {
+		return sales;
+	}
 }

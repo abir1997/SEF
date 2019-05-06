@@ -3,43 +3,101 @@ package model;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map.Entry;
+
+import menu.SuperMarketSystem;
 
 public class Sales {
 	private double pts;
 	private double total;
 	private ArrayList<SalesLineItem> products = new ArrayList<>();
-	
+
 	public void claimPts(CustomerCard card) {
 		double points;
 		points = this.pts;
-		this.pts=0;
+		this.pts = 0;
 		card.addLoyaltyPts(points);
 	}
-	
+
 	public double getPts() {
 		return pts;
 	}
-	
-public boolean makePayment(double amount){
-		
-		if(checkStock())
+
+	public boolean makePayment(double amount) {
+
+		if (checkStock())
 			updateStock();
 		else
 			return false;
-		
+
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.CEILING);
-		
+
 		pts += Double.parseDouble(df.format(amount * 0.1));
 		return true;
 	}
 
-private void updateStock() {
-	
-}
+	private void updateStock() {
+		// TODO
+	}
 
-private boolean checkStock() {
-	// TODO Auto-generated method stub
-	return false;
-}
+	private boolean checkStock() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Collection<SalesLineItem> getAllProducts() {
+		return Collections.unmodifiableList(products);
+	}
+
+	public boolean removeProduct(Product product){
+		for(SalesLineItem item : products){
+			if(item.getProduct().equals(product)){
+				if(item.getQuantity() == 1)
+					products.remove(item);
+				else
+					item.setQuantity(item.getQuantity()-1);
+				updateTotal();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean removeProduct(Product product,int quantity) {
+		for (SalesLineItem item : products) {
+			if (item.getProduct().equals(product)) {
+				if (item.getQuantity() == quantity)
+					products.remove(item);
+				else if (item.getQuantity() < quantity)
+					return false;
+				else
+					item.setQuantity(item.getQuantity() - quantity);
+				updateTotal();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void updateTotal() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public int checkQuantity(Product product) {
+		for (SalesLineItem item : products) {
+			if (item.getProduct().equals(product)) {
+				return item.getQuantity();
+			}
+		}
+		return 0;
+	}
+
+	public void removeAllProduct() {
+		// TODO Auto-generated method stub
+		
+	}
 }

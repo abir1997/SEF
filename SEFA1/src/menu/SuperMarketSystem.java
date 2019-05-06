@@ -304,14 +304,13 @@ public class SuperMarketSystem {
 			System.out.printf("%-30s %s\n", "Return to Login Screen", "8");
 			System.out.printf("\nEnter selection:");
 
-			//TODO
+			// TODO
 			Scanner userInput = new Scanner(System.in);
 			optionSelected = userInput.nextLine();
 
 			if (optionSelected.equalsIgnoreCase("1")) {
 
 			} else if (optionSelected.equalsIgnoreCase("2")) {
-			
 
 			} else if (optionSelected.equalsIgnoreCase("3")) {
 
@@ -337,13 +336,245 @@ public class SuperMarketSystem {
 	}
 
 	private void salesStaffMenuFunctions() {
-		// TODO Auto-generated method stub
+		String optionSelected = "";
+		while (!optionSelected.equalsIgnoreCase("3")) {
+			System.out.println("\n------------------------------------------------------------------------");
+			System.out.println("*** SALESSTAFF FUNCTIONS ***");
+			System.out.println("------------------------------------------------------------------------\n");
 
+			System.out.printf("%-30s %s\n", "Remove Item", "1");
+			System.out.printf("%-30s %s\n", "Cancel Order", "2");
+			System.out.printf("%-30s %s\n", "Return to Login Screen", "3");
+			System.out.printf("\nEnter selection:");
+
+			// This takes the user's input and will take them to the letter
+			// option they chose
+			Scanner userInput = new Scanner(System.in);
+			optionSelected = userInput.nextLine();
+			Customer customer;
+
+			if (optionSelected.equalsIgnoreCase("1")) {
+				System.out.println("Please enter the id of Customer");
+				int id = userInput.nextInt();
+				customer = null;
+				if (users.get(id) instanceof Customer) {
+					customer = (Customer) users.get(id);
+					
+				}
+
+				if (customer != null) {
+					System.out.printf("Customer %s Found!", customer.getName());
+
+					while (true) {
+						System.out.println("Please enter the product to remove or type exit to quit");
+						int pId = userInput.nextInt();
+						Product product = null;
+						String message = "Product Not Found!";
+
+						product = products.get(pId);
+						if (!customer.getSales().getAllProducts().contains(product)) {
+							message = "Product not found in customer's cart!";
+							product = null;
+							break;
+						}
+						
+
+						if (product != null) {
+							System.out.printf("Product %s Found! ", product.toString());
+							while (true) {
+								System.out.println("Please enter the amount to remove or 0 to quit (default:1)");
+								String amount = userInput.nextLine();
+								if (amount.isEmpty()) {
+									if (!customer.getSales().removeProduct(product)) {
+										System.out.printf("Not enough quantity to remove! Remaining quantity :%d%n",
+												customer.getSales().checkQuantity(product));
+										continue;
+									}
+								} else if (Integer.parseInt(amount) == 0) {
+									break;
+								} else {
+									if (!customer.getSales().removeProduct(product, Integer.parseInt(amount))) {
+										System.out.printf("Not enough quantity to remove! Remaining quantity :%d%n",
+												customer.getSales().checkQuantity(product));
+										continue;
+									}
+								}
+								System.out.printf("Product successfully removed! Remaining quantity :%d%n",
+										customer.getSales().checkQuantity(product));
+								break;
+							}
+						} else if (id == 0) {
+							break;
+						} else {
+							System.out.println(message);
+						}
+					}
+				} else {
+					System.out.println("Customer Not Found!");
+				}
+
+			} else if (optionSelected.equalsIgnoreCase("2")) {
+				System.out.println("Please enter the name of Customer");
+				String customerSelected = userInput.nextLine();
+				customer = null;
+				for (int i = 0; i < users.size(); i++) {
+					if (users.get(i) instanceof Customer) {
+						if (users.get(i).getName().equals(customerSelected)) {
+							customer = (Customer) users.get(i);
+							break;
+						}
+					}
+				}
+
+				if (customer != null) {
+					System.out.printf("Customer %s Found! Cancelling transaction%n", customer.getName());
+					customer.getSales().removeAllProduct();
+				} else {
+					System.out.println("Customer Not Found!");
+				}
+			} else if (optionSelected.equalsIgnoreCase("3")) {
+
+				System.out.println("\nReturning to login sceen...\n");
+				// returns to main menu
+				loginScreen();
+			} else {
+				System.out.println("\nInvalid input");
+
+			}
+		}
 	}
 
 	private void wareHouseStaffMenuFunctions() {
-		// TODO Auto-generated method stub
+		String optionSelected = "";
 
+		while (!optionSelected.equalsIgnoreCase("6")) {
+
+			System.out.println("\n------------------------------------------------------------------------");
+			System.out.println("*** WAREHOUSESTAFF FUNCTIONS ***");
+			System.out.println("------------------------------------------------------------------------\n");
+			System.out.printf("%-30s %s\n", "Add Products", "1");
+			System.out.printf("%-30s %s\n", "List Products", "2");
+			System.out.printf("%-30s %s\n", "Remove Products", "3");
+			System.out.printf("%-30s %s\n", "Replenish Product Quantity", "4");
+			System.out.printf("%-30s %s\n", "Return to Login Screen", "5");
+			System.out.printf("\nEnter selection:");
+
+			// This takes the user's input and will take them to the letter
+			// option they chose
+			Scanner userInput = new Scanner(System.in);
+			optionSelected = userInput.nextLine();
+			boolean found = false;
+
+			if (optionSelected.equalsIgnoreCase("1")) {
+				System.out.println("\n------------------------------------------------------------------------");
+				System.out.println("*** ADD PRODUCT ***");
+				System.out.println("------------------------------------------------------------------------\n");
+
+				Scanner userInput1 = new Scanner(System.in);
+				System.out.println("Enter product ID: ");
+				String productID = userInput1.nextLine();
+
+				// For loop is used to check if the product ID already exists
+				// in the system
+				for (int i = 0; i < products.size(); i++) {
+					if (products.get(i).getProductID().equals(productID)) {
+						found = true;
+						System.out.println("Error - Product:  " + productID + " already exists in the system!");
+						break;
+					}
+
+				}
+
+				if (found == false) {
+
+					System.out.println("Enter product quantity:");
+					int quantity = userInput.nextInt();
+
+					System.out.println("Enter product price:");
+					double price = userInput.nextDouble();
+
+					((WareHouseStaff) loggedInUser).addProduct(new Product(productID, quantity, price));
+
+					System.out.println("New Product: " + productID + " sucessfully added to the system!");
+					saveProductData();
+					System.out.println();
+				}
+
+			} else if (optionSelected.equalsIgnoreCase("2")) {
+				((WareHouseStaff) loggedInUser).listProductInformation();
+
+			} else if (optionSelected.equalsIgnoreCase("3")) {
+				System.out.println("\n------------------------------------------------------------------------");
+				System.out.println("*** REMOVE PRODUCT ***");
+				System.out.println("------------------------------------------------------------------------\n");
+				Scanner userInput1 = new Scanner(System.in);
+				boolean found3 = false;
+				System.out.println("Enter productID: ");
+				String productID = userInput1.nextLine();
+
+				// For loop is used to check if the product ID already exists
+				// in the system
+				for (int i = 0; i < products.size(); i++) {
+					if (products.get(i).getProductID().equals(productID)) {
+						found3 = true;
+						((WareHouseStaff) loggedInUser).removeProduct(products.get(i));
+						System.out.println(productID + " sucessfully removed!");
+						break;
+					}
+
+				}
+
+				if (found3 == false) {
+					System.out.println(productID + " is not in the system!");
+				}
+
+			} else if (optionSelected.equalsIgnoreCase("4")) {
+				System.out.println("\n------------------------------------------------------------------------");
+				System.out.println("*** REPLENISH PRODUCT ***");
+				System.out.println("------------------------------------------------------------------------\n");
+				boolean found1 = false;
+				Scanner userInput2 = new Scanner(System.in);
+				System.out.println("Enter productID: ");
+				String productID = userInput2.nextLine();
+				
+
+				
+				System.out.println("Enter replenish quantity: ");
+				int quantity = userInput2.nextInt();
+				
+				while(quantity <= 0)
+				{
+					System.out.println("Please enter quantity again! It has to be greater than 0");
+					System.out.println("Enter replenish quantity: ");
+					quantity = userInput2.nextInt();
+				}
+
+				// For loop is used to check if the product ID already exists
+				// in the system
+				for (int i = 0; i < products.size(); i++) {
+					if (products.get(i).getProductID().equals(productID)) {
+						found1 = true;
+						((WareHouseStaff) loggedInUser).replenishQuantity(products.get(i), quantity);
+						System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
+						break;
+					}
+
+				}
+				if (found1 == false) {
+					System.out.println(productID + " is not in the system!");
+
+				}
+
+			} else if (optionSelected.equalsIgnoreCase("5")) {
+
+				System.out.println("\nReturning to login sceen...\n");
+				// returns to main menu
+				loginScreen();
+			} else {
+				System.out.println("Invalid input");
+
+			}
+		}
 	}
 
 	private void customerMenuFunctions() {
