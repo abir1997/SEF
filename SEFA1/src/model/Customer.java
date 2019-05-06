@@ -8,8 +8,9 @@ public class Customer extends User{
 	private ArrayList<Sales> previousTransactions;
 	private Sales sales;
 	
-	public Customer(String name, int id, String pwd) {
+	public Customer(String name, int id, String pwd, CustomerCard card) {
 		super(name, id, pwd);
+		this.card = card;
 		sales = new Sales();
 	}
 	

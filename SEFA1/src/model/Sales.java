@@ -35,7 +35,6 @@ public boolean makePayment(double amount){
 	}
 
 private void updateStock() {
-	// TODO Auto-generated method stub
 	
 }
 
