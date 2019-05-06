@@ -1,5 +1,7 @@
 package model;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Sales {
@@ -28,7 +30,17 @@ public boolean makePayment(double amount){
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.CEILING);
 		
-		points += Double.parseDouble(df.format(amount * 0.1));
+		pts += Double.parseDouble(df.format(amount * 0.1));
 		return true;
 	}
+
+private void updateStock() {
+	// TODO Auto-generated method stub
+	
+}
+
+private boolean checkStock() {
+	// TODO Auto-generated method stub
+	return false;
+}
 }
