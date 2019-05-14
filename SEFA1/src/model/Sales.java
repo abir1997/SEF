@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import menu.SuperMarketSystem;
@@ -40,11 +41,28 @@ public class Sales {
 	}
 
 	private void updateStock() {
-		// TODO
+		for (SalesLineItem product : products) {
+			for (Map.Entry<String, Product> entry : SuperMarketSystem.products.entrySet()) {
+				if (product.getProduct().equals(entry.getValue())) {
+					entry.getValue().setQuantity(entry.getValue().getQuantity() - product.getQuantity());
+					break;
+				}
+
+			}
+		}
 	}
 
 	private boolean checkStock() {
-		// TODO Auto-generated method stub
+		for (SalesLineItem product : products) {
+			for (Map.Entry<String, Product> item : SuperMarketSystem.products.entrySet()) {
+				if (product.getProduct().equals(item.getValue())) {
+					if (product.getQuantity() <= item.getValue().getQuantity())
+						return true;
+					else
+						return false;
+				}
+			}
+		}
 		return false;
 	}
 
@@ -52,21 +70,21 @@ public class Sales {
 		return Collections.unmodifiableList(products);
 	}
 
-	public boolean removeProduct(Product product){
-		for(SalesLineItem item : products){
-			if(item.getProduct().equals(product)){
-				if(item.getQuantity() == 1)
+	public boolean removeProduct(Product product) {
+		for (SalesLineItem item : products) {
+			if (item.getProduct().equals(product)) {
+				if (item.getQuantity() == 1)
 					products.remove(item);
 				else
-					item.setQuantity(item.getQuantity()-1);
+					item.setQuantity(item.getQuantity() - 1);
 				updateTotal();
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public boolean removeProduct(Product product,int quantity) {
+
+	public boolean removeProduct(Product product, int quantity) {
 		for (SalesLineItem item : products) {
 			if (item.getProduct().equals(product)) {
 				if (item.getQuantity() == quantity)
@@ -83,8 +101,13 @@ public class Sales {
 	}
 
 	private void updateTotal() {
-		// TODO Auto-generated method stub
+		double subTotal = 0;
 
+		for (SalesLineItem product : products) {
+			subTotal += product.getSubtotal();
+		}
+
+		total = subTotal;
 	}
 
 	public int checkQuantity(Product product) {
@@ -95,9 +118,46 @@ public class Sales {
 		}
 		return 0;
 	}
-
-	public void removeAllProduct() {
-		// TODO Auto-generated method stub
-		
+	
+	public void removeAllProduct(){
+		products.clear();
+		updateTotal();
 	}
+	
+	public void addProduct(Product product){
+		for(SalesLineItem item : products){
+			if(item.getProduct().equals(product)){
+				products.get(products.indexOf(item)).addQuantity();
+				updateTotal();
+				return;
+			}
+		}
+		products.add(new SalesLineItem(product, 1));
+		updateTotal();
+	}
+	
+	public void addProduct(Product product, int quantity){
+		for(SalesLineItem item : products){
+			if(item.getProduct().equals(product)){
+				products.get(products.indexOf(item)).addQuantity(quantity);
+				updateTotal();
+				return;
+			}
+		}
+		products.add(new SalesLineItem(product, quantity));
+		updateTotal();
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void deduct(int discount) {
+		total -= discount;
+	}
+	
+	public void discount(int percentage){
+		total *= percentage / 100;
+	}
+
 }

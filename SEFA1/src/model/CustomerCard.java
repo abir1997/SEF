@@ -25,4 +25,9 @@ public class CustomerCard {
 	public void deductLoyaltyPoints(double i) {
 		this.loyaltyPts -= i;
 	}
+
+	public int getBalance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

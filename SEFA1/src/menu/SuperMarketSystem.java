@@ -566,8 +566,46 @@ public class SuperMarketSystem {
 	}
 
 	private void customerMenuFunctions() {
-		// TODO Auto-generated method stub
+		String optionSelected = "";
 
+		while (!optionSelected.equalsIgnoreCase("4")) {
+			System.out.println("\n------------------------------------------------------------------------");
+			System.out.println("*** CUSTOMER FUNCTIONS ***");
+			System.out.println("------------------------------------------------------------------------\n");
+
+			System.out.printf("%-30s %s\n", "Purchase Product", "1");
+			System.out.printf("%-30s %s\n", "List Product", "2");
+			System.out.printf("%-30s %s\n", "Check Price", "3");
+			System.out.printf("%-30s %s\n", "Return to Login Screen", "4");
+			System.out.printf("\nEnter selection:");
+			Scanner userInput = new Scanner(System.in);
+
+			optionSelected = userInput.nextLine();
+			// This takes the user's input and will take them to the letter
+			// option they chose
+
+			if (optionSelected.equalsIgnoreCase("1")) {
+				((Customer) loggedInUser).purchase();
+				}
+			 else if (optionSelected.equalsIgnoreCase("2")) {
+				((Customer) loggedInUser).listProductInformation();
+
+			} else if (optionSelected.equalsIgnoreCase("3")) {
+				((Customer) loggedInUser).checkPrice();
+
+			} else if (optionSelected.equalsIgnoreCase("4")) {
+			
+
+				// On is set to false in order to stop the while-loop
+
+				System.out.println("\nReturning to login sceen...\n");
+				// returns to main menu
+				loginScreen();
+			} else {
+				System.out.println("\nInvalid input");
+
+			}
+		}
 	}
 
 }
