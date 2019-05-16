@@ -1,13 +1,15 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class ProductTest {
+import model.Product;
+
+public class ProductTest {
 
 	@Test
-	void replenishQuantityTest() {
+	public void replenishQuantityTest() {
 		Product product = new Product("1", 0, 100);
 		
 		product.replenishQuantity(0);
