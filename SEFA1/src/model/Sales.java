@@ -157,7 +157,7 @@ public class Sales {
 	}
 	
 	public void discount(int percentage){
-		total *= percentage / 100;
+		total *= ((double)100 - percentage) / 100;
 	}
 
 }
