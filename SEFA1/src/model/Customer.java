@@ -93,7 +93,7 @@ public class Customer extends User {
 		System.out.println("Enter productId you want to check price: ");
 		String productID = userInput1.nextLine();
 		for (int i = 0; i < SuperMarketSystem.products.size(); i++) {
-			if (SuperMarketSystem.products.get(productID).g.getProductID().equals(productID)) {
+			if (SuperMarketSystem.products.get(productID).getProductID().equals(productID)) {
 				System.out.println("the price of " + SuperMarketSystem.products.get(i).getProductID() + " is "
 						+ SuperMarketSystem.products.get(i).getPrice());
 				check = true;
