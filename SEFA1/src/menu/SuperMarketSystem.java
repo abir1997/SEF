@@ -4,11 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import model.*;
+import model.Customer;
+import model.CustomerCard;
+import model.Manager;
+import model.Product;
+import model.SalesStaff;
+import model.User;
+import model.WareHouseStaff;
+import test.model.*;
 
 public class SuperMarketSystem {
 
-	public static Map<Integer, Product> products = new HashMap<>();
+	public static Map<String, Product> products = new HashMap<>();
 	public static Map<Integer, User> users = new HashMap<>();
 	private boolean on = true;
 	double result;
@@ -359,7 +366,7 @@ public class SuperMarketSystem {
 				customer = null;
 				if (users.get(id) instanceof Customer) {
 					customer = (Customer) users.get(id);
-					
+
 				}
 
 				if (customer != null) {
@@ -367,7 +374,7 @@ public class SuperMarketSystem {
 
 					while (true) {
 						System.out.println("Please enter the product to remove or type exit to quit");
-						int pId = userInput.nextInt();
+						String pId = userInput.nextLine();
 						Product product = null;
 						String message = "Product Not Found!";
 
@@ -377,7 +384,6 @@ public class SuperMarketSystem {
 							product = null;
 							break;
 						}
-						
 
 						if (product != null) {
 							System.out.printf("Product %s Found! ", product.toString());
@@ -514,15 +520,13 @@ public class SuperMarketSystem {
 
 				// For loop is used to check if the product ID already exists
 				// in the system
-				for (int i = 0; i < products.size(); i++) {
-					if (products.get(i).getProductID().equals(productID)) {
-						found3 = true;
-						((WareHouseStaff) loggedInUser).removeProduct(products.get(i));
+					if (products.containsKey(productID)) {
+						((WareHouseStaff) loggedInUser).removeProduct(products.get(productID));
 						System.out.println(productID + " sucessfully removed!");
-						break;
+					}else {
+						System.out.println("Product not found");
 					}
 
-				}
 
 				if (found3 == false) {
 					System.out.println(productID + " is not in the system!");
@@ -536,14 +540,11 @@ public class SuperMarketSystem {
 				Scanner userInput2 = new Scanner(System.in);
 				System.out.println("Enter productID: ");
 				String productID = userInput2.nextLine();
-				
 
-				
 				System.out.println("Enter replenish quantity: ");
 				int quantity = userInput2.nextInt();
-				
-				while(quantity <= 0)
-				{
+
+				while (quantity <= 0) {
 					System.out.println("Please enter quantity again! It has to be greater than 0");
 					System.out.println("Enter replenish quantity: ");
 					quantity = userInput2.nextInt();
@@ -551,18 +552,12 @@ public class SuperMarketSystem {
 
 				// For loop is used to check if the product ID already exists
 				// in the system
-				for (int i = 0; i < products.size(); i++) {
-					if (products.get(i).getProductID().equals(productID)) {
-						found1 = true;
-						((WareHouseStaff) loggedInUser).replenishQuantity(products.get(i), quantity);
-						System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
-						break;
-					}
-
-				}
-				if (found1 == false) {
-					System.out.println(productID + " is not in the system!");
-
+				if (products.containsKey(productID)) {
+					((WareHouseStaff) loggedInUser).replenishQuantity(products.get(productID), quantity);
+					System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
+				} else if (!products.containsKey(productID)) {
+					System.out.println("Product is not found");
+					break;
 				}
 
 			} else if (optionSelected.equalsIgnoreCase("5")) {
@@ -578,8 +573,46 @@ public class SuperMarketSystem {
 	}
 
 	private void customerMenuFunctions() {
-		// TODO Auto-generated method stub
+		String optionSelected = "";
 
+		while (!optionSelected.equalsIgnoreCase("4")) {
+			System.out.println("\n------------------------------------------------------------------------");
+			System.out.println("*** CUSTOMER FUNCTIONS ***");
+			System.out.println("------------------------------------------------------------------------\n");
+
+			System.out.printf("%-30s %s\n", "Purchase Product", "1");
+			System.out.printf("%-30s %s\n", "List Product", "2");
+			System.out.printf("%-30s %s\n", "Check Price", "3");
+			System.out.printf("%-30s %s\n", "Return to Login Screen", "4");
+			System.out.printf("\nEnter selection:");
+			Scanner userInput = new Scanner(System.in);
+
+			optionSelected = userInput.nextLine();
+			// This takes the user's input and will take them to the letter
+			// option they chose
+
+			if (optionSelected.equalsIgnoreCase("1")) {
+				((Customer) loggedInUser).purchase();
+				}
+			 else if (optionSelected.equalsIgnoreCase("2")) {
+				((Customer) loggedInUser).listProductInformation();
+
+			} else if (optionSelected.equalsIgnoreCase("3")) {
+				((Customer) loggedInUser).checkPrice();
+
+			} else if (optionSelected.equalsIgnoreCase("4")) {
+			
+
+				// On is set to false in order to stop the while-loop
+
+				System.out.println("\nReturning to login sceen...\n");
+				// returns to main menu
+				loginScreen();
+			} else {
+				System.out.println("\nInvalid input");
+
+			}
+		}
 	}
 
 }
