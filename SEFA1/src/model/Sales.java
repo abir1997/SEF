@@ -160,4 +160,38 @@ public class Sales {
 		total *= ((double)100 - percentage) / 100;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((products == null) ? 0 : products.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(pts);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(total);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Sales other = (Sales) obj;
+		if (products == null) {
+			if (other.products != null)
+				return false;
+		} else if (!products.equals(other.products))
+			return false;
+		if (Double.doubleToLongBits(pts) != Double.doubleToLongBits(other.pts))
+			return false;
+		if (Double.doubleToLongBits(total) != Double.doubleToLongBits(other.total))
+			return false;
+		return true;
+	}
+
 }
