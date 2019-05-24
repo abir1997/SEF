@@ -4,7 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import model.*;
+import model.Customer;
+import model.CustomerCard;
+import model.Manager;
+import model.Product;
+import model.SalesStaff;
+import model.User;
+import model.WareHouseStaff;
+import test.model.*;
 
 public class SuperMarketSystem {
 

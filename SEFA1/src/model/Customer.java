@@ -93,7 +93,7 @@ public class Customer extends User {
 		System.out.println("Enter productId you want to check price: ");
 		String productID = userInput1.nextLine();
 		for (int i = 0; i < SuperMarketSystem.products.size(); i++) {
-			if (SuperMarketSystem.products.get(productID).g.getProductID().equals(productID)) {
+			if (SuperMarketSystem.products.get(productID).getProductID().equals(productID)) {
 				System.out.println("the price of " + SuperMarketSystem.products.get(i).getProductID() + " is "
 						+ SuperMarketSystem.products.get(i).getPrice());
 				check = true;
@@ -105,4 +105,43 @@ public class Customer extends User {
 		}
 		check = false;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((card == null) ? 0 : card.hashCode());
+		result = prime * result + ((previousTransactions == null) ? 0 : previousTransactions.hashCode());
+		result = prime * result + ((sales == null) ? 0 : sales.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Customer other = (Customer) obj;
+		if (card == null) {
+			if (other.card != null)
+				return false;
+		} else if (!card.equals(other.card))
+			return false;
+		if (previousTransactions == null) {
+			if (other.previousTransactions != null)
+				return false;
+		} else if (!previousTransactions.equals(other.previousTransactions))
+			return false;
+		if (sales == null) {
+			if (other.sales != null)
+				return false;
+		} else if (!sales.equals(other.sales))
+			return false;
+		return true;
+	}
+	
+	
 }
