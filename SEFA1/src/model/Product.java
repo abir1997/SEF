@@ -3,17 +3,17 @@ package model;
 public class Product {
 
 	private String productID;
-	private int quantity;
+	private int warehouseQuantity;
 	private double price;
 
-	public Product(String productID, int quantity, double price) {
+	public Product(String productID, int warehouseQuantity, double price) {
 		this.productID = productID;
-		this.quantity = quantity;
+		this.warehouseQuantity = warehouseQuantity;
 		this.price = price;
 	}
 
 	public String toString() {
-		return String.format("Product : %s\nQuantity : %d\nPrice : %f", productID, quantity, price);
+		return String.format("Product : %s\nQuantity : %d\nPrice : %f", productID, warehouseQuantity, price);
 	}
 
 	public String getProductID()
@@ -21,10 +21,6 @@ public class Product {
 		return productID;
 	}
 
-	public int getQuantity()
-	{
-		return quantity;
-	}
 
 	public double getPrice()
 	{
@@ -33,7 +29,7 @@ public class Product {
 
 	public void replenishQuantity(int quantity)
 	{
-	    this.quantity += quantity;
+	    this.warehouseQuantity += quantity;
 
 	}
 
@@ -42,10 +38,14 @@ public class Product {
 		this.productID = productID;
 	}
 
-	public void setQuantity(int quantity)
+	public void setWarehouseQuantity(int quantity)
 	{
-		this.quantity = quantity;
-		
+		this.warehouseQuantity = quantity;
+	}
+
+	
+	public int getWarehouseQuantity() {
+		return warehouseQuantity;
 	}
 
 	public void setPrice(double price)
@@ -61,7 +61,7 @@ public class Product {
 		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((productID == null) ? 0 : productID.hashCode());
-		result = prime * result + quantity;
+		result = prime * result + warehouseQuantity;
 		return result;
 	}
 
@@ -81,7 +81,7 @@ public class Product {
 				return false;
 		} else if (!productID.equals(other.productID))
 			return false;
-		if (quantity != other.quantity)
+		if (warehouseQuantity != other.warehouseQuantity)
 			return false;
 		return true;
 	}

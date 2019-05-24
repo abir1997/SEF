@@ -9,26 +9,26 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import menu.SuperMarketSystem;
+import dataAccess.ProductDataAccess;
 import model.CustomerCard;
 import model.Product;
-import model.Sales;
+import model.Sale;
 import model.SalesLineItem;
 
 public class SalesTest {
 
-	private Sales sales;
+	private Sale sales;
 	final Product p1 = new Product("p1", 100, 100);
 	final Product p2 = new Product("p2", 200, 50);
 	final Product p3 = new Product("p3", 400, 25);
 
 	@Before
 	public void beforTest() {
-		SuperMarketSystem.products.put("p1",p1 );
-		SuperMarketSystem.products.put("p2",p2 );
-		SuperMarketSystem.products.put("p3",p3 );
+		ProductDataAccess.products.put("p1",p1 );
+		ProductDataAccess.products.put("p2",p2 );
+		ProductDataAccess.products.put("p3",p3 );
 		
-		sales = new Sales();
+		sales = new Sale();
 		sales.addProduct(p1, 2);
 		sales.addProduct(p2, 4);
 	}
@@ -58,11 +58,11 @@ public class SalesTest {
 		
 		//reduce amount to 1
 		sales.removeProduct(p1);
-		assertEquals(2, sales.getAllProducts().size());
+		assertEquals(2, sales.getAllSaleLineItems().size());
 
 		//reduce amount to 0 and remove the product
 		sales.removeProduct(p1);
-		assertEquals(1, sales.getAllProducts().size());
+		assertEquals(1, sales.getAllSaleLineItems().size());
 	}
 
 
@@ -70,7 +70,7 @@ public class SalesTest {
 	public void removeProductTest2() {
 		//reduce amount to 0 and remove the product
 		sales.removeProduct(p1,2 );
-		assertEquals(1, sales.getAllProducts().size());
+		assertEquals(1, sales.getAllSaleLineItems().size());
 
 	}
 	
@@ -82,18 +82,18 @@ public class SalesTest {
 	@Test
 	public void removeAllProductTest() {
 		sales.removeAllProduct();
-		assertEquals(0, sales.getAllProducts().size());
+		assertEquals(0, sales.getAllSaleLineItems().size());
 	}
 
 	@Test
 	public void addProductTest() {
 		sales.removeAllProduct();
 		sales.addProduct(p1);
-		assertEquals(1, sales.getAllProducts().size());
+		assertEquals(1, sales.getAllSaleLineItems().size());
 
 		//adding of the same product just adds to amount
 		sales.addProduct(p1);
-		assertEquals(1, sales.getAllProducts().size());
+		assertEquals(1, sales.getAllSaleLineItems().size());
 
 	}
 	
@@ -101,7 +101,7 @@ public class SalesTest {
 	@Test
 	public void addProduct2Test() {
 		sales.addProduct(p3, 8);
-		assertEquals(3, sales.getAllProducts().size());
+		assertEquals(3, sales.getAllSaleLineItems().size());
 	}
 	
 	

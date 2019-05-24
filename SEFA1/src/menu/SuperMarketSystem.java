@@ -1,9 +1,9 @@
 package menu;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
+import dataAccess.ProductDataAccess;
+import dataAccess.UserDataAccess;
 import model.Customer;
 import model.CustomerCard;
 import model.Manager;
@@ -11,12 +11,10 @@ import model.Product;
 import model.SalesStaff;
 import model.User;
 import model.WareHouseStaff;
-import test.model.*;
+import system.SystemController;
 
 public class SuperMarketSystem {
 
-	public static Map<String, Product> products = new HashMap<>();
-	public static Map<Integer, User> users = new HashMap<>();
 	private boolean on = true;
 	double result;
 	private User loggedInUser = null;
@@ -136,7 +134,7 @@ public class SuperMarketSystem {
 
 		// For loop is used to check if the email already exists
 		// in the system
-		if (users.containsKey(id)) {
+		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - id:  " + id + " already exists in the system!");
 			return;
 		}
@@ -148,7 +146,7 @@ public class SuperMarketSystem {
 		String name = userInput.nextLine();
 
 		Manager manager = new Manager(name, id, password);
-		users.put(id, manager);
+		UserDataAccess.users.put(id, manager);
 
 		System.out.println("New Manager: " + id + " sucessfully added to the system!");
 		System.out.println();
@@ -166,7 +164,7 @@ public class SuperMarketSystem {
 		System.out.println("Enter id: ");
 		int id = userInput.nextInt();
 
-		if (users.containsKey(id)) {
+		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
 			return;
 		}
@@ -178,7 +176,7 @@ public class SuperMarketSystem {
 		String name = userInput.nextLine();
 
 		WareHouseStaff wareHouseStaff = new WareHouseStaff(name, id, password);
-		users.put(id, wareHouseStaff);
+		UserDataAccess.users.put(id, wareHouseStaff);
 
 		System.out.println("New WareHouseStaff: " + id + " sucessfully added to the system!");
 		System.out.println();
@@ -197,7 +195,7 @@ public class SuperMarketSystem {
 		System.out.println("Enter id: ");
 		int id = userInput.nextInt();
 
-		if (users.containsKey(id)) {
+		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
 			return;
 		}
@@ -209,7 +207,7 @@ public class SuperMarketSystem {
 		String name = userInput.nextLine();
 
 		SalesStaff salesStaff = new SalesStaff(name, id, password);
-		users.put(id, salesStaff);
+		UserDataAccess.users.put(id, salesStaff);
 
 		System.out.println("New SalesStaff: " + id + " sucessfully added to the system!");
 		System.out.println();
@@ -229,7 +227,7 @@ public class SuperMarketSystem {
 
 		// For loop is used to check if the email already exists
 		// in the system
-		if (users.containsKey(id)) {
+		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
 			return;
 		}
@@ -244,7 +242,7 @@ public class SuperMarketSystem {
 		String card = userInput.nextLine();
 
 		Customer customer = new Customer(name, id, password, new CustomerCard(0.0, card));
-		users.put(id, customer);
+		UserDataAccess.users.put(id, customer);
 
 		System.out.println("New customer: " + id + " sucessfully added to the system!");
 		System.out.println();
@@ -263,25 +261,25 @@ public class SuperMarketSystem {
 		System.out.println("Enter password: ");
 		String password = userInput.nextLine();
 
-		if (users.get(id).getPwd().equals(password)) {
+		if (UserDataAccess.users.get(id).getPwd().equals(password)) {
 
-			if (users.get(id) instanceof Customer) {
+			if (UserDataAccess.users.get(id) instanceof Customer) {
 				System.out.print("You have successfully logged in as a Customer");
-				loggedInUser = users.get(id);
+				loggedInUser = UserDataAccess.users.get(id);
 				customerMenuFunctions();
 				return;
 			}
 
-			else if (users.get(id) instanceof WareHouseStaff) {
+			else if (UserDataAccess.users.get(id) instanceof WareHouseStaff) {
 				System.out.print("You have successfully logged in as a WareHouseStaff");
-				loggedInUser = users.get(id);
+				loggedInUser = UserDataAccess.users.get(id);
 				wareHouseStaffMenuFunctions();
 				return;
-			} else if (users.get(id) instanceof SalesStaff) {
+			} else if (UserDataAccess.users.get(id) instanceof SalesStaff) {
 				System.out.print("You have successfully logged in as a SalesStaff");
 				salesStaffMenuFunctions();
 				return;
-			} else if (users.get(id) instanceof Manager) {
+			} else if (UserDataAccess.users.get(id) instanceof Manager) {
 				System.out.print("You have successfully logged in as a Manager");
 				managerMenuFunctions();
 				return;
@@ -364,8 +362,8 @@ public class SuperMarketSystem {
 				System.out.println("Please enter the id of Customer");
 				int id = userInput.nextInt();
 				customer = null;
-				if (users.get(id) instanceof Customer) {
-					customer = (Customer) users.get(id);
+				if (UserDataAccess.users.get(id) instanceof Customer) {
+					customer = (Customer) UserDataAccess.users.get(id);
 
 				}
 
@@ -378,8 +376,8 @@ public class SuperMarketSystem {
 						Product product = null;
 						String message = "Product Not Found!";
 
-						product = products.get(pId);
-						if (!customer.getSales().getAllProducts().contains(product)) {
+						product = ProductDataAccess.products.get(pId);
+						if (!customer.getSale().getSaleLineItems().contains(product)) {
 							message = "Product not found in customer's cart!";
 							product = null;
 							break;
@@ -391,22 +389,22 @@ public class SuperMarketSystem {
 								System.out.println("Please enter the amount to remove or 0 to quit (default:1)");
 								String amount = userInput.nextLine();
 								if (amount.isEmpty()) {
-									if (!customer.getSales().removeProduct(product)) {
+									if (!SystemController.removeProduct(customer,product , 1)) {
 										System.out.printf("Not enough quantity to remove! Remaining quantity :%d%n",
-												customer.getSales().checkQuantity(product));
+												customer.getSale().checkQuantity(product));
 										continue;
 									}
 								} else if (Integer.parseInt(amount) == 0) {
 									break;
 								} else {
-									if (!customer.getSales().removeProduct(product, Integer.parseInt(amount))) {
+									if (!customer.getSale().removeProduct(product, Integer.parseInt(amount))) {
 										System.out.printf("Not enough quantity to remove! Remaining quantity :%d%n",
-												customer.getSales().checkQuantity(product));
+												customer.getSale().checkQuantity(product));
 										continue;
 									}
 								}
 								System.out.printf("Product successfully removed! Remaining quantity :%d%n",
-										customer.getSales().checkQuantity(product));
+										customer.getSale().checkQuantity(product));
 								break;
 							}
 						} else if (id == 0) {
@@ -423,10 +421,10 @@ public class SuperMarketSystem {
 				System.out.println("Please enter the name of Customer");
 				String customerSelected = userInput.nextLine();
 				customer = null;
-				for (int i = 0; i < users.size(); i++) {
-					if (users.get(i) instanceof Customer) {
-						if (users.get(i).getName().equals(customerSelected)) {
-							customer = (Customer) users.get(i);
+				for (int i = 0; i < UserDataAccess.users.size(); i++) {
+					if (UserDataAccess.users.get(i) instanceof Customer) {
+						if (UserDataAccess.users.get(i).getName().equals(customerSelected)) {
+							customer = (Customer) UserDataAccess.users.get(i);
 							break;
 						}
 					}
@@ -434,7 +432,7 @@ public class SuperMarketSystem {
 
 				if (customer != null) {
 					System.out.printf("Customer %s Found! Cancelling transaction%n", customer.getName());
-					customer.getSales().removeAllProduct();
+					customer.getSale().removeAllProduct();
 				} else {
 					System.out.println("Customer Not Found!");
 				}
@@ -482,8 +480,8 @@ public class SuperMarketSystem {
 
 				// For loop is used to check if the product ID already exists
 				// in the system
-				for (int i = 0; i < products.size(); i++) {
-					if (products.get(i).getProductID().equals(productID)) {
+				for (int i = 0; i < ProductDataAccess.products.size(); i++) {
+					if (ProductDataAccess.products.get(i).getProductID().equals(productID)) {
 						found = true;
 						System.out.println("Error - Product:  " + productID + " already exists in the system!");
 						break;
@@ -520,8 +518,8 @@ public class SuperMarketSystem {
 
 				// For loop is used to check if the product ID already exists
 				// in the system
-					if (products.containsKey(productID)) {
-						((WareHouseStaff) loggedInUser).removeProduct(products.get(productID));
+					if (ProductDataAccess.products.containsKey(productID)) {
+						((WareHouseStaff) loggedInUser).removeProduct(ProductDataAccess.products.get(productID));
 						System.out.println(productID + " sucessfully removed!");
 					}else {
 						System.out.println("Product not found");
@@ -552,10 +550,10 @@ public class SuperMarketSystem {
 
 				// For loop is used to check if the product ID already exists
 				// in the system
-				if (products.containsKey(productID)) {
-					((WareHouseStaff) loggedInUser).replenishQuantity(products.get(productID), quantity);
+				if (ProductDataAccess.products.containsKey(productID)) {
+					((WareHouseStaff) loggedInUser).replenishQuantity(ProductDataAccess.products.get(productID), quantity);
 					System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
-				} else if (!products.containsKey(productID)) {
+				} else if (!ProductDataAccess.products.containsKey(productID)) {
 					System.out.println("Product is not found");
 					break;
 				}
@@ -614,5 +612,21 @@ public class SuperMarketSystem {
 			}
 		}
 	}
-
+	
+	// method to offer specific discount percentages (4)
+	public void offerDiscount(Product product, double percentage, double price) {
+		int check = 0;
+		do {
+			System.out.println("Please enter a percentage amount to set the discount to:" + "\n" + "15%" + "\n" + "20%"
+					+ "\n" + "Custom Discount");
+			if (percentage > 100 || percentage < 0) {
+				System.out.println("Error: Percentage is not valid amount");
+				continue;
+			} else {
+				System.out.println("You have selected: " + percentage + "% discount.");
+			}
+			product.setPrice(price * ((100 - percentage) / 100));
+			check++;
+		} while (check < 1);
+	}
 }
