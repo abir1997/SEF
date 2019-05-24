@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ import menu.SuperMarketSystem;
 public class Customer extends User {
 
 	private CustomerCard card;
-	private ArrayList<Sales> previousTransactions;
+	private List<Sales> previousTransactions = new ArrayList<Sales>();
 	private Sales sales;
 
 	public Customer(String name, int id, String pwd, CustomerCard card) {
@@ -40,7 +41,7 @@ public class Customer extends User {
 		return sales;
 	}
 
-	public void purchase() {
+	public void purchaseMenu() {
 		Scanner userInput1 = new Scanner(System.in);
 		System.out.println("Enter productId you want to buy: ");
 		String productID = userInput1.nextLine();
@@ -49,12 +50,7 @@ public class Customer extends User {
 			System.out.println("Enter amount of product you want to buy: ");
 			int amount = userInput1.nextInt();
 			if (amount <= SuperMarketSystem.products.get(productID).getQuantity()) {
-				while (amount > 0) {
-					pickUp(SuperMarketSystem.products.get(productID));
-					amount -= 1;
-				}
-				calAmount();
-				payment();
+				purchase(productID, amount);
 			} else {
 				System.out.println("There is not enough product. ");
 			}
@@ -62,7 +58,15 @@ public class Customer extends User {
 		} else {
 			System.out.println("this productID is not exist");
 		}
+	}
 
+	public void purchase(String productID, int amount) {
+		while (amount > 0) {
+			pickUp(SuperMarketSystem.products.get(productID));
+			amount -= 1;
+		}
+		calAmount();
+		payment();
 	}
 
 	private double calAmount() {

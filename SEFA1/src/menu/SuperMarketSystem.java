@@ -592,7 +592,7 @@ public class SuperMarketSystem {
 			// option they chose
 
 			if (optionSelected.equalsIgnoreCase("1")) {
-				((Customer) loggedInUser).purchase();
+				((Customer) loggedInUser).purchaseMenu();
 				}
 			 else if (optionSelected.equalsIgnoreCase("2")) {
 				((Customer) loggedInUser).listProductInformation();
