@@ -82,6 +82,17 @@ public class Customer extends User {
 			return false;
 		return true;
 	}
+
+
+	public void cancelSale() {
+		throw new RuntimeException("Not implemented");
+	}
+
+
+	public void addToCart(String productID, int amount) {
+		throw new RuntimeException("Not implemented");
+		
+	}
 	
 
 //	public void payment() {
@@ -102,24 +113,7 @@ public class Customer extends User {
 //	sale = new Sale();
 //}
 	
-//	public void purchaseMenu() {
-//		Scanner userInput1 = new Scanner(System.in);
-//		System.out.println("Enter productId you want to buy: ");
-//		String productID = userInput1.nextLine();
-//
-//		if (SuperMarketSystem.products.containsKey(productID)) {
-//			System.out.println("Enter amount of product you want to buy: ");
-//			int amount = userInput1.nextInt();
-//			if (amount <= SuperMarketSystem.products.get(productID).getQuantity()) {
-//				purchase(productID, amount);
-//			} else {
-//				System.out.println("There is not enough product. ");
-//			}
-//
-//		} else {
-//			System.out.println("this productID is not exist");
-//		}
-//	}
+
 //
 //	public void purchase(String productID, int amount) {
 //		while (amount > 0) {
@@ -142,22 +136,5 @@ public class Customer extends User {
 //	sale.addProduct(product, quantity);
 //}
 
-//public void checkPrice() {
-//	boolean check = false;
-//	Scanner userInput1 = new Scanner(System.in);
-//	System.out.println("Enter productId you want to check price: ");
-//	String productID = userInput1.nextLine();
-//	for (int i = 0; i < SuperMarketSystem.products.size(); i++) {
-//		if (SuperMarketSystem.products.get(productID).getProductID().equals(productID)) {
-//			System.out.println("the price of " + SuperMarketSystem.products.get(i).getProductID() + " is "
-//					+ SuperMarketSystem.products.get(i).getPrice());
-//			check = true;
-//			break;
-//		}
-//	}
-//	if (check == false) {
-//		System.out.println("this product is not exist");
-//	}
-//	check = false;
-//}
+
 }

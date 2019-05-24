@@ -32,4 +32,12 @@ public class Sale {
 	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
+	
+	public int checkQuantity(Product product) {
+		throw new RuntimeException("Not implemented");		
+	}
+
+	public boolean removeProduct(Product product, int parseInt) {
+		throw new RuntimeException("Not implemented");
+	}
 }

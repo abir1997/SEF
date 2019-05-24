@@ -15,8 +15,6 @@ import system.SystemController;
 
 public class SuperMarketSystem {
 
-	private boolean on = true;
-	double result;
 	private User loggedInUser = null;
 
 	public void loginScreen() {
@@ -329,7 +327,6 @@ public class SuperMarketSystem {
 
 			} else if (optionSelected.equalsIgnoreCase("8")) {
 
-				on = false;
 				System.out.println("\nReturning to login sceen...\n");
 				// returns to main menu
 				loginScreen();
@@ -432,7 +429,7 @@ public class SuperMarketSystem {
 
 				if (customer != null) {
 					System.out.printf("Customer %s Found! Cancelling transaction%n", customer.getName());
-					customer.getSale().removeAllProduct();
+					customer.cancelSale();
 				} else {
 					System.out.println("Customer Not Found!");
 				}
@@ -505,8 +502,9 @@ public class SuperMarketSystem {
 				}
 
 			} else if (optionSelected.equalsIgnoreCase("2")) {
-				((WareHouseStaff) loggedInUser).listProductInformation();
-
+				ProductDataAccess.getAllProducts();
+				throw new RuntimeException("Not implemented"); //TODO print all products
+				
 			} else if (optionSelected.equalsIgnoreCase("3")) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REMOVE PRODUCT ***");
@@ -516,14 +514,11 @@ public class SuperMarketSystem {
 				System.out.println("Enter productID: ");
 				String productID = userInput1.nextLine();
 
-				// For loop is used to check if the product ID already exists
-				// in the system
-					if (ProductDataAccess.products.containsKey(productID)) {
-						((WareHouseStaff) loggedInUser).removeProduct(ProductDataAccess.products.get(productID));
-						System.out.println(productID + " sucessfully removed!");
-					}else {
-						System.out.println("Product not found");
-					}
+				if (ProductDataAccess.removeProduct(productID)) {
+					System.out.println(productID + " sucessfully removed!");
+				}else {
+					System.out.println("Product not found");
+				}
 
 
 				if (found3 == false) {
@@ -550,8 +545,7 @@ public class SuperMarketSystem {
 
 				// For loop is used to check if the product ID already exists
 				// in the system
-				if (ProductDataAccess.products.containsKey(productID)) {
-					((WareHouseStaff) loggedInUser).replenishQuantity(ProductDataAccess.products.get(productID), quantity);
+				if (ProductDataAccess.replenishProductQuantity(productID,quantity)) {
 					System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
 				} else if (!ProductDataAccess.products.containsKey(productID)) {
 					System.out.println("Product is not found");
@@ -579,7 +573,7 @@ public class SuperMarketSystem {
 			System.out.println("------------------------------------------------------------------------\n");
 
 			System.out.printf("%-30s %s\n", "Purchase Product", "1");
-			System.out.printf("%-30s %s\n", "List Product", "2");
+			System.out.printf("%-30s %s\n", "List Products", "2");
 			System.out.printf("%-30s %s\n", "Check Price", "3");
 			System.out.printf("%-30s %s\n", "Return to Login Screen", "4");
 			System.out.printf("\nEnter selection:");
@@ -588,15 +582,15 @@ public class SuperMarketSystem {
 			optionSelected = userInput.nextLine();
 			// This takes the user's input and will take them to the letter
 			// option they chose
-
+			Customer customer = ((Customer) loggedInUser);
 			if (optionSelected.equalsIgnoreCase("1")) {
-				((Customer) loggedInUser).purchaseMenu();
-				}
+				purchaseMenu(customer);
+			}
 			 else if (optionSelected.equalsIgnoreCase("2")) {
-				((Customer) loggedInUser).listProductInformation();
+				listProductsInformationMenu();
 
 			} else if (optionSelected.equalsIgnoreCase("3")) {
-				((Customer) loggedInUser).checkPrice();
+				checkPrice();
 
 			} else if (optionSelected.equalsIgnoreCase("4")) {
 			
@@ -628,5 +622,47 @@ public class SuperMarketSystem {
 			product.setPrice(price * ((100 - percentage) / 100));
 			check++;
 		} while (check < 1);
+	}
+	
+	public void purchaseMenu(Customer customer) {
+		Scanner userInput1 = new Scanner(System.in);
+		System.out.println("Enter productId you want to buy: ");
+		String productID = userInput1.nextLine();
+
+		if (ProductDataAccess.products.containsKey(productID)) {
+			System.out.println("Enter amount of product you want to buy: ");
+			int amount = userInput1.nextInt();
+
+			if (amount <= ProductDataAccess.products.get(productID).getWarehouseQuantity()) {
+				customer.addToCart(productID, amount);
+			} else {
+				System.out.println("There is not enough product. ");
+			}
+
+		} else {
+			System.out.println("this productID is not exist");
+		}
+	}
+	
+	public void listProductsInformationMenu() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** LIST OF PRODUCTS INFORMATION ***");
+		System.out.println("------------------------------------------------------------------------\n");
+
+		ProductDataAccess.getAllProducts();
+		throw new RuntimeException("Not implemented");
+	}
+	
+	public void checkPrice() {
+		Scanner userInput1 = new Scanner(System.in);
+		System.out.println("Enter productId you want to check price: ");
+		String productID = userInput1.nextLine();
+		try {
+		double price = ProductDataAccess.getProductPrice(productID);
+			System.out.println("the price of " + productID + " is " + price);
+		}
+		catch (Exception e) {
+			System.out.println("this product does not exist");
+		}
 	}
 }

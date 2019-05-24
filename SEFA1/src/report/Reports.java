@@ -1,8 +1,5 @@
 package report;
 
-import java.util.Map;
-
-import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
 import model.Product;
 import model.SalesLineItem;
@@ -10,15 +7,7 @@ import model.Supplier;
 
 public class Reports {
 	
-	public void listProductInformation() {
-		System.out.println("\n------------------------------------------------------------------------");
-		System.out.println("*** LIST OF PRODUCTS INFORMATION ***");
-		System.out.println("------------------------------------------------------------------------\n");
 
-		for (Map.Entry<String, Product> item : ProductDataAccess.products.entrySet()) {
-			System.out.println(item.toString());
-		}
-	}
 	
 	// method to list supplier details (2)
 	public String listSupplierDetails(boolean includeProducts) {
