@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import exception.ProductNotFoundException;
 import model.Product;
@@ -28,6 +30,16 @@ public class ProductDataAccess {
 		return Collections.unmodifiableCollection(products.values());
 	}
 
+	public static Set<Product> listProductsBelowReplenish() {
+		Set<Product> replenishableProducts = new TreeSet<>();
+		for (Product product : products.values()) {
+			if (product.getWarehouseQuantity() < product.getReplenishLevel()) {
+				replenishableProducts.add(product);
+			}
+		}
+		return replenishableProducts;
+	}
+
 	/**
 	 * 
 	 * @param productID
@@ -39,7 +51,7 @@ public class ProductDataAccess {
 	}
 
 	public static void addProduct(Product product) {
-		ProductDataAccess.products.put(product.getProductID(), product);
+		ProductDataAccess.products.put(product.getProductId(), product);
 	}
 
 	public static void updateProduct(String productId, int warehouseQty, int replenishLevel, int orderQty, double price)

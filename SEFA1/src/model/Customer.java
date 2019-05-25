@@ -8,6 +8,8 @@ import exception.ProductNotFoundException;
 
 public class Customer extends User {
 
+	private static final long serialVersionUID = 6395386684232462670L;
+	
 	private CustomerCard card;
 	private CreditCard creditCard;
 	private List<Sale> previousSales = new ArrayList<Sale>();

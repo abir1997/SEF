@@ -308,26 +308,6 @@ public class SuperMarketMenus {
 		Util.close(userInput);
 	}
 
-
-
-	// method to offer specific discount percentages (4)
-	public static void offerDiscount(Product product, double percentage, double price) {
-		int check = 0;
-		do {
-			System.out.println("Please enter a percentage amount to set the discount to:" + "\n" + "15%" + "\n" + "20%"
-					+ "\n" + "Custom Discount");
-			if (percentage > 100 || percentage < 0) {
-				System.out.println("Error: Percentage is not valid amount");
-				continue;
-			} else {
-				System.out.println("You have selected: " + percentage + "% discount.");
-			}
-			product.setPrice(price * ((100 - percentage) / 100));
-			check++;
-		} while (check < 1);
-	}
-	
-	
 	public static void listProductsInformation() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** LIST OF PRODUCTS INFORMATION ***");
