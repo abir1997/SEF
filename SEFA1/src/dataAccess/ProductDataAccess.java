@@ -19,7 +19,7 @@ public class ProductDataAccess {
 	public static Product getProduct(String productId) throws ProductNotFoundException {
 		Product prd = products.get(productId);
 		if (prd == null) {
-			throw new ProductNotFoundException();
+			throw new ProductNotFoundException(productId);
 		}
 		return prd;
 	}
@@ -35,7 +35,7 @@ public class ProductDataAccess {
 	 */
 	public static boolean removeProduct(String productID) {
 		Product prd = products.remove(productID);
-		return (prd == null) ? false : true;
+		return (prd != null) ? true : false;
 	}
 
 	/**

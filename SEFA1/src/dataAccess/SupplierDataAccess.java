@@ -1,36 +1,46 @@
 package dataAccess;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
-import model.Product;
+import exception.SupplierNotFoundException;
 import model.Supplier;
 
 public class SupplierDataAccess {
 
 	private static HashMap<String, Supplier> suppliers = new HashMap<>();
 	
-	public static int getProductsQty(String productId) {
-		Product prod = ProductDataAccess.products.get(productId);
-		if (prod == null) {
-			throw new RuntimeException("Product does not exist");
-		}
-		return prod.getWarehouseQuantity();
-	}
-	
 	public static Collection<Supplier> getSuppliers() {
-		return suppliers.values();
+		return Collections.unmodifiableCollection(suppliers.values());
 	}
 	public static void addSupplier(Supplier supplier) {
 		suppliers.put(supplier.getId(), supplier);
 	}
 	
-	public static void removeSupplier(String id) {
-		suppliers.remove(id);
+	public static boolean removeSupplier(String id) {
+		Supplier sup = suppliers.remove(id);
+		return (sup != null )? true : false ;
 	}
 
-	public static void updateSupplierDetails(String id) {
-		suppliers.remove(id);
+	public static Supplier getSupplier(String supplierId) throws SupplierNotFoundException {
+		Supplier sup = suppliers.get(supplierId);
+		if (sup == null) {
+			throw new SupplierNotFoundException(supplierId);
+		}
+		return sup;
 	}
 
+	/**
+	 * updated the supplier for the given supplierId
+	 * @param id
+	 * @param name
+	 * @param email
+	 * @param phone
+	 * @param address
+	 */
+	public static void updateSupplierDetails(String supplierId, String name, String email, String phone, String address) throws SupplierNotFoundException{
+		Supplier sup = getSupplier(supplierId);
+		sup.updatedSupplier (name, email, phone, address);
+	}
 }

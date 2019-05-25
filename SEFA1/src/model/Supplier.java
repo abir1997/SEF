@@ -18,6 +18,12 @@ public class Supplier {
 		this.address = address;
 		products = new ArrayList<Product>();
 	}
+	public void updatedSupplier (String name, String email, String phone, String address) {
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
 
 	// get methods
 	public String getName() {
