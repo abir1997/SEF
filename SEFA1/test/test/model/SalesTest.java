@@ -24,13 +24,14 @@ public class SalesTest {
 
 	@Before
 	public void beforTest() {
+		ProductDataAccess.products.clear();
 		ProductDataAccess.products.put("p1",p1 );
 		ProductDataAccess.products.put("p2",p2 );
 		ProductDataAccess.products.put("p3",p3 );
 		
 		sales = new Sale();
-		sales.addProduct(p1, 2);
-		sales.addProduct(p2, 4);
+		sales.addToCart(p1, 2);
+		sales.addToCart(p2, 4);
 	}
 	
 	@Test
