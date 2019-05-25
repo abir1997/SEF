@@ -53,6 +53,7 @@ public class Sale {
 	 * @return the total amount to be charged to the customer
 	 */
 	public double calcCheckoutCost() {
+		//TODO account for discount
 		double baseTotal = calcTotalBaseCost();
 		double newPts = calcPts();
 		

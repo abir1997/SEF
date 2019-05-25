@@ -73,7 +73,7 @@ public class SystemController {
 
 	public void removeProduct(Product product) {
 		if(ProductDataAccess.products.containsValue(product)) {
-			ProductDataAccess.products.remove(product.getProductID());
+			ProductDataAccess.products.remove(product.getProductId());
 		}
 	}
 	

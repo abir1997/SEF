@@ -13,25 +13,14 @@ public enum MenuOptions {
 	CM_CHECK_DISCOUNTS("Check Discounts", "4"),
 	CM_RETURN_TO_LOGIN_SCREEN("Return to Login Screen","5"),
 
-//	MM_ADD_PRODUCTS("Add Products", "1"),
-//	MM_REMOVE_PRODUCTS("Remove Products", "3"),
-	
-	
-	
-	//list prodcut
-	//add product
-	// update prodct
-	// remove product
 	MM_LIST_PRODCUT("List Prodcut", "1"),
 	MM_ADD_PRODUCT("Add Product", "2"),
 	MM_UPDATE_PRODUCT("Update Product", "3"),
 	MM_REMOVE_PRODUCT("Remove Product", "4"),
-	
-	
 	MM_REPLENISH_PRODUCT_QUANTITY("Replenish Product Quantity", "5"),
 	MM_LIST_SUPPLIER_DETAILS("List Supplier Details", "6"),
-	MM_OVERRIDE_PRODUCT("Override Product", "7"),
-	MM_APPLY_DISCOUNTS("Apply Discounts", "8"),
+	MM_OFFER_DISCOUNTS("Offer Bulk Discounts", "7"),
+	MM_AUTO_REPLENISH_PURCHASE_ORDER("Place purchase orderfor all items below replenishmentlevel", "8"),
 	MM_GENERATE_SALES_REPORT("Generate Sales Report", "9"),
 	MM_GENERATE_SUPPLY_REPORT("Generate Supply Report", "10"),
 	MM_LIST_TOP_PRODUCTS("List Top Products", "11"),
