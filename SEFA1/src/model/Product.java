@@ -7,20 +7,31 @@ import java.util.Set;
 public class Product implements Serializable{
 
 	private String productID;
-	private int warehouseQuantity;
+	private int warehouseQty;
+	private int replenishLevel;
+	private int orderQty;
 	private double price;
 	private Set<Discount> discounts = new HashSet<>();
 
-	
-	public Product(String productID, int warehouseQuantity, double price) {
+	public Product(String productID, int warehouseQty, int replenishLevel, int orderQty, double price) {
+		super();
 		this.productID = productID;
-		this.warehouseQuantity = warehouseQuantity;
+		this.warehouseQty = warehouseQty;
+		this.replenishLevel = replenishLevel;
+		this.orderQty = orderQty;
 		this.price = price;
 	}
 
+	public void update(int warehouseQty, int replenishLevel, int orderQty, double price) {
+		this.warehouseQty = warehouseQty;
+		this.replenishLevel = replenishLevel;
+		this.orderQty = orderQty;
+		this.price = price;
+	}
+	
 	public String toString() {
 		return String.format("Product : %s\nQuantity : %d\nPrice : %f\nDiscount Available : %b", productID,
-				warehouseQuantity, price, !discounts.isEmpty());
+				warehouseQty, price, !discounts.isEmpty());
 	}
 
 	public String getProductID()
@@ -36,7 +47,7 @@ public class Product implements Serializable{
 
 	public void replenishQuantity(int quantity)
 	{
-	    this.warehouseQuantity += quantity;
+	    this.warehouseQty += quantity;
 
 	}
 
@@ -47,12 +58,12 @@ public class Product implements Serializable{
 
 	public void setWarehouseQuantity(int quantity)
 	{
-		this.warehouseQuantity = quantity;
+		this.warehouseQty = quantity;
 	}
 
 	
 	public int getWarehouseQuantity() {
-		return warehouseQuantity;
+		return warehouseQty;
 	}
 
 	public void setPrice(double price)
@@ -67,6 +78,23 @@ public class Product implements Serializable{
 	
 	public Set<Discount> getDiscounts() {
 		return discounts;
+	}
+
+	
+	public int getReplenishLevel() {
+		return replenishLevel;
+	}
+
+	public void setReplenishLevel(int replenishLevel) {
+		this.replenishLevel = replenishLevel;
+	}
+
+	public int getOrderQty() {
+		return orderQty;
+	}
+
+	public void setOrderQty(int orderQty) {
+		this.orderQty = orderQty;
 	}
 
 	@Override

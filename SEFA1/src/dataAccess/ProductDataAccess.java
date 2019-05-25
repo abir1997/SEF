@@ -38,6 +38,15 @@ public class ProductDataAccess {
 		return (prd != null) ? true : false;
 	}
 
+	public static void addProduct(Product product) {
+		ProductDataAccess.products.put(product.getProductID(), product);
+	}
+
+	public static void updateProduct(String productId, int warehouseQty, int replenishLevel, int orderQty, double price)
+			throws ProductNotFoundException {
+		getProduct(productId).update(warehouseQty, replenishLevel, orderQty, price);
+	}
+
 	/**
 	 * 
 	 * @param productID

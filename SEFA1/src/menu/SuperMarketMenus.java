@@ -281,6 +281,35 @@ public class SuperMarketMenus {
 
 
 
+	static void replenishProduct() {
+		Scanner userInput = new Scanner(System.in);
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** REPLENISH PRODUCT ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		System.out.println("Enter productID: ");
+		String productID = userInput.nextLine();
+	
+		System.out.println("Enter replenish quantity: ");
+		int quantity = userInput.nextInt();
+	
+		while (quantity <= 0) {
+			System.out.println("Please enter quantity again! It has to be greater than 0");
+			System.out.println("Enter replenish quantity: ");
+			quantity = userInput.nextInt();
+		}
+	
+		// For loop is used to check if the product ID already exists
+		// in the system
+		if (ProductDataAccess.replenishProductQuantity(productID,quantity)) {
+			System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
+		} else if (!ProductDataAccess.products.containsKey(productID)) {
+			System.out.println("Product is not found");
+		}
+		Util.close(userInput);
+	}
+
+
+
 	// method to offer specific discount percentages (4)
 	public static void offerDiscount(Product product, double percentage, double price) {
 		int check = 0;
