@@ -1,12 +1,8 @@
 package system;
 
-import java.util.Map;
-
 import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
-import model.Customer;
 import model.Product;
-import model.SalesLineItem;
 import model.Supplier;
 
 public class SystemController {
@@ -21,11 +17,6 @@ public class SystemController {
 		SupplierDataAccess.addSupplier(supplier);
 	}
 	
-	// method to add products to productList of a Supplier
-	public void addProductToList(Supplier supplier, String productID, int quantity, double price) {
-		Product newProduct = new Product(productID, quantity, price);
-		supplier.getProducts().add(newProduct);
-	}
 //	// method to show specific supplier, searches based on entered variables
 //	public String findSupplier(String name, String id, String email, String phone, String address) {
 //		String specificSupplier = "";

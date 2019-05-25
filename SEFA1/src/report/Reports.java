@@ -9,16 +9,6 @@ public class Reports {
 	
 
 	
-	// method to list supplier details (2)
-	public String listSupplierDetails(boolean includeProducts) {
-		StringBuffer detailsSb = new StringBuffer();
-		for (Supplier supplier : SupplierDataAccess.getSuppliers()){
-			detailsSb.append(supplier.getDetails(includeProducts));
-			detailsSb.append("\n");
-		}
-		return detailsSb.toString();
-	}
-
 	// method to override standard price on specific product (3)
 	public void changeStandardPrice(Product product, double price) {
 		product.setPrice(price);

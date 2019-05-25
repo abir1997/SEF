@@ -43,4 +43,15 @@ public class SupplierDataAccess {
 		Supplier sup = getSupplier(supplierId);
 		sup.updatedSupplier (name, email, phone, address);
 	}
+	
+	// method to list supplier details (2)
+	public static String listSupplierDetails(boolean includeProducts) {
+		StringBuffer detailsSb = new StringBuffer();
+		for (Supplier supplier : SupplierDataAccess.getSuppliers()) {
+			detailsSb.append(supplier.getDetails(includeProducts));
+			detailsSb.append("\n");
+		}
+		return detailsSb.toString();
+	}
+
 }
