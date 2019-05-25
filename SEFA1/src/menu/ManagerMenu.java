@@ -13,14 +13,18 @@ import static enums.MenuOptions.MM_REPLENISH_PRODUCT_QUANTITY;
 import static enums.MenuOptions.MM_RETURN_TO_LOGIN_SCREEN;
 import static enums.MenuOptions.MM_UPDATE_PRODUCT;
 
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
+import dataAccess.UserDataAccess;
 import exception.ProductNotFoundException;
+import model.Customer;
 import model.Manager;
 import model.Product;
+import model.Sale;
 import system.Util;
 
 public class ManagerMenu {
@@ -88,7 +92,7 @@ public class ManagerMenu {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** Purchase Order for the following low stock items will be submitted  ***");
 		System.out.println("------------------------------------------------------------------------\n");
-		Set<Product> replenishableProducts = ProductDataAccess.listProductsBelowReplenish();
+		Set<Product> replenishableProducts = ProductDataAccess.findProductsBelowReplenish();
 		for (Product product : replenishableProducts) {
 			System.out.printf("%s %s\n", product.getProductId(), product.getName(), product.getOrderQty(), product.getReplenishLevel(), product.getWarehouseQuantity());
 		}
@@ -219,5 +223,22 @@ public class ManagerMenu {
 			}
 		}
 		Util.close(userInput);
+	}
+	
+	/**
+	 * Look for the sales in the past two weeks and report on top selling products in volume and top selling in value separately 
+	 */
+	public static void reportTrendingSales() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** FAST SELLING PRODUCTS ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		Set<Customer> customers = UserDataAccess.getAllCustomers();
+
+		//create the list of sales in the past two weeks		
+		Set<Sale> sales = new HashSet<>(); 
+
+		for (Customer customer: customers) {
+
+		}
 	}
 }

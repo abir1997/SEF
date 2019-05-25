@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import exception.ProductNotFoundException;
 import model.Product;
@@ -30,8 +30,8 @@ public class ProductDataAccess {
 		return Collections.unmodifiableCollection(products.values());
 	}
 
-	public static Set<Product> listProductsBelowReplenish() {
-		Set<Product> replenishableProducts = new TreeSet<>();
+	public static Set<Product> findProductsBelowReplenish() {
+		Set<Product> replenishableProducts = new HashSet<>();
 		for (Product product : products.values()) {
 			if (product.getWarehouseQuantity() < product.getReplenishLevel()) {
 				replenishableProducts.add(product);

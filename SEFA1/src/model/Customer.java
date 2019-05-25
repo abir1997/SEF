@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,9 @@ public class Customer extends User {
 		double cost = cart.calcCheckoutCost();
 		int pts = cart.calcPts();
 		card.addLoyaltyPts(pts);
+		cart.setDateTime(LocalDateTime.now());
 		previousSales.add(cart);
+
 		cart = null;
 		//TODO remove products from stock
 		return cost;
