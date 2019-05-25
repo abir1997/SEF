@@ -10,5 +10,3 @@ How the program is extensible and maintainable:
 	The menu and user interactions are separate (user input)
 	System controller and Data access layer 
 	Model classes (Customer, CreditCard etc)
-	 
-	 
