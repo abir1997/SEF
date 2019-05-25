@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataAccess.ProductDataAccess;
+import exception.ProductNotFoundException;
+
 public class Customer extends User {
 
 	private CustomerCard card;
@@ -39,9 +42,18 @@ public class Customer extends User {
 	}
 
 
-	public void addToCart(String productID, int amount) {
-		throw new RuntimeException("Not implemented");
-		
+	public boolean addToCart(String productID, int qty) {
+		Product product;
+		try {
+			product = ProductDataAccess.getProduct(productID);
+			if (product.getWarehouseQuantity() < qty) {
+				return false;
+			}
+			sale.addToCart(product, qty);
+			return true;
+		} catch (ProductNotFoundException e) {
+			return false;
+		}
 	}
 	
 

@@ -6,22 +6,49 @@ import java.util.Collections;
 import java.util.List;
 
 import exception.ProductNotFoundException;
+import main.Const;
 
 public class Sale {
-//	private double pts;
 	private LocalDateTime dateTime;
-	private List<SalesLineItem> saleLineItems = new ArrayList<>();
+	private List<SalesLineItem> saleLineItems = new ArrayList<SalesLineItem>();
+	double totalPaid;
 
-
-	public double calcPts() {
-		throw new RuntimeException("Not implemented");
+	
+	public double getTotalPaid() {
+		return totalPaid;
 	}
 
-	public double calcTotal() {
+	public void setTotalPaid(double totalPaid) {
+		this.totalPaid = totalPaid;
+	}
+
+	/**
+	 * @return points for total cost
+	 */
+	public int calcPts() {
+		return (int) (calcTotalBaseCost() / Const.DOLLAR_FOR_A_POINT);
+	}
+
+	/**
+	 * @return the combined base cost of all items  
+	 */
+	public double calcTotalBaseCost() {
 		double total = 0;
 		for	(SalesLineItem sli : saleLineItems) {
 			total += sli.getProduct().getPrice() * sli.getQuantity(); 
 		}
+		return total;
+	}
+
+	/**
+	 * @return the total amount to be charged to the customer
+	 */
+	public double calcCheckoutCost() {
+		double baseTotal = calcTotalBaseCost();
+		double newPts = calcPts();
+		
+		double total = baseTotal - (newPts * Const.DISCOUNT_AMOUNT_FOR_POINTS / Const.BASE_POINTS_DISCOUNT_DIV );
+
 		return total;
 	}
 
@@ -46,7 +73,8 @@ public class Sale {
 	}
 
 	public boolean removeProduct(Product product) {
-		return saleLineItems.remove(product);
+		SalesLineItem sli = findSalesLineItem(product);
+		return saleLineItems.remove(sli);
 	}
 	
 	public void addToCart(Product product, int quantity) {

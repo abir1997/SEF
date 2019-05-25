@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.UserDataAccess;
-import exception.ProductNotFoundException;
+import static enums.WarehouseStaffMenu.*;
 import model.Customer;
 import model.CustomerCard;
 import model.Manager;
@@ -12,7 +12,6 @@ import model.Product;
 import model.SalesStaff;
 import model.User;
 import model.WareHouseStaff;
-import system.SystemController;
 
 public class SuperMarketSystem {
 
@@ -426,20 +425,20 @@ public class SuperMarketSystem {
 			}
 		}
 	}
-
+	
 	private void wareHouseStaffMenuFunctions() {
 		String optionSelected = "";
-
-		while (!optionSelected.equalsIgnoreCase("6")) {
+		
+		while (!RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** WAREHOUSESTAFF FUNCTIONS ***");
 			System.out.println("------------------------------------------------------------------------\n");
-			System.out.printf("%-30s %s\n", "Add Products", "1");
-			System.out.printf("%-30s %s\n", "List Products", "2");
-			System.out.printf("%-30s %s\n", "Remove Products", "3");
-			System.out.printf("%-30s %s\n", "Replenish Product Quantity", "4");
-			System.out.printf("%-30s %s\n", "Return to Login Screen", "5");
+			System.out.printf("%-30s %s\n", ADD_PRODUCTS.getTxt(), ADD_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", LIST_PRODUCTS.getTxt(), LIST_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", REMOVE_PRODUCTS.getTxt(), REMOVE_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", REPLENISH_PRODUCT_QUANTITY.getTxt(), REPLENISH_PRODUCT_QUANTITY.getKey());
+			System.out.printf("%-30s %s\n", RETURN_TO_LOGIN_SCREEN.getTxt(), RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
 
 			// This takes the user's input and will take them to the letter
@@ -448,7 +447,7 @@ public class SuperMarketSystem {
 			optionSelected = userInput.nextLine();
 			boolean found = false;
 
-			if (optionSelected.equalsIgnoreCase("1")) {
+			if (ADD_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** ADD PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
@@ -465,7 +464,6 @@ public class SuperMarketSystem {
 						System.out.println("Error - Product:  " + productID + " already exists in the system!");
 						break;
 					}
-
 				}
 
 				if (found == false) {
@@ -483,11 +481,10 @@ public class SuperMarketSystem {
 					System.out.println();
 				}
 
-			} else if (optionSelected.equalsIgnoreCase("2")) {
-				ProductDataAccess.getAllProducts();
-				throw new RuntimeException("Not implemented"); //TODO print all products
+			} else if (LIST_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+				listProductsInformation();
 				
-			} else if (optionSelected.equalsIgnoreCase("3")) {
+			} else if (REMOVE_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REMOVE PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
@@ -507,7 +504,7 @@ public class SuperMarketSystem {
 					System.out.println(productID + " is not in the system!");
 				}
 
-			} else if (optionSelected.equalsIgnoreCase("4")) {
+			} else if (REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REPLENISH PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
@@ -534,7 +531,7 @@ public class SuperMarketSystem {
 					break;
 				}
 
-			} else if (optionSelected.equalsIgnoreCase("5")) {
+			} else if (RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
 				// returns to main menu
@@ -569,7 +566,7 @@ public class SuperMarketSystem {
 				purchaseMenu(customer);
 			}
 			 else if (optionSelected.equalsIgnoreCase("2")) {
-				listProductsInformationMenu();
+				 listProductsInformation();
 
 			} else if (optionSelected.equalsIgnoreCase("3")) {
 				checkPrice();
@@ -626,13 +623,14 @@ public class SuperMarketSystem {
 		}
 	}
 	
-	public void listProductsInformationMenu() {
+	public void listProductsInformation() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** LIST OF PRODUCTS INFORMATION ***");
 		System.out.println("------------------------------------------------------------------------\n");
 
-		ProductDataAccess.getAllProducts();
-		throw new RuntimeException("Not implemented");
+		for (Product product: ProductDataAccess.getAllProducts()) {
+			System.out.println(product);
+		}
 	}
 	
 	public void checkPrice() {

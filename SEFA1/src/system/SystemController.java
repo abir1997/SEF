@@ -3,6 +3,7 @@ package system;
 import java.util.Map;
 
 import dataAccess.ProductDataAccess;
+import dataAccess.SupplierDataAccess;
 import model.Customer;
 import model.Product;
 import model.SalesLineItem;
@@ -13,45 +14,15 @@ public class SystemController {
 		product.replenishQuantity(quantity);
 	}
 
-	public static boolean removeProduct(Customer customer, Product product, int quantity) {
-		//TODO remove method and use one from customer to remove a prodcut from cart
-		throw new RuntimeException("Not implemented");
-		
-//		SalesLineItem salesLineItemRemove = null;
-//		boolean isRemoved = false; 
-//		for (SalesLineItem item : customer.getSale().getSaleLineItems()) {
-//			if (item.getProduct().equals(product)) {
-//				if (item.getQuantity() == quantity) {
-//					salesLineItemRemove = item;
-//					break;
-//				}
-//				else if (item.getQuantity() < quantity) {
-//					break;	
-//				}
-//					
-//				else {
-//					item.setQuantity(item.getQuantity() - quantity);
-//					isRemoved = true;
-//				}
-//			}
-//		}
-//		
-//		if (salesLineItemRemove != null) {
-//			customer.getSale().getSaleLineItems().remove(salesLineItemRemove);
-//			isRemoved = true;
-//		}
-//		return isRemoved;
-	}
-	
-
 	//from Supplier
 	// method to add Suppliers to ArrayList, invokes constructor method
-	public void addSupplier(String name, String id, String email, String phone, String address) {
+	public void addSupplier(String id, String name, String email, String phone, String address) {
 		Supplier supplier = new Supplier(name, id, email, phone, address);
+		SupplierDataAccess.addSupplier(supplier);
 	}
 	
 	// method to add products to productList of a Supplier
-	public void addProductList(Supplier supplier, String productID, int quantity, double price) {
+	public void addProductToList(Supplier supplier, String productID, int quantity, double price) {
 		Product newProduct = new Product(productID, quantity, price);
 		supplier.getProducts().add(newProduct);
 	}
