@@ -9,11 +9,10 @@ import static enums.MenuOptions.CM_RETURN_TO_LOGIN_SCREEN;
 import java.util.Scanner;
 
 import dataAccess.ProductDataAccess;
-import dataAccess.UserDataAccess;
 import model.Customer;
 import model.Discount;
 import model.Product;
-import model.SalesStaff;
+import system.Util;
 
 public class CustomerMenu {
 	public static void customerMenu(Customer customer) {
@@ -48,12 +47,8 @@ public class CustomerMenu {
 				checkDiscounts();
 
 			}else if (CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
-			
-
-				// On is set to false in order to stop the while-loop
-
 				System.out.println("\nReturning to login sceen...\n");
-				// returns to main menu
+
 			} else {
 				System.out.println("\nInvalid input");
 
@@ -72,6 +67,8 @@ public class CustomerMenu {
 		}
 		catch (Exception e) {
 			System.out.println("this product does not exist");
+		} finally {
+			Util.close(userInput1);
 		}
 	}
 	
@@ -88,6 +85,9 @@ public class CustomerMenu {
 		}
 		catch (Exception e) {
 			System.out.println("this product does not exist");
+		}
+		finally {
+			Util.close(userInput1);
 		}
 	}
 	
@@ -109,6 +109,7 @@ public class CustomerMenu {
 		} else {
 			System.out.println("this productID is not exist");
 		}
+		Util.close(userInput1);
 	}
 
 }

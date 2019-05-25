@@ -17,8 +17,9 @@ public class DataStore {
 	}
 
 	public static void saveData() {
-		// TODO Auto-generated method stub
-		
+		saveSupplierData();
+		saveProductData();
+		saveUserData();
 	}
 
 }

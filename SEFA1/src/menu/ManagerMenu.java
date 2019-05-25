@@ -3,10 +3,12 @@ package menu;
 import java.util.Scanner;
 
 import model.Manager;
+import system.Util;
 
 public class ManagerMenu {
 	public static void managerMenu(Manager mgr) {
 		String optionSelected = "";
+		Scanner userInput = new Scanner(System.in);
 		while (!optionSelected.equalsIgnoreCase("8")) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** MANAGER FUNCTION ***");
@@ -22,8 +24,6 @@ public class ManagerMenu {
 			System.out.printf("%-30s %s\n", "Return to Login Screen", "8");
 			System.out.printf("\nEnter selection:");
 
-			// TODO
-			Scanner userInput = new Scanner(System.in);
 			optionSelected = userInput.nextLine();
 
 			if (optionSelected.equalsIgnoreCase("1")) {
@@ -45,8 +45,9 @@ public class ManagerMenu {
 				System.out.println("\nReturning to login sceen...\n");
 			} else {
 				System.out.println("\nInvalid input");
-
 			}
 		}
+		Util.close(userInput);
+
 	}
 }

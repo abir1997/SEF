@@ -7,11 +7,13 @@ import dataAccess.UserDataAccess;
 import model.Customer;
 import model.Product;
 import model.SalesStaff;
+import system.Util;
 
 public class SalesStaffMenu {
 	
 	public static void salesStaffMenu(SalesStaff sStaff) {
 		String optionSelected = "";
+		Scanner userInput = new Scanner(System.in);
 		while (!optionSelected.equalsIgnoreCase("3")) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** SALESSTAFF FUNCTIONS ***");
@@ -24,7 +26,7 @@ public class SalesStaffMenu {
 
 			// This takes the user's input and will take them to the letter
 			// option they chose
-			Scanner userInput = new Scanner(System.in);
+
 			optionSelected = userInput.nextLine();
 			Customer customer;
 
@@ -94,5 +96,6 @@ public class SalesStaffMenu {
 
 			}
 		}
+		Util.close(userInput);
 	}
 }
