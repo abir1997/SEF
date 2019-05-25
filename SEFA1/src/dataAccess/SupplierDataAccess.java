@@ -9,7 +9,7 @@ import model.Supplier;
 
 public class SupplierDataAccess {
 
-	private static HashMap<String, Supplier> suppliers = new HashMap<>();
+	public static HashMap<String, Supplier> suppliers = new HashMap<>();
 	
 	public static Collection<Supplier> getSuppliers() {
 		return Collections.unmodifiableCollection(suppliers.values());

@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Supplier {
+@SuppressWarnings("serial")
+public class Supplier implements Serializable {
 	private String name;
 	private String id;
 	private String email;
