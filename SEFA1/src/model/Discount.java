@@ -5,7 +5,6 @@ public class Discount {
 	int discountPercent;
 	
 	public Discount(int quantity, int discountPercent) {
-		super();
 		this.quantity = quantity;
 		this.discountPercent = discountPercent;
 	}

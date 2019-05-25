@@ -11,7 +11,8 @@ import main.Const;
 public class Sale {
 	private LocalDateTime dateTime;
 	private Set<SalesLineItem> saleLineItems = new HashSet<SalesLineItem>();
-	double totalPaid;
+	private double totalPaid;
+	private double points;
 
 
 	public boolean contains (Product product) {
@@ -21,6 +22,10 @@ public class Sale {
 			}
 		}
 		return false;
+	}
+	
+	public void claimPts(CustomerCard card) {
+	//	points = this.poi
 	}
 	
 	public double getTotalPaid() {
