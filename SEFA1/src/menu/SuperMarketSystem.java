@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.UserDataAccess;
+import exception.ProductNotFoundException;
 import model.Customer;
 import model.CustomerCard;
 import model.Manager;
@@ -275,7 +276,7 @@ public class SuperMarketSystem {
 				return;
 			} else if (UserDataAccess.users.get(id) instanceof SalesStaff) {
 				System.out.print("You have successfully logged in as a SalesStaff");
-				salesStaffMenuFunctions();
+				emptyCart();
 				return;
 			} else if (UserDataAccess.users.get(id) instanceof Manager) {
 				System.out.print("You have successfully logged in as a Manager");
@@ -337,7 +338,7 @@ public class SuperMarketSystem {
 		}
 	}
 
-	private void salesStaffMenuFunctions() {
+	private void emptyCart() {
 		String optionSelected = "";
 		while (!optionSelected.equalsIgnoreCase("3")) {
 			System.out.println("\n------------------------------------------------------------------------");
@@ -381,29 +382,10 @@ public class SuperMarketSystem {
 						}
 
 						if (product != null) {
-							System.out.printf("Product %s Found! ", product.toString());
-							while (true) {
-								System.out.println("Please enter the amount to remove or 0 to quit (default:1)");
-								String amount = userInput.nextLine();
-								if (amount.isEmpty()) {
-									if (!SystemController.removeProduct(customer,product , 1)) {
-										System.out.printf("Not enough quantity to remove! Remaining quantity :%d%n",
-												customer.getSale().checkQuantity(product));
-										continue;
-									}
-								} else if (Integer.parseInt(amount) == 0) {
-									break;
-								} else {
-									if (!customer.getSale().removeProduct(product, Integer.parseInt(amount))) {
-										System.out.printf("Not enough quantity to remove! Remaining quantity :%d%n",
-												customer.getSale().checkQuantity(product));
-										continue;
-									}
-								}
-								System.out.printf("Product successfully removed! Remaining quantity :%d%n",
-										customer.getSale().checkQuantity(product));
-								break;
-							}
+
+							customer.getSale().removeProduct(product);
+							System.out.printf("Product %s Found! and removed", product.toString());							
+						
 						} else if (id == 0) {
 							break;
 						} else {
@@ -429,7 +411,7 @@ public class SuperMarketSystem {
 
 				if (customer != null) {
 					System.out.printf("Customer %s Found! Cancelling transaction%n", customer.getName());
-					customer.cancelSale();
+					customer.emptyCart();
 				} else {
 					System.out.println("Customer Not Found!");
 				}

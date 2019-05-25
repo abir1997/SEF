@@ -34,58 +34,8 @@ public class Customer extends User {
 		this.postCode = postCode;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((card == null) ? 0 : card.hashCode());
-		result = prime * result + ((creditCard == null) ? 0 : creditCard.hashCode());
-		result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
-		result = prime * result + ((previousSales == null) ? 0 : previousSales.hashCode());
-		result = prime * result + ((sale == null) ? 0 : sale.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer other = (Customer) obj;
-		if (card == null) {
-			if (other.card != null)
-				return false;
-		} else if (!card.equals(other.card))
-			return false;
-		if (creditCard == null) {
-			if (other.creditCard != null)
-				return false;
-		} else if (!creditCard.equals(other.creditCard))
-			return false;
-		if (postCode == null) {
-			if (other.postCode != null)
-				return false;
-		} else if (!postCode.equals(other.postCode))
-			return false;
-		if (previousSales == null) {
-			if (other.previousSales != null)
-				return false;
-		} else if (!previousSales.equals(other.previousSales))
-			return false;
-		if (sale == null) {
-			if (other.sale != null)
-				return false;
-		} else if (!sale.equals(other.sale))
-			return false;
-		return true;
-	}
-
-
-	public void cancelSale() {
-		throw new RuntimeException("Not implemented");
+	public void emptyCart() {
+		sale.emptyCart();
 	}
 
 

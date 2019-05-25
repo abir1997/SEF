@@ -57,11 +57,7 @@ public class Product {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(price);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((productID == null) ? 0 : productID.hashCode());
-		result = prime * result + warehouseQuantity;
 		return result;
 	}
 
@@ -74,17 +70,13 @@ public class Product {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-			return false;
 		if (productID == null) {
 			if (other.productID != null)
 				return false;
 		} else if (!productID.equals(other.productID))
 			return false;
-		if (warehouseQuantity != other.warehouseQuantity)
-			return false;
 		return true;
 	}
-	
-	
+
+
 }

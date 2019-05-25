@@ -14,30 +14,33 @@ public class SystemController {
 	}
 
 	public static boolean removeProduct(Customer customer, Product product, int quantity) {
-		SalesLineItem salesLineItemRemove = null;
-		boolean isRemoved = false; 
-		for (SalesLineItem item : customer.getSale().getSaleLineItems()) {
-			if (item.getProduct().equals(product)) {
-				if (item.getQuantity() == quantity) {
-					salesLineItemRemove = item;
-					break;
-				}
-				else if (item.getQuantity() < quantity) {
-					break;	
-				}
-					
-				else {
-					item.setQuantity(item.getQuantity() - quantity);
-					isRemoved = true;
-				}
-			}
-		}
+		//TODO remove method and use one from customer to remove a prodcut from cart
+		throw new RuntimeException("Not implemented");
 		
-		if (salesLineItemRemove != null) {
-			customer.getSale().getSaleLineItems().remove(salesLineItemRemove);
-			isRemoved = true;
-		}
-		return isRemoved;
+//		SalesLineItem salesLineItemRemove = null;
+//		boolean isRemoved = false; 
+//		for (SalesLineItem item : customer.getSale().getSaleLineItems()) {
+//			if (item.getProduct().equals(product)) {
+//				if (item.getQuantity() == quantity) {
+//					salesLineItemRemove = item;
+//					break;
+//				}
+//				else if (item.getQuantity() < quantity) {
+//					break;	
+//				}
+//					
+//				else {
+//					item.setQuantity(item.getQuantity() - quantity);
+//					isRemoved = true;
+//				}
+//			}
+//		}
+//		
+//		if (salesLineItemRemove != null) {
+//			customer.getSale().getSaleLineItems().remove(salesLineItemRemove);
+//			isRemoved = true;
+//		}
+//		return isRemoved;
 	}
 	
 

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Map;
-
 import dataAccess.ProductDataAccess;
 
 public class WareHouseStaff extends User{
