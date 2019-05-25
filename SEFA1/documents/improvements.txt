@@ -1,0 +1,14 @@
+How the program is extensible and maintainable:
+
+* Using Enums for menu options to easily extend and modify the text and the options
+
+* Using Constants in an external class. Avoiding magic text/numbers to improve readability and maintainability
+
+* using junit tests for regression testing the application.
+
+* using MVC pattern to seperate the concerns. Seperated into 
+	The menu and user interactions are separate (user input)
+	System controller and Data access layer 
+	Model classes (Customer, CreditCard etc)
+	 
+	 

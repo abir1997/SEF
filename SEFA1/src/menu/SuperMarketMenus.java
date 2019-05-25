@@ -25,7 +25,7 @@ import model.SalesStaff;
 import model.User;
 import model.WareHouseStaff;
 
-public class SuperMarketSystem {
+public class SuperMarketMenus {
 
 	private User loggedInUser = null;
 
