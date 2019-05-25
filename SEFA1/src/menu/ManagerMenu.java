@@ -65,7 +65,7 @@ public class ManagerMenu {
 				System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
 			} else if (MM_OFFER_DISCOUNTS.getTxt().equalsIgnoreCase(optionSelected)) {
 				addBulkDiscount();
-			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt().equalsIgnoreCase(optionSelected)) { 
+			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt().equalsIgnoreCase(optionSelected)) {
 				autoReplenishPurchaseOrder();
 			}else if (MM_GENERATE_SALES_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
 				

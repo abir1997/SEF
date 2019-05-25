@@ -6,6 +6,8 @@ import java.util.Set;
 
 public class Product implements Serializable{
 
+	private static final long serialVersionUID = -6411877934409588801L;
+	
 	private String productId;
 	private String name;
 	private int warehouseQty;
@@ -48,7 +50,7 @@ public class Product implements Serializable{
 		this.warehouseQty += quantity;
 	}
 
-	public void setProductId(String productID) {
+	public void setProductI1d(String productID) {
 		this.productId = productID;
 	}
 
