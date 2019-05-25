@@ -1,11 +1,16 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Product {
 
 	private String productID;
 	private int warehouseQuantity;
 	private double price;
+	private Set<Discount> discounts = new HashSet<>();
 
+	
 	public Product(String productID, int warehouseQuantity, double price) {
 		this.productID = productID;
 		this.warehouseQuantity = warehouseQuantity;
@@ -51,6 +56,15 @@ public class Product {
 	public void setPrice(double price)
 	{
 		this.price = price;
+	}
+
+	public void addDiscount(int qty, int discountPercent) {
+		Discount dis = new Discount(qty, discountPercent);
+		discounts.add(dis);
+	}
+	
+	public Set<Discount> getDiscounts() {
+		return discounts;
 	}
 
 	@Override

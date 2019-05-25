@@ -374,7 +374,7 @@ public class SuperMarketSystem {
 						String message = "Product Not Found!";
 
 						product = ProductDataAccess.products.get(pId);
-						if (!customer.getSale().getSaleLineItems().contains(product)) {
+						if (!customer.getCart().getSaleLineItems().contains(product)) {
 							message = "Product not found in customer's cart!";
 							product = null;
 							break;
@@ -382,7 +382,7 @@ public class SuperMarketSystem {
 
 						if (product != null) {
 
-							customer.getSale().removeProduct(product);
+							customer.getCart().removeProduct(product);
 							System.out.printf("Product %s Found! and removed", product.toString());							
 						
 						} else if (id == 0) {

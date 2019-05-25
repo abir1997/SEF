@@ -11,18 +11,18 @@ public class Customer extends User {
 	private CustomerCard card;
 	private CreditCard creditCard;
 	private List<Sale> previousSales = new ArrayList<Sale>();
-	private Sale sale;
+	private Sale cart;
 	private String postCode;
 
 	public Customer(String name, int id, String pwd, CustomerCard card) {
 		super(name, id, pwd);
 		this.card = card;
-		sale = new Sale();
+		cart = new Sale();
 	}
 
 	
-	public Sale getSale() {
-		return sale;
+	public Sale getCart() {
+		return cart;
 	}
 
 	public CustomerCard getCard() {
@@ -38,7 +38,7 @@ public class Customer extends User {
 	}
 
 	public void emptyCart() {
-		sale.emptyCart();
+		cart.emptyCart();
 	}
 
 
@@ -49,7 +49,7 @@ public class Customer extends User {
 			if (product.getWarehouseQuantity() < qty) {
 				return false;
 			}
-			sale.addToCart(product, qty);
+			cart.addToCart(product, qty);
 			return true;
 		} catch (ProductNotFoundException e) {
 			return false;

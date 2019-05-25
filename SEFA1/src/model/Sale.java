@@ -1,16 +1,16 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import exception.ProductNotFoundException;
 import main.Const;
 
 public class Sale {
 	private LocalDateTime dateTime;
-	private List<SalesLineItem> saleLineItems = new ArrayList<SalesLineItem>();
+	private Set<SalesLineItem> saleLineItems = new HashSet<SalesLineItem>();
 	double totalPaid;
 
 	
@@ -26,7 +26,7 @@ public class Sale {
 	 * @return points for total cost
 	 */
 	public int calcPts() {
-		return (int) (calcTotalBaseCost() / Const.DOLLAR_FOR_A_POINT);
+		return (int) (calcTotalBaseCost() / Const.DOLLARS_FOR_A_POINT);
 	}
 
 	/**
@@ -47,13 +47,13 @@ public class Sale {
 		double baseTotal = calcTotalBaseCost();
 		double newPts = calcPts();
 		
-		double total = baseTotal - (newPts * Const.DISCOUNT_AMOUNT_FOR_POINTS / Const.BASE_POINTS_DISCOUNT_DIV );
+		double total = baseTotal - (((int)(newPts / Const.BASE_POINTS_DISCOUNT_DIV))* Const.DISCOUNT_AMOUNT_FOR_POINTS );
 
 		return total;
 	}
 
-	public List<SalesLineItem> getSaleLineItems() {
-		return Collections.unmodifiableList(saleLineItems);
+	public Set<SalesLineItem> getSaleLineItems() {
+		return Collections.unmodifiableSet(saleLineItems);
 	}
 
 	public LocalDateTime getDateTime() {
