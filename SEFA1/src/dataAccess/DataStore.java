@@ -50,16 +50,6 @@ public class DataStore {
 	}
 	
 	private static void saveProductData() {
-//		try {
-//			FileOutputStream fos = new FileOutputStream("products.ser");
-//			ObjectOutputStream oos = new ObjectOutputStream(fos);
-//			oos.writeObject(ProductDataAccess.products);
-//			System.out.printf("Serialized HashMap data is saved in products.ser");
-//            oos.close();
-//            fos.close();
-//		}catch(IOException ioe) {
-//			ioe.printStackTrace();
-//		}
 		saveMapData(ProductDataAccess.products,"products.ser");
 	}
 

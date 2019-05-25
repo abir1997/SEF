@@ -24,9 +24,6 @@ public class Sale {
 		return false;
 	}
 	
-	public void claimPts(CustomerCard card) {
-	//	points = this.poi
-	}
 	
 	public double getTotalPaid() {
 		return totalPaid;
@@ -119,4 +116,5 @@ public class Sale {
 		}
 		return null;
 	}
+	
 }

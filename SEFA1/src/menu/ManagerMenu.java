@@ -68,7 +68,7 @@ public class ManagerMenu {
 			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt().equalsIgnoreCase(optionSelected)) {
 				autoReplenishPurchaseOrder();
 			}else if (MM_GENERATE_SALES_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
-				
+				//TODO
 			} else if (MM_GENERATE_SUPPLY_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
 
 			} else if (MM_LIST_TOP_PRODUCTS.getTxt().equalsIgnoreCase(optionSelected)) {

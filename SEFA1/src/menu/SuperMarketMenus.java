@@ -26,7 +26,7 @@ public class SuperMarketMenus {
 			System.out.println("*** SUPER MARKET SUPPORT SYSTEM ***");
 			System.out.println("------------------------------------------------------------------------\n");
 
-			System.out.println("Welcome to A-TEAM self-checkout system, please select your option:\n");
+			System.out.println("Welcome to LALA self-checkout system, please select your option:\n");
 
 			System.out.printf("%-30s %s\n", "OPTION", "SELECTION");
 			System.out.println("------------------------------------------------------------------------");
