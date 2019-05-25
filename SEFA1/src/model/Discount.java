@@ -17,6 +17,10 @@ public class Discount {
 		return discountPercent;
 	}
 
+	public String toString() {
+		return String.format("Quantity : %d\nDiscount Percent : %d", quantity, discountPercent);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -1,12 +1,24 @@
 package menu;
 
+import static enums.MenuOptions.CM_CHECK_DISCOUNTS;
+import static enums.MenuOptions.CM_CHECK_PRICE;
+import static enums.MenuOptions.CM_LIST_PRODUCTS;
+import static enums.MenuOptions.CM_PURCHASE_PRODUCT;
+import static enums.MenuOptions.CM_RETURN_TO_LOGIN_SCREEN;
+import static enums.MenuOptions.WM_ADD_PRODUCTS;
+import static enums.MenuOptions.WM_LIST_PRODUCTS;
+import static enums.MenuOptions.WM_REMOVE_PRODUCTS;
+import static enums.MenuOptions.WM_REPLENISH_PRODUCT_QUANTITY;
+import static enums.MenuOptions.WM_RETURN_TO_LOGIN_SCREEN;
+
 import java.util.Scanner;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.UserDataAccess;
-import static enums.WarehouseStaffMenu.*;
+import enums.MenuOptions;
 import model.Customer;
 import model.CustomerCard;
+import model.Discount;
 import model.Manager;
 import model.Product;
 import model.SalesStaff;
@@ -429,16 +441,16 @@ public class SuperMarketSystem {
 	private void wareHouseStaffMenuFunctions() {
 		String optionSelected = "";
 		
-		while (!RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
+		while (!MenuOptions.WM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** WAREHOUSESTAFF FUNCTIONS ***");
 			System.out.println("------------------------------------------------------------------------\n");
-			System.out.printf("%-30s %s\n", ADD_PRODUCTS.getTxt(), ADD_PRODUCTS.getKey());
-			System.out.printf("%-30s %s\n", LIST_PRODUCTS.getTxt(), LIST_PRODUCTS.getKey());
-			System.out.printf("%-30s %s\n", REMOVE_PRODUCTS.getTxt(), REMOVE_PRODUCTS.getKey());
-			System.out.printf("%-30s %s\n", REPLENISH_PRODUCT_QUANTITY.getTxt(), REPLENISH_PRODUCT_QUANTITY.getKey());
-			System.out.printf("%-30s %s\n", RETURN_TO_LOGIN_SCREEN.getTxt(), RETURN_TO_LOGIN_SCREEN.getKey());
+			System.out.printf("%-30s %s\n", WM_ADD_PRODUCTS.getTxt(), WM_ADD_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", WM_LIST_PRODUCTS.getTxt(), WM_LIST_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", WM_REMOVE_PRODUCTS.getTxt(), WM_REMOVE_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", WM_REPLENISH_PRODUCT_QUANTITY.getTxt(), WM_REPLENISH_PRODUCT_QUANTITY.getKey());
+			System.out.printf("%-30s %s\n", WM_RETURN_TO_LOGIN_SCREEN.getTxt(), WM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
 
 			// This takes the user's input and will take them to the letter
@@ -447,7 +459,7 @@ public class SuperMarketSystem {
 			optionSelected = userInput.nextLine();
 			boolean found = false;
 
-			if (ADD_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+			if (WM_ADD_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** ADD PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
@@ -481,10 +493,10 @@ public class SuperMarketSystem {
 					System.out.println();
 				}
 
-			} else if (LIST_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+			} else if (MenuOptions.WM_LIST_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				listProductsInformation();
 				
-			} else if (REMOVE_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+			} else if (WM_REMOVE_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REMOVE PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
@@ -504,7 +516,7 @@ public class SuperMarketSystem {
 					System.out.println(productID + " is not in the system!");
 				}
 
-			} else if (REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
+			} else if (WM_REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REPLENISH PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
@@ -531,7 +543,7 @@ public class SuperMarketSystem {
 					break;
 				}
 
-			} else if (RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
+			} else if (WM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
 				// returns to main menu
@@ -551,10 +563,11 @@ public class SuperMarketSystem {
 			System.out.println("*** CUSTOMER FUNCTIONS ***");
 			System.out.println("------------------------------------------------------------------------\n");
 
-			System.out.printf("%-30s %s\n", "Purchase Product", "1");
-			System.out.printf("%-30s %s\n", "List Products", "2");
-			System.out.printf("%-30s %s\n", "Check Price", "3");
-			System.out.printf("%-30s %s\n", "Return to Login Screen", "4");
+			System.out.printf("%-30s %s\n", CM_PURCHASE_PRODUCT.getTxt(), CM_PURCHASE_PRODUCT.getKey());
+			System.out.printf("%-30s %s\n", CM_LIST_PRODUCTS.getTxt(), CM_LIST_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", CM_CHECK_PRICE.getTxt(), CM_CHECK_PRICE.getKey());
+			System.out.printf("%-30s %s\n", CM_CHECK_DISCOUNTS.getTxt(), CM_CHECK_DISCOUNTS.getKey());
+			System.out.printf("%-30s %s\n", CM_RETURN_TO_LOGIN_SCREEN.getTxt(), CM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
 			Scanner userInput = new Scanner(System.in);
 
@@ -562,16 +575,19 @@ public class SuperMarketSystem {
 			// This takes the user's input and will take them to the letter
 			// option they chose
 			Customer customer = ((Customer) loggedInUser);
-			if (optionSelected.equalsIgnoreCase("1")) {
+			if (CM_PURCHASE_PRODUCT.getKey().equalsIgnoreCase(optionSelected)) {
 				purchaseMenu(customer);
 			}
-			 else if (optionSelected.equalsIgnoreCase("2")) {
+			 else if (CM_LIST_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				 listProductsInformation();
 
-			} else if (optionSelected.equalsIgnoreCase("3")) {
+			} else if (CM_CHECK_PRICE.getKey().equalsIgnoreCase(optionSelected)) {
 				checkPrice();
 
-			} else if (optionSelected.equalsIgnoreCase("4")) {
+			} else if (CM_CHECK_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
+				checkDiscounts();
+
+			}else if (CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 			
 
 				// On is set to false in order to stop the while-loop
@@ -586,6 +602,7 @@ public class SuperMarketSystem {
 		}
 	}
 	
+
 	// method to offer specific discount percentages (4)
 	public void offerDiscount(Product product, double percentage, double price) {
 		int check = 0;
@@ -633,13 +650,29 @@ public class SuperMarketSystem {
 		}
 	}
 	
-	public void checkPrice() {
+	private void checkPrice() {
 		Scanner userInput1 = new Scanner(System.in);
 		System.out.println("Enter productId you want to check price: ");
 		String productID = userInput1.nextLine();
 		try {
 		double price = ProductDataAccess.getProductPrice(productID);
 			System.out.println("the price of " + productID + " is " + price);
+		}
+		catch (Exception e) {
+			System.out.println("this product does not exist");
+		}
+	}
+	
+	private void checkDiscounts() {
+		Scanner userInput1 = new Scanner(System.in);
+		System.out.println("Enter productId you want to check Discount: ");
+		String productID = userInput1.nextLine();
+		try {
+			Product prd = ProductDataAccess.getProduct(productID);
+			System.out.println("Available Discounts of " + productID + " are: \n" );
+			for (Discount discount :prd.getDiscounts()) {
+				System.out.println(discount);
+			}
 		}
 		catch (Exception e) {
 			System.out.println("this product does not exist");

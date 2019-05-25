@@ -18,7 +18,8 @@ public class Product {
 	}
 
 	public String toString() {
-		return String.format("Product : %s\nQuantity : %d\nPrice : %f", productID, warehouseQuantity, price);
+		return String.format("Product : %s\nQuantity : %d\nPrice : %f\nDiscount Available : %b", productID,
+				warehouseQuantity, price, !discounts.isEmpty());
 	}
 
 	public String getProductID()
