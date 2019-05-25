@@ -41,7 +41,16 @@ public class Customer extends User {
 		cart.emptyCart();
 	}
 
-
+	public double checkout() {
+		double cost = cart.calcCheckoutCost();
+		int pts = cart.calcPts();
+		card.addLoyaltyPts(pts);
+		previousSales.add(cart);
+		cart = null;
+		//TODO remove products from stock
+		return cost;
+	}
+	
 	public boolean addToCart(String productID, int qty) {
 		Product product;
 		try {

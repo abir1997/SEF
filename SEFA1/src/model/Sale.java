@@ -13,6 +13,15 @@ public class Sale {
 	private Set<SalesLineItem> saleLineItems = new HashSet<SalesLineItem>();
 	double totalPaid;
 
+
+	public boolean contains (Product product) {
+		for (SalesLineItem sli : saleLineItems) {
+			if (sli.getProduct().equals(product)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public double getTotalPaid() {
 		return totalPaid;

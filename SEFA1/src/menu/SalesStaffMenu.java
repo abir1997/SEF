@@ -49,7 +49,7 @@ public class SalesStaffMenu {
 						String message = "Product Not Found!";
 
 						product = ProductDataAccess.products.get(pId);
-						if (!customer.getCart().getSaleLineItems().contains(product)) {
+						if (!customer.getCart().contains(product)) {
 							message = "Product not found in customer's cart!";
 							product = null;
 							break;

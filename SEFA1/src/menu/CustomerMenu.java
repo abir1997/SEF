@@ -17,7 +17,8 @@ import system.Util;
 public class CustomerMenu {
 	public static void customerMenu(Customer customer) {
 		String optionSelected = "";
-
+		Scanner userInput = new Scanner(System.in);
+		
 		while (!CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** CUSTOMER FUNCTIONS ***");
@@ -29,7 +30,7 @@ public class CustomerMenu {
 			System.out.printf("%-30s %s\n", CM_CHECK_DISCOUNTS.getTxt(), CM_CHECK_DISCOUNTS.getKey());
 			System.out.printf("%-30s %s\n", CM_RETURN_TO_LOGIN_SCREEN.getTxt(), CM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
-			Scanner userInput = new Scanner(System.in);
+
 
 			optionSelected = userInput.nextLine();
 			// This takes the user's input and will take them to the letter
@@ -54,6 +55,7 @@ public class CustomerMenu {
 
 			}
 		}
+		Util.close(userInput);
 	}
 	
 	

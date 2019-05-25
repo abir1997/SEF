@@ -8,15 +8,16 @@ import static enums.MenuOptions.WM_RETURN_TO_LOGIN_SCREEN;
 
 import java.util.Scanner;
 
-import dataAccess.DataStore;
 import dataAccess.ProductDataAccess;
 import enums.MenuOptions;
 import model.Product;
 import model.WareHouseStaff;
+import system.Util;
 
 public class WareHouseStaffMenu {
 	public static void wareHouseStaffMenu(WareHouseStaff wStaff) {
 		String optionSelected = "";
+		Scanner userInput = new Scanner(System.in);
 		
 		while (!MenuOptions.WM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
@@ -32,7 +33,6 @@ public class WareHouseStaffMenu {
 
 			// This takes the user's input and will take them to the letter
 			// option they chose
-			Scanner userInput = new Scanner(System.in);
 			optionSelected = userInput.nextLine();
 			boolean found = false;
 
@@ -41,18 +41,12 @@ public class WareHouseStaffMenu {
 				System.out.println("*** ADD PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
 
-				Scanner userInput1 = new Scanner(System.in);
 				System.out.println("Enter product ID: ");
-				String productID = userInput1.nextLine();
+				String productID = userInput.nextLine();
 
-				// For loop is used to check if the product ID already exists
-				// in the system
-				for (int i = 0; i < ProductDataAccess.products.size(); i++) {
-					if (ProductDataAccess.products.get(i).getProductID().equals(productID)) {
-						found = true;
-						System.out.println("Error - Product:  " + productID + " already exists in the system!");
-						break;
-					}
+				if (ProductDataAccess.products.containsKey(productID)) {
+					found = true;
+					System.out.println("Error - Product:  " + productID + " already exists in the system!");
 				}
 
 				if (found == false) {
@@ -65,9 +59,7 @@ public class WareHouseStaffMenu {
 
 					wStaff.addProduct(new Product(productID, quantity, price));
 
-					System.out.println("New Product: " + productID + " sucessfully added to the system!");
-					DataStore.saveProductData();
-					System.out.println();
+					System.out.println("New Product: " + productID + " sucessfully added to the system!\n");
 				}
 
 			} else if (MenuOptions.WM_LIST_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
@@ -77,10 +69,10 @@ public class WareHouseStaffMenu {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REMOVE PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
-				Scanner userInput1 = new Scanner(System.in);
-				boolean found3 = false;
+
+				found = false;
 				System.out.println("Enter productID: ");
-				String productID = userInput1.nextLine();
+				String productID = userInput.nextLine();
 
 				if (ProductDataAccess.removeProduct(productID)) {
 					System.out.println(productID + " sucessfully removed!");
@@ -88,8 +80,7 @@ public class WareHouseStaffMenu {
 					System.out.println("Product not found");
 				}
 
-
-				if (found3 == false) {
+				if (found == false) {
 					System.out.println(productID + " is not in the system!");
 				}
 
@@ -97,18 +88,16 @@ public class WareHouseStaffMenu {
 				System.out.println("\n------------------------------------------------------------------------");
 				System.out.println("*** REPLENISH PRODUCT ***");
 				System.out.println("------------------------------------------------------------------------\n");
-				boolean found1 = false;
-				Scanner userInput2 = new Scanner(System.in);
 				System.out.println("Enter productID: ");
-				String productID = userInput2.nextLine();
+				String productID = userInput.nextLine();
 
 				System.out.println("Enter replenish quantity: ");
-				int quantity = userInput2.nextInt();
+				int quantity = userInput.nextInt();
 
 				while (quantity <= 0) {
 					System.out.println("Please enter quantity again! It has to be greater than 0");
 					System.out.println("Enter replenish quantity: ");
-					quantity = userInput2.nextInt();
+					quantity = userInput.nextInt();
 				}
 
 				// For loop is used to check if the product ID already exists
@@ -129,5 +118,6 @@ public class WareHouseStaffMenu {
 
 			}
 		}
+		Util.close(userInput);
 	}
 }
