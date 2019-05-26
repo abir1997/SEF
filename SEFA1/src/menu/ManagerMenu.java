@@ -10,24 +10,39 @@ import static enums.MenuOptions.MM_LIST_TOP_PRODUCTS;
 import static enums.MenuOptions.MM_OFFER_DISCOUNTS;
 import static enums.MenuOptions.MM_REMOVE_PRODUCT;
 import static enums.MenuOptions.MM_REPLENISH_PRODUCT_QUANTITY;
+import static enums.MenuOptions.MM_REPORT_FAST_SELLING_PRODUCTS;
 import static enums.MenuOptions.MM_RETURN_TO_LOGIN_SCREEN;
 import static enums.MenuOptions.MM_UPDATE_PRODUCT;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
+import dataAccess.UserDataAccess;
 import exception.ProductNotFoundException;
+import main.Const;
+import model.Customer;
 import model.Manager;
 import model.Product;
-import report.Reports;
+import model.ProductSale;
+import model.Sale;
+import model.SalesLineItem;
 import system.Util;
 
 public class ManagerMenu {
+	private static Scanner userInput = new Scanner(System.in);
+
 	public static void managerMenu(Manager mgr) {
 		String optionSelected = "";
-		Scanner userInput = new Scanner(System.in);
+		
 		while (!optionSelected.equalsIgnoreCase("8")) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** MANAGER FUNCTION ***");
@@ -42,10 +57,10 @@ public class ManagerMenu {
 			System.out.printf("%-30s %s\n", MM_LIST_SUPPLIER_DETAILS.getTxt(), MM_LIST_SUPPLIER_DETAILS.getKey());
 			System.out.printf("%-30s %s\n", MM_OFFER_DISCOUNTS.getTxt(), MM_OFFER_DISCOUNTS.getKey());
 			System.out.printf("%-30s %s\n", MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt(), MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey());
-			
 			System.out.printf("%-30s %s\n", MM_GENERATE_SALES_REPORT.getTxt(), MM_GENERATE_SALES_REPORT.getKey());
 			System.out.printf("%-30s %s\n", MM_GENERATE_SUPPLY_REPORT.getTxt(), MM_GENERATE_SUPPLY_REPORT.getKey());
 			System.out.printf("%-30s %s\n", MM_LIST_TOP_PRODUCTS.getTxt(), MM_LIST_TOP_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", MM_REPORT_FAST_SELLING_PRODUCTS.getTxt(), MM_REPORT_FAST_SELLING_PRODUCTS.getKey());
 			System.out.printf("%-30s %s\n", MM_RETURN_TO_LOGIN_SCREEN.getTxt(), MM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
 
@@ -61,43 +76,41 @@ public class ManagerMenu {
 				removeProduct();
 			} else if (MM_REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
 				SuperMarketMenus.replenishProduct();
-			} else if (MM_LIST_SUPPLIER_DETAILS.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_LIST_SUPPLIER_DETAILS.getKey().equalsIgnoreCase(optionSelected)) {
 				boolean includeProducts = false;
 				System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
-			} else if (MM_OFFER_DISCOUNTS.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_OFFER_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
 				addBulkDiscount();
-			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey().equalsIgnoreCase(optionSelected)) {
 				autoReplenishPurchaseOrder();
-			}else if (MM_GENERATE_SALES_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
+			}else if (MM_GENERATE_SALES_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 				//TODO
-				new Reports.generateSalesReport();
-			} else if (MM_GENERATE_SUPPLY_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_GENERATE_SUPPLY_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 
-			} else if (MM_LIST_TOP_PRODUCTS.getTxt().equalsIgnoreCase(optionSelected)) {
-
-			} else if (MM_RETURN_TO_LOGIN_SCREEN.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+				
+			} else if (MM_REPORT_FAST_SELLING_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+				reportFastSellingProducts();
+			} else if (MM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
 			} else {
 				System.out.println("\nInvalid input");
 			}
 		}
-		Util.close(userInput);
-
 	}
 	
 	private static void autoReplenishPurchaseOrder() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** Purchase Order for the following low stock items will be submitted  ***");
 		System.out.println("------------------------------------------------------------------------\n");
-		Set<Product> replenishableProducts = ProductDataAccess.listProductsBelowReplenish();
+		Set<Product> replenishableProducts = ProductDataAccess.findProductsBelowReplenish();
 		for (Product product : replenishableProducts) {
 			System.out.printf("%s %s\n", product.getProductId(), product.getName(), product.getOrderQty(), product.getReplenishLevel(), product.getWarehouseQuantity());
 		}
 	}
 
 	public static void removeProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** REMOVE PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -115,11 +128,9 @@ public class ManagerMenu {
 		if (found == false) {
 			System.out.println(productID + " is not in the system!");
 		}
-		Util.close(userInput);
 	} 
 
 	public static void addProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** ADD PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -135,26 +146,24 @@ public class ManagerMenu {
 			String name = userInput.nextLine();
 
 			System.out.println("Enter product quantity:");
-			int quantity = userInput.nextInt();
+			int quantity = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter replenish Level:");
-			int replenishLvl = userInput.nextInt();
+			int replenishLvl = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter order Quantity:");
-			int orderQty = userInput.nextInt();
+			int orderQty = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter product price:");
-			double price = userInput.nextDouble();
+			double price = Util.readPositiveDouble(userInput);
 
 			ProductDataAccess.addProduct(new Product(productID, name, quantity, replenishLvl, orderQty, price));
 
 			System.out.println("New Product: " + productID + " sucessfully added to the system!\n");
 		}
-		Util.close(userInput);
 	}
 	
 	public static void updateProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** UPDATE PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -167,16 +176,16 @@ public class ManagerMenu {
 		else {
 
 			System.out.println("Enter product quantity:");
-			int quantity = userInput.nextInt();
+			int quantity = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter replenish Level:");
-			int replenishLvl = userInput.nextInt();
+			int replenishLvl = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter order Quantity:");
-			int orderQty = userInput.nextInt();
+			int orderQty = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter product price:");
-			double price = userInput.nextDouble();
+			double price = Util.readPositiveDouble(userInput);
 
 			try {
 				ProductDataAccess.updateProduct(productID, quantity, replenishLvl, orderQty, price);
@@ -185,15 +194,13 @@ public class ManagerMenu {
 				System.out.println("Error - Product:  " + productID + " does not exist in the system!");
 			}
 		}
-		Util.close(userInput);
 	}
 
 	// method to offer specific discount percentages (4)
 	public static void addBulkDiscount() {
 		System.out.println("Please enter a percentage amount to set the discount to:" + "\n" + "15%" + "\n" + "20%"
 				+ "\n" + "Custom Discount");
-		Scanner userInput = new Scanner(System.in);
-		
+			
 		System.out.println("Enter product ID: ");
 		String productId = userInput.nextLine();
 
@@ -202,10 +209,10 @@ public class ManagerMenu {
 		}
 		else {
 			System.out.println("Enter product quantity for bulk discount:");
-			int qty = userInput.nextInt();
+			int qty = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter discount percentage :");
-			int percentage = userInput.nextInt();
+			int percentage = Util.readPositiveInt(userInput);
 
 			if (percentage > 100 || percentage < 0) {
 				System.out.println("Error: Percentage is not valid amount");
@@ -220,6 +227,70 @@ public class ManagerMenu {
 				}
 			}
 		}
-		Util.close(userInput);
+	}
+	
+	/**
+	 * Look for the sales in the past two weeks and report on top 10 selling products in volume and 10 top selling in value separately 
+	 */
+	public static void reportFastSellingProducts() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** FAST SELLING PRODUCTS ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		Set<Customer> customers = UserDataAccess.getAllCustomers();
+
+		// create the set of sales in recent times
+		Map<String, ProductSale> recentProducts = new HashMap<>();
+
+		//Created an aggregated hashMap for product's sales
+		for (Customer customer : customers) {
+			for (Sale sale : customer.getPreviousSales()) {
+				if (LocalDateTime.now().minusDays(Const.TOP_SELLING_REPORT_DAYS).isBefore(sale.getDateTime())) {
+					for (SalesLineItem sli: sale.getSaleLineItems()) {
+						
+						String productId = sli.getProduct().getProductId();
+						if (!recentProducts.containsKey(productId)) {
+							recentProducts.put(productId, new ProductSale(sli.getProduct(), sli.getQuantity(),
+									sli.getProduct().getPrice() * sli.getQuantity()));
+						} else {
+							ProductSale productSale = recentProducts.get(productId);
+							productSale.addTotalVolume(sli.getQuantity());
+							productSale.addTotalValue(sli.getProduct().getPrice() * sli.getQuantity());
+						}
+					}
+				}
+			}
+		}
+
+		System.out.println("*** TOP 10 PRODUCTS BY VOLUME ***");
+		List<ProductSale> productSaleSet = new ArrayList<>();
+		productSaleSet.addAll(recentProducts.values());
+		Collections.sort(productSaleSet, ProductSale.VOLUME_COMPARATOR);
+		
+		int count = 0;
+		for (ProductSale productSale : productSaleSet) {
+			if (count >= Const.TOP_SELLING_REPORT_NUMBER ) {
+				break;
+			}
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
+					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalVolume(), productSale.getTotalValue());
+			count++;
+		}
+		
+		
+		System.out.println("\n*** TOP 10 PRODUCTS BY VALUE ***");
+		productSaleSet.clear();
+		productSaleSet.addAll(recentProducts.values());
+		Collections.sort(productSaleSet, ProductSale.VALUE_COMPARATOR);
+		count = 0;
+		for (ProductSale productSale : productSaleSet) {
+			if (count >= Const.TOP_SELLING_REPORT_NUMBER ) {
+				break;
+			}
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
+					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalVolume(), productSale.getTotalValue());
+			count++;
+		}
 	}
 }

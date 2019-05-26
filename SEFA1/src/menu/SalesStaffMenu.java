@@ -10,10 +10,10 @@ import model.SalesStaff;
 import system.Util;
 
 public class SalesStaffMenu {
-	
+	private static Scanner userInput = new Scanner(System.in);	
 	public static void salesStaffMenu(SalesStaff sStaff) {
 		String optionSelected = "";
-		Scanner userInput = new Scanner(System.in);
+
 		while (!optionSelected.equalsIgnoreCase("3")) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** SALESSTAFF FUNCTIONS ***");
@@ -32,7 +32,7 @@ public class SalesStaffMenu {
 
 			if (optionSelected.equalsIgnoreCase("1")) {
 				System.out.println("Please enter the id of Customer");
-				int id = userInput.nextInt();
+				int id = Util.readPositiveInt(userInput);
 				customer = null;
 				if (UserDataAccess.users.get(id) instanceof Customer) {
 					customer = (Customer) UserDataAccess.users.get(id);
@@ -96,6 +96,5 @@ public class SalesStaffMenu {
 
 			}
 		}
-		Util.close(userInput);
 	}
 }

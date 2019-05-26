@@ -8,12 +8,12 @@ import java.util.Scanner;
 
 import enums.MenuOptions;
 import model.WareHouseStaff;
-import system.Util;
 
 public class WareHouseStaffMenu {
+	private static Scanner userInput = new Scanner(System.in);
 	public static void wareHouseStaffMenu(WareHouseStaff wStaff) {
 		String optionSelected = "";
-		Scanner userInput = new Scanner(System.in);
+
 		
 		while (!MenuOptions.WM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
@@ -43,8 +43,5 @@ public class WareHouseStaffMenu {
 
 			}
 		}
-		Util.close(userInput);
 	}
-
-
 }

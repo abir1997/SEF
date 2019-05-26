@@ -27,6 +27,20 @@ public class Supplier implements Serializable {
 		this.address = address;
 	}
 
+	@Override
+	public String toString() {
+		return "Supplier [name=" + name + ", id=" + id + ", email=" + email + ", phone=" + phone + ", address="
+				+ address + ", products=" + productsSummaryStr() + "]";
+	}
+	
+	public String productsSummaryStr() {
+		StringBuffer sb = new StringBuffer();
+		for (Product prd : products) {
+			sb.append(prd.getProductId() + ", ");
+		}
+		return sb.toString();
+	}
+	
 	// get methods
 	public String getName() {
 		return name;

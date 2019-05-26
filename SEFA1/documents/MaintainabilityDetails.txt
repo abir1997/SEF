@@ -1,0 +1,22 @@
+How the program is extensible and maintainable:
+
+* used proper names for variables to make the program more readable.
+
+* commenting the code
+
+* Using Enums for menu options to easily extend and modify the text and the options
+
+* Avoiding magic text/numbers and usiong constants to improve readability and maintainability
+
+* Using Constants from a specific Const class to have program wide constants in one place for easy access and change. 
+	(These can be further externalised in a text file and read when the application starts)
+
+
+* using junit tests for regression testing the application.
+
+* using MVC pattern to seperate the concerns. Seperated into 
+	The menu and user interactions are separate (user input)
+	System controller and Data access layer 
+	Model classes (Customer, CreditCard etc)
+	
+* separated application functions by splitting them into small cohesive functions looking after a specific activity to avoid duplication of the code that makes it more difficult to maintain

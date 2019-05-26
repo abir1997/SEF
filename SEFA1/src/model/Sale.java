@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,7 +9,10 @@ import java.util.Set;
 import exception.ProductNotFoundException;
 import main.Const;
 
-public class Sale {
+public class Sale implements Serializable {
+	
+	private static final long serialVersionUID = 2479689347021814758L;
+	
 	private LocalDateTime dateTime;
 	private Set<SalesLineItem> saleLineItems = new HashSet<SalesLineItem>();
 	private double totalPaid;
@@ -65,7 +69,7 @@ public class Sale {
 	}
 
 	public Set<SalesLineItem> getSaleLineItems() {
-		return Collections.unmodifiableSet(saleLineItems);
+		return saleLineItems;
 	}
 
 	public LocalDateTime getDateTime() {
@@ -89,26 +93,14 @@ public class Sale {
 		return saleLineItems.remove(sli);
 	}
 	
-	public void addToCart(Product product, int quantity) {
-		SalesLineItem sli = findSalesLineItem(product);
-		if (sli != null) {
-			sli.addQuantity(quantity);
-		} else {
-			sli = new SalesLineItem(product, quantity);
-			saleLineItems.add(sli);
-		}
-	}
 
-	public void emptyCart() {
-		saleLineItems.clear();
-	}
 
 	/**
 	 * 
 	 * @param product
 	 * @return the matching SalesLineItem or null if not found
 	 */
-	private SalesLineItem findSalesLineItem(Product product) {
+	public SalesLineItem findSalesLineItem(Product product) {
 		for	(SalesLineItem sli : saleLineItems) {
 			if (sli.getProduct().equals(product)) {
 				return sli;

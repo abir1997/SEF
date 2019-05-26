@@ -1,6 +1,11 @@
 package model;
 
-public class SalesLineItem {
+import java.io.Serializable;
+
+public class SalesLineItem implements Serializable{
+	
+	private static final long serialVersionUID = -1590511947713463343L;
+	
 	private int quantity;
 	private Product product;
 	
