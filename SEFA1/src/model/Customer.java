@@ -40,10 +40,6 @@ public class Customer extends User {
 		this.postCode = postCode;
 	}
 
-	public void emptyCart() {
-		cart.emptyCart();
-	}
-
 	public double checkout() {
 		double cost = cart.calcCheckoutCost();
 		int pts = cart.calcPts();
@@ -56,6 +52,23 @@ public class Customer extends User {
 		return cost;
 	}
 	
+	public void addToCart(Product product, int quantity) {
+		if (cart == null) {
+			cart = new Sale();
+		}
+		SalesLineItem sli = cart.findSalesLineItem(product);
+		if (sli != null) {
+			sli.addQuantity(quantity);
+		} else {
+			sli = new SalesLineItem(product, quantity);
+			cart.getSaleLineItems().add(sli);
+		}
+	}
+
+	public void emptyCart() {
+		cart.getSaleLineItems().clear();
+	}
+	
 	public boolean addToCart(String productID, int qty) {
 		Product product;
 		try {
@@ -63,7 +76,7 @@ public class Customer extends User {
 			if (product.getWarehouseQuantity() < qty) {
 				return false;
 			}
-			cart.addToCart(product, qty);
+			addToCart(product, qty);
 			return true;
 		} catch (ProductNotFoundException e) {
 			return false;
