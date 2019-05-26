@@ -12,12 +12,13 @@ import dataAccess.ProductDataAccess;
 import model.Customer;
 import model.Discount;
 import model.Product;
-import system.Util;
 
 public class CustomerMenu {
+	
+	private static Scanner userInput = new Scanner(System.in);
 	public static void customerMenu(Customer customer) {
 		String optionSelected = "";
-		Scanner userInput = new Scanner(System.in);
+		
 		
 		while (!CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 			System.out.println("\n------------------------------------------------------------------------");
@@ -55,29 +56,24 @@ public class CustomerMenu {
 
 			}
 		}
-		Util.close(userInput);
 	}
 	
 	
 	private static void checkPrice() {
-		Scanner userInput1 = new Scanner(System.in);
 		System.out.println("Enter productId you want to check price: ");
-		String productID = userInput1.nextLine();
+		String productID = userInput.nextLine();
 		try {
 		double price = ProductDataAccess.getProductPrice(productID);
 			System.out.println("the price of " + productID + " is " + price);
 		}
 		catch (Exception e) {
 			System.out.println("this product does not exist");
-		} finally {
-			Util.close(userInput1);
-		}
+		} 
 	}
 	
 	private static void checkDiscounts() {
-		Scanner userInput1 = new Scanner(System.in);
 		System.out.println("Enter productId you want to check Discount: ");
-		String productID = userInput1.nextLine();
+		String productID = userInput.nextLine();
 		try {
 			Product prd = ProductDataAccess.getProduct(productID);
 			System.out.println("Available Discounts of " + productID + " are: \n" );
@@ -88,19 +84,15 @@ public class CustomerMenu {
 		catch (Exception e) {
 			System.out.println("this product does not exist");
 		}
-		finally {
-			Util.close(userInput1);
-		}
 	}
 	
 	private static void purchaseMenu(Customer customer) {
-		Scanner userInput1 = new Scanner(System.in);
 		System.out.println("Enter productId you want to buy: ");
-		String productID = userInput1.nextLine();
+		String productID = userInput.nextLine();
 
 		if (ProductDataAccess.products.containsKey(productID)) {
 			System.out.println("Enter amount of product you want to buy: ");
-			int amount = userInput1.nextInt();
+			int amount = userInput.nextInt();
 
 			if (amount <= ProductDataAccess.products.get(productID).getWarehouseQuantity()) {
 				customer.addToCart(productID, amount);
@@ -111,7 +103,6 @@ public class CustomerMenu {
 		} else {
 			System.out.println("this productID is not exist");
 		}
-		Util.close(userInput1);
 	}
 
 }

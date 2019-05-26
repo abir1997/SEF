@@ -27,7 +27,7 @@ public abstract class User implements Serializable{
 	}
 
 	public String toString() {
-		return String.format("Name : %s\nId : %d\n,Password : %s", name, id, pwd);
+		return String.format("Name : %s, Id : %d, Password : %s, type:%s", name, id, pwd, this.getClass());
 	}
 
 	@Override

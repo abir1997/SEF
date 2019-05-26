@@ -2,7 +2,6 @@ package menu;
 
 import java.util.Scanner;
 
-import dataAccess.DataStore;
 import dataAccess.DataStoreFactory;
 import dataAccess.ProductDataAccess;
 import dataAccess.UserDataAccess;
@@ -13,14 +12,13 @@ import model.Product;
 import model.SalesStaff;
 import model.User;
 import model.WareHouseStaff;
-import system.Util;
 
 public class SuperMarketMenus {
 
 	private User loggedInUser = null;
-
+	private static Scanner userInput = new Scanner(System.in);
+	
 	public void mainMenu() {
-		Scanner userInput = new Scanner(System.in);
 		String optionSelected = "";
 		while (!optionSelected.equalsIgnoreCase("3")) {
 			System.out.println("\n------------------------------------------------------------------------");
@@ -60,15 +58,14 @@ public class SuperMarketMenus {
 				System.out.println("\nInvalid input");
 
 			}
-			Util.close(userInput);
 		}
 	}
 
 
-
+	
 	private void registerMenu() {
 		String optionSelected = "";
-		Scanner userInput = new Scanner(System.in);
+
 		while (!optionSelected.equalsIgnoreCase("5")) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** REGISTRATION SCREEN ***");
@@ -85,7 +82,6 @@ public class SuperMarketMenus {
 
 			// This takes the user's input and will take them to the letter
 			// option they chose
-
 			optionSelected = userInput.nextLine();
 
 			if (optionSelected.equalsIgnoreCase("1")) {
@@ -109,7 +105,6 @@ public class SuperMarketMenus {
 				System.out.println("\nInvalid input");
 			}
 		}
-		Util.close(userInput);
 	}
 
 	private void registerManagerMenu() {
@@ -119,16 +114,13 @@ public class SuperMarketMenus {
 
 		System.out.println("Fill in your details to create a manager account! \n");
 
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("Enter id: ");
 		int id = userInput.nextInt();
 
-		Util.close(userInput);
 		// For loop is used to check if the email already exists
 		// in the system
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - id:  " + id + " already exists in the system!");
-			Util.close(userInput);
 			return;
 		}
 
@@ -142,7 +134,6 @@ public class SuperMarketMenus {
 		UserDataAccess.users.put(id, manager);
 
 		System.out.println("New Manager: " + id + " sucessfully added to the system!\n");
-		Util.close(userInput);
 	}
 
 	private void registerWareHouseStaffMenu() {
@@ -152,12 +143,10 @@ public class SuperMarketMenus {
 
 		System.out.println("Fill in your details to create a warehousestaff account! \n");
 
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("Enter id: ");
 		int id = userInput.nextInt();
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
-			Util.close(userInput);
 			return;
 		}
 
@@ -171,7 +160,6 @@ public class SuperMarketMenus {
 		UserDataAccess.users.put(id, wareHouseStaff);
 
 		System.out.println("New WareHouseStaff: " + id + " sucessfully added to the system!\n");
-		Util.close(userInput);
 	}
 
 	private void registerSalesStaffMenu() {
@@ -181,14 +169,13 @@ public class SuperMarketMenus {
 
 		System.out.println("Fill in your details to create a SalesStaff account! \n");
 
-		Scanner userInput = new Scanner(System.in);
-		System.out.println("Enter email: ");
+
 		System.out.println("Enter id: ");
 		int id = userInput.nextInt();
+		userInput.nextLine();
 
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
-			Util.close(userInput);
 			return;
 		}
 
@@ -203,7 +190,6 @@ public class SuperMarketMenus {
 
 		System.out.println("New SalesStaff: " + id + " sucessfully added to the system!");
 		System.out.println();
-		Util.close(userInput);
 	}
 
 	private void registerCustomerMenu() {
@@ -213,7 +199,6 @@ public class SuperMarketMenus {
 
 		System.out.println("Fill in your details to create a customer account! \n");
 
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("Enter Id: ");
 		int id = userInput.nextInt();
 
@@ -221,7 +206,6 @@ public class SuperMarketMenus {
 		// in the system
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
-			Util.close(userInput);
 			return;
 		}
 
@@ -238,7 +222,6 @@ public class SuperMarketMenus {
 		UserDataAccess.users.put(id, customer);
 
 		System.out.println("New customer: " + id + " sucessfully added to the system!\n");
-		Util.close(userInput);
 	}
 
 	private void userLoginMenu() {
@@ -247,12 +230,11 @@ public class SuperMarketMenus {
 		System.out.println("------------------------------------------------------------------------\n");
 		System.out.println("Please enter your login details: \n");
 
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("Enter id: ");
 		int id = userInput.nextInt();
+		userInput.nextLine();
 		System.out.println("Enter password: ");
 		String password = userInput.nextLine();
-		Util.close(userInput);
 		if (UserDataAccess.users.get(id).getPwd().equals(password)) {
 
 			if (UserDataAccess.users.get(id) instanceof Customer) {
@@ -283,7 +265,6 @@ public class SuperMarketMenus {
 
 
 	static void replenishProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** REPLENISH PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -306,7 +287,6 @@ public class SuperMarketMenus {
 		} else if (!ProductDataAccess.products.containsKey(productID)) {
 			System.out.println("Product is not found");
 		}
-		Util.close(userInput);
 	}
 
 	public static void listProductsInformation() {
@@ -316,6 +296,7 @@ public class SuperMarketMenus {
 
 		for (Product product: ProductDataAccess.getAllProducts()) {
 			System.out.println(product);
+			System.out.println();
 		}
 	}
 

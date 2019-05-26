@@ -32,14 +32,13 @@ import model.Product;
 import model.ProductSale;
 import model.Sale;
 import model.SalesLineItem;
-import system.Util;
 
 public class ManagerMenu {
-
+	private static Scanner userInput = new Scanner(System.in);
 
 	public static void managerMenu(Manager mgr) {
 		String optionSelected = "";
-		Scanner userInput = new Scanner(System.in);
+		
 		while (!optionSelected.equalsIgnoreCase("8")) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** MANAGER FUNCTION ***");
@@ -95,8 +94,6 @@ public class ManagerMenu {
 				System.out.println("\nInvalid input");
 			}
 		}
-		Util.close(userInput);
-
 	}
 	
 	private static void autoReplenishPurchaseOrder() {
@@ -110,7 +107,6 @@ public class ManagerMenu {
 	}
 
 	public static void removeProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** REMOVE PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -128,11 +124,9 @@ public class ManagerMenu {
 		if (found == false) {
 			System.out.println(productID + " is not in the system!");
 		}
-		Util.close(userInput);
 	} 
 
 	public static void addProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** ADD PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -163,11 +157,9 @@ public class ManagerMenu {
 
 			System.out.println("New Product: " + productID + " sucessfully added to the system!\n");
 		}
-		Util.close(userInput);
 	}
 	
 	public static void updateProduct() {
-		Scanner userInput = new Scanner(System.in);
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** UPDATE PRODUCT ***");
 		System.out.println("------------------------------------------------------------------------\n");
@@ -198,15 +190,13 @@ public class ManagerMenu {
 				System.out.println("Error - Product:  " + productID + " does not exist in the system!");
 			}
 		}
-		Util.close(userInput);
 	}
 
 	// method to offer specific discount percentages (4)
 	public static void addBulkDiscount() {
 		System.out.println("Please enter a percentage amount to set the discount to:" + "\n" + "15%" + "\n" + "20%"
 				+ "\n" + "Custom Discount");
-		Scanner userInput = new Scanner(System.in);
-		
+			
 		System.out.println("Enter product ID: ");
 		String productId = userInput.nextLine();
 
@@ -233,7 +223,6 @@ public class ManagerMenu {
 				}
 			}
 		}
-		Util.close(userInput);
 	}
 	
 	/**
@@ -296,6 +285,5 @@ public class ManagerMenu {
 					productSale.getTotalValue(), productSale.getTotalVolume());
 			count++;
 		}
-
 	}
 }
