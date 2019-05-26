@@ -173,7 +173,6 @@ public class SuperMarketMenus {
 
 		System.out.println("Enter id: ");
 		int id = Util.readPositiveInt(userInput);
-		userInput.nextLine();
 
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
@@ -233,7 +232,6 @@ public class SuperMarketMenus {
 
 		System.out.println("Enter id: ");
 		int id = Util.readPositiveInt(userInput);
-		userInput.nextLine();
 		System.out.println("Enter password: ");
 		String password = userInput.nextLine();
 		if (UserDataAccess.users.get(id).getPwd().equals(password)) {

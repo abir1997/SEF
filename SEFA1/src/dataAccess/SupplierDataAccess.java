@@ -49,7 +49,7 @@ public class SupplierDataAccess {
 		StringBuffer detailsSb = new StringBuffer();
 		for (Supplier supplier : SupplierDataAccess.getSuppliers()) {
 			detailsSb.append(supplier.getDetails(includeProducts));
-			detailsSb.append("\n");
+			detailsSb.append("\n\n");
 		}
 		return detailsSb.toString();
 	}
