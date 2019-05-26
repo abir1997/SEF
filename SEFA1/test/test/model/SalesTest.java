@@ -1,21 +1,16 @@
 package test.model;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import dataAccess.ProductDataAccess;
 import exception.ProductNotFoundException;
 import model.Customer;
 import model.CustomerCard;
 import model.Product;
 import model.Sale;
-import model.SalesLineItem;
 
 public class SalesTest {
 
@@ -30,10 +25,6 @@ public class SalesTest {
 	
 	@Before
 	public void beforTest() {
-		ProductDataAccess.products.clear();
-		ProductDataAccess.products.put("p1",p1 );
-		ProductDataAccess.products.put("p2",p2 );
-		ProductDataAccess.products.put("p3",p3 );
 		
 		sales = new Sale();
 		sales.getSaleLineItems().add(p1,1);
@@ -111,6 +102,7 @@ public class SalesTest {
 	}
 
 	
+
 	
 	
 //	@Test
