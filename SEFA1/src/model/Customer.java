@@ -70,7 +70,7 @@ public class Customer extends User {
 		return cost;
 	}
 
-	public void addToCart(Product product, int quantity) {
+	private void addToCart(Product product, int quantity) {
 		if (cart == null) {
 			cart = new Sale();
 		}

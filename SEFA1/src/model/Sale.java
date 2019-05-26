@@ -95,7 +95,27 @@ public class Sale implements Serializable {
 		return saleLineItems.remove(sli);
 	}
 	
+	public boolean decreaseProduct(Product product,int qty) {
+		SalesLineItem sli = findSalesLineItem(product);
+		if(sli != null) {
+		sli.setQuantity(qty);
+		return true;
+		}else {
+			System.out.println("Product Not found");
+			return false;
+		}
+	}
+	
 
+	public int totalItems() {
+		int counter = 0;
+		for(SalesLineItem sli : saleLineItems) {
+			if(sli != null) {
+				counter += sli.getQuantity();
+			}
+		}
+		return counter;
+	}
 	public void removeAllProducts() {
 		saleLineItems.clear();
 	}
