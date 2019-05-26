@@ -10,24 +10,33 @@ import static enums.MenuOptions.MM_LIST_TOP_PRODUCTS;
 import static enums.MenuOptions.MM_OFFER_DISCOUNTS;
 import static enums.MenuOptions.MM_REMOVE_PRODUCT;
 import static enums.MenuOptions.MM_REPLENISH_PRODUCT_QUANTITY;
+import static enums.MenuOptions.MM_REPORT_FAST_SELLING_PRODUCTS;
 import static enums.MenuOptions.MM_RETURN_TO_LOGIN_SCREEN;
 import static enums.MenuOptions.MM_UPDATE_PRODUCT;
 
-import java.util.HashSet;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
 import dataAccess.UserDataAccess;
 import exception.ProductNotFoundException;
+import main.Const;
 import model.Customer;
 import model.Manager;
 import model.Product;
+import model.ProductSale;
 import model.Sale;
+import model.SalesLineItem;
 import system.Util;
 
 public class ManagerMenu {
+
+
 	public static void managerMenu(Manager mgr) {
 		String optionSelected = "";
 		Scanner userInput = new Scanner(System.in);
@@ -45,10 +54,10 @@ public class ManagerMenu {
 			System.out.printf("%-30s %s\n", MM_LIST_SUPPLIER_DETAILS.getTxt(), MM_LIST_SUPPLIER_DETAILS.getKey());
 			System.out.printf("%-30s %s\n", MM_OFFER_DISCOUNTS.getTxt(), MM_OFFER_DISCOUNTS.getKey());
 			System.out.printf("%-30s %s\n", MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt(), MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey());
-			
 			System.out.printf("%-30s %s\n", MM_GENERATE_SALES_REPORT.getTxt(), MM_GENERATE_SALES_REPORT.getKey());
 			System.out.printf("%-30s %s\n", MM_GENERATE_SUPPLY_REPORT.getTxt(), MM_GENERATE_SUPPLY_REPORT.getKey());
 			System.out.printf("%-30s %s\n", MM_LIST_TOP_PRODUCTS.getTxt(), MM_LIST_TOP_PRODUCTS.getKey());
+			System.out.printf("%-30s %s\n", MM_REPORT_FAST_SELLING_PRODUCTS.getTxt(), MM_REPORT_FAST_SELLING_PRODUCTS.getKey());
 			System.out.printf("%-30s %s\n", MM_RETURN_TO_LOGIN_SCREEN.getTxt(), MM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
 
@@ -64,20 +73,22 @@ public class ManagerMenu {
 				removeProduct();
 			} else if (MM_REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
 				SuperMarketMenus.replenishProduct();
-			} else if (MM_LIST_SUPPLIER_DETAILS.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_LIST_SUPPLIER_DETAILS.getKey().equalsIgnoreCase(optionSelected)) {
 				boolean includeProducts = false;
 				System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
-			} else if (MM_OFFER_DISCOUNTS.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_OFFER_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
 				addBulkDiscount();
-			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey().equalsIgnoreCase(optionSelected)) {
 				autoReplenishPurchaseOrder();
-			}else if (MM_GENERATE_SALES_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
+			}else if (MM_GENERATE_SALES_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 				//TODO
-			} else if (MM_GENERATE_SUPPLY_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_GENERATE_SUPPLY_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 
-			} else if (MM_LIST_TOP_PRODUCTS.getTxt().equalsIgnoreCase(optionSelected)) {
-
-			} else if (MM_RETURN_TO_LOGIN_SCREEN.getTxt().equalsIgnoreCase(optionSelected)) {
+			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+				
+			} else if (MM_REPORT_FAST_SELLING_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
+				reportFastSellingProducts();
+			} else if (MM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
 			} else {
@@ -226,19 +237,65 @@ public class ManagerMenu {
 	}
 	
 	/**
-	 * Look for the sales in the past two weeks and report on top selling products in volume and top selling in value separately 
+	 * Look for the sales in the past two weeks and report on top 10 selling products in volume and 10 top selling in value separately 
 	 */
-	public static void reportTrendingSales() {
+	public static void reportFastSellingProducts() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** FAST SELLING PRODUCTS ***");
 		System.out.println("------------------------------------------------------------------------\n");
 		Set<Customer> customers = UserDataAccess.getAllCustomers();
 
-		//create the list of sales in the past two weeks		
-		Set<Sale> sales = new HashSet<>(); 
+		// create the set of sales in recent times
+		Map<String, ProductSale> recentProducts = new HashMap<>();
 
-		for (Customer customer: customers) {
-
+		//Created an aggregated hashMap for product's sales
+		for (Customer customer : customers) {
+			for (Sale sale : customer.getPreviousSales()) {
+				if (LocalDateTime.now().minusDays(Const.TOP_SELLING_REPORT_DAYS).isAfter(sale.getDateTime())) {
+					for (SalesLineItem sli: sale.getSaleLineItems()) {
+						
+						String productId = sli.getProduct().getProductId();
+						if (!recentProducts.containsKey(productId)) {
+							recentProducts.put(productId, new ProductSale(sli.getProduct(), sli.getQuantity(),
+									sli.getProduct().getPrice() * sli.getQuantity()));
+						} else {
+							ProductSale productSale = recentProducts.get(productId);
+							productSale.addTotalVolume(sli.getQuantity());
+							productSale.addTotalValue(sli.getProduct().getPrice() * sli.getQuantity());
+						}
+					}
+				}
+			}
 		}
+		
+		System.out.println("*** TOP 10 PRODUCTS BY VOLUME ***");
+		TreeSet<ProductSale> productSaleSet = new TreeSet<>(ProductSale.VOLUME_COMPARATOR);
+		productSaleSet.addAll(recentProducts.values());
+
+		int count = 0;
+		for (ProductSale productSale : productSaleSet) {
+			if (count >= Const.TOP_SELLING_REPORT_NUMBER ) {
+				break;
+			}
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f", productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalVolume(), productSale.getTotalValue());
+			count++;
+		}
+		
+		
+		System.out.println("*** TOP 10 PRODUCTS BY VALUE ***");
+		productSaleSet = new TreeSet<>(ProductSale.VALUE_COMPARATOR);
+		productSaleSet.addAll(recentProducts.values());
+
+		count = 0;
+		for (ProductSale productSale : productSaleSet) {
+			if (count >= Const.TOP_SELLING_REPORT_NUMBER ) {
+				break;
+			}
+			System.out.printf("%10s: name: %30s, Total Value: %8.2f, Total volume: %6d", productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalValue(), productSale.getTotalVolume());
+			count++;
+		}
+
 	}
 }

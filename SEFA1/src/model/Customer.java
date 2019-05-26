@@ -69,6 +69,11 @@ public class Customer extends User {
 			return false;
 		}
 	}
+
+
+	public List<Sale> getPreviousSales() {
+		return previousSales;
+	}
 	
 
 //	public void payment() {

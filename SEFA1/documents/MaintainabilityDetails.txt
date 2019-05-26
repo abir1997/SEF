@@ -1,8 +1,16 @@
 How the program is extensible and maintainable:
 
+* used proper names for variables to make the program more readable.
+
+* commenting the code
+
 * Using Enums for menu options to easily extend and modify the text and the options
 
-* Using Constants in an external class. Avoiding magic text/numbers to improve readability and maintainability
+* Avoiding magic text/numbers and usiong constants to improve readability and maintainability
+
+* Using Constants from a specific Const class to have program wide constants in one place for easy access and change. 
+	(These can be further externalised in a text file and read when the application starts)
+
 
 * using junit tests for regression testing the application.
 
