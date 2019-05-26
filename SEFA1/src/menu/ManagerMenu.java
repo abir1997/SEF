@@ -15,7 +15,10 @@ import static enums.MenuOptions.MM_RETURN_TO_LOGIN_SCREEN;
 import static enums.MenuOptions.MM_UPDATE_PRODUCT;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -241,7 +244,7 @@ public class ManagerMenu {
 		//Created an aggregated hashMap for product's sales
 		for (Customer customer : customers) {
 			for (Sale sale : customer.getPreviousSales()) {
-				if (LocalDateTime.now().minusDays(Const.TOP_SELLING_REPORT_DAYS).isAfter(sale.getDateTime())) {
+				if (LocalDateTime.now().minusDays(Const.TOP_SELLING_REPORT_DAYS).isBefore(sale.getDateTime())) {
 					for (SalesLineItem sli: sale.getSaleLineItems()) {
 						
 						String productId = sli.getProduct().getProductId();
@@ -257,33 +260,36 @@ public class ManagerMenu {
 				}
 			}
 		}
-		
-		System.out.println("*** TOP 10 PRODUCTS BY VOLUME ***");
-		TreeSet<ProductSale> productSaleSet = new TreeSet<>(ProductSale.VOLUME_COMPARATOR);
-		productSaleSet.addAll(recentProducts.values());
 
+		System.out.println("*** TOP 10 PRODUCTS BY VOLUME ***");
+		List<ProductSale> productSaleSet = new ArrayList<>();
+		productSaleSet.addAll(recentProducts.values());
+		Collections.sort(productSaleSet, ProductSale.VOLUME_COMPARATOR);
+		
 		int count = 0;
 		for (ProductSale productSale : productSaleSet) {
 			if (count >= Const.TOP_SELLING_REPORT_NUMBER ) {
 				break;
 			}
-			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f", productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
+					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
 					productSale.getTotalVolume(), productSale.getTotalValue());
 			count++;
 		}
 		
 		
-		System.out.println("*** TOP 10 PRODUCTS BY VALUE ***");
-		productSaleSet = new TreeSet<>(ProductSale.VALUE_COMPARATOR);
+		System.out.println("\n*** TOP 10 PRODUCTS BY VALUE ***");
+		productSaleSet.clear();
 		productSaleSet.addAll(recentProducts.values());
-
+		Collections.sort(productSaleSet, ProductSale.VALUE_COMPARATOR);
 		count = 0;
 		for (ProductSale productSale : productSaleSet) {
 			if (count >= Const.TOP_SELLING_REPORT_NUMBER ) {
 				break;
 			}
-			System.out.printf("%10s: name: %30s, Total Value: %8.2f, Total volume: %6d", productSale.getProduct().getProductId(), productSale.getProduct().getName(),
-					productSale.getTotalValue(), productSale.getTotalVolume());
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
+					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalVolume(), productSale.getTotalValue());
 			count++;
 		}
 	}
