@@ -86,7 +86,7 @@ public class ManagerMenu {
 			}else if (MM_GENERATE_SALES_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 				//TODO
 			} else if (MM_GENERATE_SUPPLY_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
-
+				
 			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				
 			} else if (MM_REPORT_FAST_SELLING_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
@@ -94,6 +94,7 @@ public class ManagerMenu {
 			} else if (MM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
+				new SuperMarketMenus().mainMenu();
 			} else {
 				System.out.println("\nInvalid input");
 			}

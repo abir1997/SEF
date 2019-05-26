@@ -70,7 +70,23 @@ public class Customer extends User {
 		return cost;
 	}
 
-	private void addToCart(Product product, int quantity) {
+
+	// If product already exists - > add it
+	public boolean addToCart(String productID, int qty) {
+		Product product;
+		try {
+			product = ProductDataAccess.getProduct(productID);
+			if (product.getWarehouseQuantity() < qty) {
+				return false;
+			}
+			addToCart(product, qty);
+			return true;
+		} catch (ProductNotFoundException e) {
+			return false;
+		}
+	}
+	
+	public void addToCart(Product product, int quantity) {
 		if (cart == null) {
 			cart = new Sale();
 		}
@@ -87,20 +103,6 @@ public class Customer extends User {
 		cart.getSaleLineItems().clear();
 	}
 
-	// If product already exists - > add it
-	public boolean addToCart(String productID, int qty) {
-		Product product;
-		try {
-			product = ProductDataAccess.getProduct(productID);
-			if (product.getWarehouseQuantity() < qty) {
-				return false;
-			}
-			addToCart(product, qty);
-			return true;
-		} catch (ProductNotFoundException e) {
-			return false;
-		}
-	}
 
 	public List<Sale> getPreviousSales() {
 		return previousSales;

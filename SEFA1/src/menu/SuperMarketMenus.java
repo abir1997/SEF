@@ -37,7 +37,7 @@ public class SuperMarketMenus {
 
 			// This takes the user's input and will take them to the letter
 			// option they chose
-
+			
 			optionSelected = userInput.nextLine();
 
 			if (optionSelected.equalsIgnoreCase("1")) {
