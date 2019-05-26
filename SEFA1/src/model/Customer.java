@@ -6,13 +6,13 @@ import java.util.List;
 
 import dataAccess.ProductDataAccess;
 import exception.ProductNotFoundException;
+import main.Const;
 
 public class Customer extends User {
 
 	private static final long serialVersionUID = 6395386684232462670L;
-	
+
 	private CustomerCard card;
-	//private CreditCard creditCard;
 	private List<Sale> previousSales = new ArrayList<Sale>();
 	private Sale cart;
 	private String postCode;
@@ -23,7 +23,6 @@ public class Customer extends User {
 		cart = new Sale();
 	}
 
-	
 	public Sale getCart() {
 		return cart;
 	}
@@ -40,23 +39,32 @@ public class Customer extends User {
 		this.postCode = postCode;
 	}
 
-	public double checkout() {
-		double cost = cart.calcCheckoutCost();
-		int pts = cart.calcPts();
-		card.addLoyaltyPts(pts);
-		cart.setDateTime(LocalDateTime.now());
-		previousSales.add(cart);
-
+	private void removeFromStock() {
 		for (SalesLineItem sli : cart.getSaleLineItems()) {
 			ProductDataAccess.removeProduct(sli.getProductId());
 		}
+	}
+
+	public double checkout() {
+		double baseCost = cart.calcTotalBaseCost();
+		int pts = cart.calcPts();
+		
+		cart.setDateTime(LocalDateTime.now());
+		previousSales.add(cart);
+
+		double cost=0;
+		if (baseCost > 5 && card.getLoyaltyPts() > Const.BASE_POINTS_DISCOUNT_DIV) {
+			double n = baseCost/Const.BASE_POINTS_DISCOUNT_DIV;
+			double discount = Const.DISCOUNT_AMOUNT_FOR_POINTS * n;
+			cost = baseCost - discount;
+		}
+		card.addLoyaltyPts(pts);
+		removeFromStock();
 		cart = null;
-		//TODO remove products from stock
-		
-		
+
 		return cost;
 	}
-	
+
 	public void addToCart(Product product, int quantity) {
 		if (cart == null) {
 			cart = new Sale();
@@ -73,7 +81,7 @@ public class Customer extends User {
 	public void emptyCart() {
 		cart.getSaleLineItems().clear();
 	}
-	
+
 	public boolean addToCart(String productID, int qty) {
 		Product product;
 		try {
@@ -88,52 +96,49 @@ public class Customer extends User {
 		}
 	}
 
-
 	public List<Sale> getPreviousSales() {
 		return previousSales;
 	}
-	
 
-//	public void payment() {
-//	double usedPoints = 0;
-//	while (sale.getTotal() >= 5 && card.getBalance() >= 20) { // if the payment amount more than 5 and there are
-//																// more than 20 point in the account, it will get
-//																// the discount
-//		sale.deduct(5);
-//		card.deductLoyaltyPoints(20);
-//		usedPoints += 20;
-//	}
-//	System.out.println(usedPoints + " Loyalty Points used.");
-//	System.out.println("the amount you need to pay is " + sale.getTotal());
-//	sale.makePayment(sale.getTotal());
-//	System.out.println(sale.getPts() + " loyalty Points added to your account.");
-//	sale.claimPts(card);
-//	previousSales.add(sale);
-//	sale = new Sale();
-//}
-	
+	// public void payment() {
+	// double usedPoints = 0;
+	// while (sale.getTotal() >= 5 && card.getBalance() >= 20) { // if the payment
+	// amount more than 5 and there are
+	// // more than 20 point in the account, it will get
+	// // the discount
+	// sale.deduct(5);
+	// card.deductLoyaltyPoints(20);
+	// usedPoints += 20;
+	// }
+	// System.out.println(usedPoints + " Loyalty Points used.");
+	// System.out.println("the amount you need to pay is " + sale.getTotal());
+	// sale.makePayment(sale.getTotal());
+	// System.out.println(sale.getPts() + " loyalty Points added to your account.");
+	// sale.claimPts(card);
+	// previousSales.add(sale);
+	// sale = new Sale();
+	// }
 
-//
-//	public void purchase(String productID, int amount) {
-//		while (amount > 0) {
-//			pickUp(SuperMarketSystem.products.get(productID));
-//			amount -= 1;
-//		}
-//		calAmount();
-//		payment();
-//	}
+	//
+	// public void purchase(String productID, int amount) {
+	// while (amount > 0) {
+	// pickUp(SuperMarketSystem.products.get(productID));
+	// amount -= 1;
+	// }
+	// calAmount();
+	// payment();
+	// }
 
-//	private double calAmount() {
-//	return sale.getTotal();
-//}
+	// private double calAmount() {
+	// return sale.getTotal();
+	// }
 
-//public void pickUp(Product product) {
-//	sale.addProduct(product);
-//}
+	// public void pickUp(Product product) {
+	// sale.addProduct(product);
+	// }
 
-//private void pickUp(Product product, int quantity) {
-//	sale.addProduct(product, quantity);
-//}
-
+	// private void pickUp(Product product, int quantity) {
+	// sale.addProduct(product, quantity);
+	// }
 
 }

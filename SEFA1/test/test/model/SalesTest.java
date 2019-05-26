@@ -53,9 +53,9 @@ public class SalesTest {
 	@Test
 	public void calcCheckoutCostTest() {
 		//$5 discount for every 20pts
-		int n = (int) (card.getLoyaltyPts()/20);
-		int discount = 5 * n;
-		assertEquals(60-discount,sales.calcCheckoutCost());
+		double n = (card.getLoyaltyPts()/20);
+		double discount = 5 * n;
+		assertEquals(140-discount,cust.calcCheckoutCost());
 	}
 	
 //	@Test

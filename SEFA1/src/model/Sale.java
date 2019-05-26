@@ -16,7 +16,6 @@ public class Sale implements Serializable {
 	private LocalDateTime dateTime;
 	private Set<SalesLineItem> saleLineItems = new HashSet<SalesLineItem>();
 	private double totalPaid;
-	private double points;
 
 
 	public boolean contains (Product product) {
@@ -62,6 +61,10 @@ public class Sale implements Serializable {
 		//TODO account for discount
 		double baseTotal = calcTotalBaseCost();
 		double newPts = calcPts();
+		// If base cost > $5 and 20 pts in card give discount.
+		if(baseTotal > 5 && newPts>Const.BASE_POINTS_DISCOUNT_DIV) {
+			
+		}
 		
 		double total = baseTotal - (((int)(newPts / Const.BASE_POINTS_DISCOUNT_DIV))* Const.DISCOUNT_AMOUNT_FOR_POINTS );
 

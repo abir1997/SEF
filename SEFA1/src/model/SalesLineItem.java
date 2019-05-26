@@ -37,7 +37,7 @@ public class SalesLineItem implements Serializable{
 	}
 	
 	public String getProductId() {
-		return product.toString();
+		return product.getProductId();
 	}
 	
 	public void setProduct(Product product){
