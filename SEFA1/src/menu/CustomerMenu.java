@@ -12,6 +12,7 @@ import dataAccess.ProductDataAccess;
 import model.Customer;
 import model.Discount;
 import model.Product;
+import system.Util;
 
 public class CustomerMenu {
 	
@@ -92,7 +93,7 @@ public class CustomerMenu {
 
 		if (ProductDataAccess.products.containsKey(productID)) {
 			System.out.println("Enter amount of product you want to buy: ");
-			int amount = userInput.nextInt();
+			int amount = Util.readPositiveInt(userInput);
 
 			if (amount <= ProductDataAccess.products.get(productID).getWarehouseQuantity()) {
 				customer.addToCart(productID, amount);

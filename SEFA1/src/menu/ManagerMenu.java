@@ -32,6 +32,7 @@ import model.Product;
 import model.ProductSale;
 import model.Sale;
 import model.SalesLineItem;
+import system.Util;
 
 public class ManagerMenu {
 	private static Scanner userInput = new Scanner(System.in);
@@ -142,16 +143,16 @@ public class ManagerMenu {
 			String name = userInput.nextLine();
 
 			System.out.println("Enter product quantity:");
-			int quantity = userInput.nextInt();
+			int quantity = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter replenish Level:");
-			int replenishLvl = userInput.nextInt();
+			int replenishLvl = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter order Quantity:");
-			int orderQty = userInput.nextInt();
+			int orderQty = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter product price:");
-			double price = userInput.nextDouble();
+			double price = Util.readPositiveDouble(userInput);
 
 			ProductDataAccess.addProduct(new Product(productID, name, quantity, replenishLvl, orderQty, price));
 
@@ -172,16 +173,16 @@ public class ManagerMenu {
 		else {
 
 			System.out.println("Enter product quantity:");
-			int quantity = userInput.nextInt();
+			int quantity = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter replenish Level:");
-			int replenishLvl = userInput.nextInt();
+			int replenishLvl = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter order Quantity:");
-			int orderQty = userInput.nextInt();
+			int orderQty = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter product price:");
-			double price = userInput.nextDouble();
+			double price = Util.readPositiveDouble(userInput);
 
 			try {
 				ProductDataAccess.updateProduct(productID, quantity, replenishLvl, orderQty, price);
@@ -205,10 +206,10 @@ public class ManagerMenu {
 		}
 		else {
 			System.out.println("Enter product quantity for bulk discount:");
-			int qty = userInput.nextInt();
+			int qty = Util.readPositiveInt(userInput);
 
 			System.out.println("Enter discount percentage :");
-			int percentage = userInput.nextInt();
+			int percentage = Util.readPositiveInt(userInput);
 
 			if (percentage > 100 || percentage < 0) {
 				System.out.println("Error: Percentage is not valid amount");

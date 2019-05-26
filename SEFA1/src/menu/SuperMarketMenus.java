@@ -12,6 +12,7 @@ import model.Product;
 import model.SalesStaff;
 import model.User;
 import model.WareHouseStaff;
+import system.Util;
 
 public class SuperMarketMenus {
 
@@ -115,7 +116,7 @@ public class SuperMarketMenus {
 		System.out.println("Fill in your details to create a manager account! \n");
 
 		System.out.println("Enter id: ");
-		int id = userInput.nextInt();
+		int id = Util.readPositiveInt(userInput);
 
 		// For loop is used to check if the email already exists
 		// in the system
@@ -144,7 +145,7 @@ public class SuperMarketMenus {
 		System.out.println("Fill in your details to create a warehousestaff account! \n");
 
 		System.out.println("Enter id: ");
-		int id = userInput.nextInt();
+		int id = Util.readPositiveInt(userInput);
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
 			return;
@@ -171,7 +172,7 @@ public class SuperMarketMenus {
 
 
 		System.out.println("Enter id: ");
-		int id = userInput.nextInt();
+		int id = Util.readPositiveInt(userInput);
 		userInput.nextLine();
 
 		if (UserDataAccess.users.containsKey(id)) {
@@ -200,7 +201,7 @@ public class SuperMarketMenus {
 		System.out.println("Fill in your details to create a customer account! \n");
 
 		System.out.println("Enter Id: ");
-		int id = userInput.nextInt();
+		int id = Util.readPositiveInt(userInput);
 
 		// For loop is used to check if the email already exists
 		// in the system
@@ -231,7 +232,7 @@ public class SuperMarketMenus {
 		System.out.println("Please enter your login details: \n");
 
 		System.out.println("Enter id: ");
-		int id = userInput.nextInt();
+		int id = Util.readPositiveInt(userInput);
 		userInput.nextLine();
 		System.out.println("Enter password: ");
 		String password = userInput.nextLine();
@@ -272,12 +273,12 @@ public class SuperMarketMenus {
 		String productID = userInput.nextLine();
 	
 		System.out.println("Enter replenish quantity: ");
-		int quantity = userInput.nextInt();
+		int quantity = Util.readPositiveInt(userInput);
 	
 		while (quantity <= 0) {
 			System.out.println("Please enter quantity again! It has to be greater than 0");
 			System.out.println("Enter replenish quantity: ");
-			quantity = userInput.nextInt();
+			quantity = Util.readPositiveInt(userInput);
 		}
 	
 		// For loop is used to check if the product ID already exists

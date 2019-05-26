@@ -7,6 +7,7 @@ import dataAccess.UserDataAccess;
 import model.Customer;
 import model.Product;
 import model.SalesStaff;
+import system.Util;
 
 public class SalesStaffMenu {
 	private static Scanner userInput = new Scanner(System.in);	
@@ -31,7 +32,7 @@ public class SalesStaffMenu {
 
 			if (optionSelected.equalsIgnoreCase("1")) {
 				System.out.println("Please enter the id of Customer");
-				int id = userInput.nextInt();
+				int id = Util.readPositiveInt(userInput);
 				customer = null;
 				if (UserDataAccess.users.get(id) instanceof Customer) {
 					customer = (Customer) UserDataAccess.users.get(id);
