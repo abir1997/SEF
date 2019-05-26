@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dataAccess.ProductDataAccess;
-import dataAccess.SupplierDataAccess;
 import model.Customer;
 import model.CustomerCard;
 import model.Product;
@@ -50,12 +49,17 @@ public class CustomerTest {
 	
 	@Test
 	public void checkOutTest() {
+		//Test Maximum discounts are automatically given based on current loyalty points at 
+		//the end of transaction
 		double n = (600/20);
 		double discount = 5 * n;
 		assertEquals(600-discount,customer.checkout());
 		
 		// Check for decreasing stock
 		assertEquals(4-3,ProductDataAccess.products.size());
+		
+		// Check for loyalty point
+		assertEquals(600/10,card.getLoyaltyPts());
 	}
 	
 }

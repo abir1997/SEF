@@ -27,8 +27,9 @@ public class SalesTest {
 	public void beforTest() {
 		
 		sales = new Sale();
-		sales.getSaleLineItems().add(p1,1);
+		//sales.getSaleLineItems().add(p1,1);
 		// Total 5 items in cart.
+		cust.addToCart(p1, 1);
 		cust.addToCart(p1, 1);
 		cust.addToCart(p2, 2);
 		cust.addToCart(p3, 2);
@@ -47,26 +48,6 @@ public class SalesTest {
 		//20 + 40 + 80 = 140
 		assertEquals(140,sales.calcTotalBaseCost());
 	}
-	
-	//Test Maximum discounts are automatically given based on current loyalty points at 
-	//the end of transaction
-	@Test
-	public void calcCheckoutCostTest() {
-		//$5 discount for every 20pts
-		double n = (card.getLoyaltyPts()/20);
-		double discount = 5 * n;
-		assertEquals(140-discount,cust.calcCheckoutCost());
-	}
-	
-//	@Test
-//	public void makePaymentTest() {
-//		//		products available
-//		assertTrue(sales.makePayment(200));
-//
-//		//		not enough products available
-//		sales.addProduct(p1, 1000);
-//		assertFalse(sales.makePayment(100));
-//	}
 	
 
 	@Test

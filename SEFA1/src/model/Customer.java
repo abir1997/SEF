@@ -47,21 +47,26 @@ public class Customer extends User {
 
 	public double checkout() {
 		double baseCost = cart.calcTotalBaseCost();
-		int pts = cart.calcPts();
-		
+		double currentLoyaltyPts = card.getLoyaltyPts();
+		System.out.printf("Total cost : %f", baseCost);
 		cart.setDateTime(LocalDateTime.now());
 		previousSales.add(cart);
 
-		double cost=0;
-		if (baseCost > 5 && card.getLoyaltyPts() > Const.BASE_POINTS_DISCOUNT_DIV) {
-			double n = baseCost/Const.BASE_POINTS_DISCOUNT_DIV;
+		double cost = 0;
+		if (baseCost > Const.DISCOUNT_AMOUNT_FOR_POINTS &&
+			card.getLoyaltyPts() > Const.BASE_POINTS_DISCOUNT_DIV) {
+			
+			double n = baseCost / Const.BASE_POINTS_DISCOUNT_DIV;
 			double discount = Const.DISCOUNT_AMOUNT_FOR_POINTS * n;
 			cost = baseCost - discount;
+			System.out.printf("Discount applied : %f", discount);
+			card.deductLoyaltyPoints(currentLoyaltyPts);
+			System.out.printf("%f loyalty points used up!", currentLoyaltyPts);
 		}
+		int pts = cart.calcPts();
 		card.addLoyaltyPts(pts);
 		removeFromStock();
 		cart = null;
-
 		return cost;
 	}
 
@@ -82,6 +87,7 @@ public class Customer extends User {
 		cart.getSaleLineItems().clear();
 	}
 
+	// If product already exists - > add it
 	public boolean addToCart(String productID, int qty) {
 		Product product;
 		try {

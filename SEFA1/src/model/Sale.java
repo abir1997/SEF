@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,22 +53,22 @@ public class Sale implements Serializable {
 		return total;
 	}
 
-	/**
-	 * @return the total amount to be charged to the customer
-	 */
-	public double calcCheckoutCost() {
-		//TODO account for discount
-		double baseTotal = calcTotalBaseCost();
-		double newPts = calcPts();
-		// If base cost > $5 and 20 pts in card give discount.
-		if(baseTotal > 5 && newPts>Const.BASE_POINTS_DISCOUNT_DIV) {
-			
-		}
-		
-		double total = baseTotal - (((int)(newPts / Const.BASE_POINTS_DISCOUNT_DIV))* Const.DISCOUNT_AMOUNT_FOR_POINTS );
-
-		return total;
-	}
+//	/**
+//	 * @return the total amount to be charged to the customer
+//	 */
+//	public double calcCheckoutCost() {
+//		//TODO account for discount
+//		double baseTotal = calcTotalBaseCost();
+//		double newPts = calcPts();
+//		// If base cost > $5 and 20 pts in card give discount.
+//		if(baseTotal > 5 && newPts>Const.BASE_POINTS_DISCOUNT_DIV) {
+//			
+//		}
+//		
+//		double total = baseTotal - (((int)(newPts / Const.BASE_POINTS_DISCOUNT_DIV))* Const.DISCOUNT_AMOUNT_FOR_POINTS );
+//
+//		return total;
+//	}
 
 	public Set<SalesLineItem> getSaleLineItems() {
 		return saleLineItems;
