@@ -94,6 +94,9 @@ public class Sale implements Serializable {
 	}
 	
 
+	public void removeAllProducts() {
+		saleLineItems.clear();
+	}
 
 	/**
 	 * 

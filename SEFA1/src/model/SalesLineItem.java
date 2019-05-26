@@ -17,6 +17,8 @@ public class SalesLineItem implements Serializable{
 	public int getQuantity(){
 		return quantity;
 	}
+	
+	
 	//set method
 	public void setQuantity(int quantity){
 		this.quantity = quantity;
@@ -32,6 +34,10 @@ public class SalesLineItem implements Serializable{
 	
 	public Product getProduct(){
 		return product;
+	}
+	
+	public String getProductId() {
+		return product.toString();
 	}
 	
 	public void setProduct(Product product){

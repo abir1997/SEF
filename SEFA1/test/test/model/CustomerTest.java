@@ -21,6 +21,7 @@ public class CustomerTest {
 	final Product p3 = new Product("p3", "Fizz", 100, 100, 100, 200);
 	final Product p4 = new Product("p4", "Apple", 100, 100, 100, 200);
 	final Product p5 = new Product("p5", "Jar", 100, 100, 100, 200);
+	CustomerCard card = new CustomerCard(100, "CreditCard");
 	
 	@Before
 	public void beforTest() {
@@ -28,9 +29,9 @@ public class CustomerTest {
 		ProductDataAccess.products.put("p2", p2);
 		ProductDataAccess.products.put("p3", p3);
 		ProductDataAccess.products.put("p4", p4);
-		
-		CustomerCard creditCard = new CustomerCard(100, "CreditCard"); 
-		customer = new Customer("C1",1,"pass",creditCard);
+		 
+		// Customer created with a 100 loyalty points.
+		customer = new Customer("C1",1,"pass",card);
 		
 		customer.addToCart("p1",1);
 		customer.addToCart("p2",1);
@@ -48,8 +49,11 @@ public class CustomerTest {
 	}
 	
 	@Test
+	//TODO Not sure about this test
 	public void checkOutTest() {
-		assertEquals(customer.checkout(),300);
+		double n = (card.getLoyaltyPts()/20);
+		double discount = 5 * n;
+		assertEquals(customer.checkout(),600-discount);
 	}
 	
 //	@Test

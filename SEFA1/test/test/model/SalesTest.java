@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import dataAccess.ProductDataAccess;
 import exception.ProductNotFoundException;
+import model.Customer;
 import model.CustomerCard;
 import model.Product;
 import model.Sale;
@@ -19,12 +20,12 @@ import model.SalesLineItem;
 public class SalesTest {
 
 	private Sale sales;
-	final Product p1 = new Product("p1", "Orange", 50, 100, 100, 20);
+	final private Product p1 = new Product("p1", "Orange", 50, 100, 100, 20);
 	final Product p2 = new Product("p2", "Mango", 30, 100, 100, 20);
 	final Product p3 = new Product("p3", "Pear", 20, 100, 100, 40);
 	final Product p4 = new Product("p4", "Horse", 20, 100, 100, 40);
 	CustomerCard card = new CustomerCard(20,"XYZ");
-
+	final Customer cust = new Customer("Abir", 1, "pwd", card);
 
 	
 	@Before
@@ -35,10 +36,11 @@ public class SalesTest {
 		ProductDataAccess.products.put("p3",p3 );
 		
 		sales = new Sale();
+		sales.getSaleLineItems().add(p1,1);
 		// Total 5 items in cart.
-		sales.addToCart(p1, 1);
-		sales.addToCart(p2, 2);
-		sales.addToCart(p3, 2);
+		cust.addToCart(p1, 1);
+		cust.addToCart(p2, 2);
+		cust.addToCart(p3, 2);
 	}
 	
 //	@Test
@@ -103,18 +105,12 @@ public class SalesTest {
 	}
 
 	@Test
-	public void emptyCartTest() {
-		sales.emptyCart();
+	public void removeAllProductsTest() {
+		sales.removeAllProducts();
 		assertEquals(0, sales.getSaleLineItems().size());
 	}
 
-	@Test
-	public void addToCartTest() {
-		sales.emptyCart();
-		sales.addToCart(p1,1);
-		assertEquals(1, sales.getSaleLineItems().size());
-		
-	}
+	
 	
 	
 //	@Test

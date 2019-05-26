@@ -12,7 +12,7 @@ public class Customer extends User {
 	private static final long serialVersionUID = 6395386684232462670L;
 	
 	private CustomerCard card;
-	private CreditCard creditCard;
+	//private CreditCard creditCard;
 	private List<Sale> previousSales = new ArrayList<Sale>();
 	private Sale cart;
 	private String postCode;
@@ -47,8 +47,13 @@ public class Customer extends User {
 		cart.setDateTime(LocalDateTime.now());
 		previousSales.add(cart);
 
+		for (SalesLineItem sli : cart.getSaleLineItems()) {
+			ProductDataAccess.removeProduct(sli.getProductId());
+		}
 		cart = null;
 		//TODO remove products from stock
+		
+		
 		return cost;
 	}
 	
