@@ -3,6 +3,7 @@ package menu;
 import java.util.Scanner;
 
 import dataAccess.DataStore;
+import dataAccess.DataStoreFactory;
 import dataAccess.ProductDataAccess;
 import dataAccess.UserDataAccess;
 import model.Customer;
@@ -52,7 +53,7 @@ public class SuperMarketMenus {
 				System.out.println("Good bye!");
 
 				// writes data to the text file when exiting
-				DataStore.saveData();
+				DataStoreFactory.getDataStore().saveData();
 				// stops the program
 				System.exit(0);
 			} else {

@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class DataStore {
+public class DataStore implements DataStoreInterface{
 	
 	private static void saveMapData(Map map,String fName) {
 		try {
@@ -64,7 +64,7 @@ public class DataStore {
 	/**
 	 * Saves all the data
 	 */
-	public static void saveData() {
+	public void saveData() {
 		saveSupplierData();
 		saveProductData();
 		saveUserData();
@@ -86,7 +86,7 @@ public class DataStore {
 	/**
 	 * loads all the data
 	 */
-	public static void loadData() {
+	public void loadData() {
 		loadSupplierData();
 		loadProductData();
 		loadUserData();
