@@ -21,6 +21,7 @@ import dataAccess.SupplierDataAccess;
 import exception.ProductNotFoundException;
 import model.Manager;
 import model.Product;
+import report.Reports;
 import system.Util;
 
 public class ManagerMenu {
@@ -69,6 +70,7 @@ public class ManagerMenu {
 				autoReplenishPurchaseOrder();
 			}else if (MM_GENERATE_SALES_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
 				//TODO
+				new Reports.generateSalesReport();
 			} else if (MM_GENERATE_SUPPLY_REPORT.getTxt().equalsIgnoreCase(optionSelected)) {
 
 			} else if (MM_LIST_TOP_PRODUCTS.getTxt().equalsIgnoreCase(optionSelected)) {

@@ -16,7 +16,7 @@ public class DataStore {
 			FileOutputStream fos = new FileOutputStream(fName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(map);
-			System.out.printf("Serialized HashMap data is saved in %s",fName);
+			System.out.printf("Serialized HashMap data is saved in %s\n",fName);
             oos.close();
             fos.close();
 		}catch(IOException ioe) {
