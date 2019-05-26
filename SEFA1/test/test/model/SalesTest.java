@@ -1,20 +1,15 @@
 package test.model;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import dataAccess.ProductDataAccess;
 import exception.ProductNotFoundException;
 import model.CustomerCard;
 import model.Product;
 import model.Sale;
-import model.SalesLineItem;
 
 public class SalesTest {
 
@@ -29,16 +24,7 @@ public class SalesTest {
 	
 	@Before
 	public void beforTest() {
-		ProductDataAccess.products.clear();
-		ProductDataAccess.products.put("p1",p1 );
-		ProductDataAccess.products.put("p2",p2 );
-		ProductDataAccess.products.put("p3",p3 );
 		
-		sales = new Sale();
-		// Total 5 items in cart.
-		sales.addToCart(p1, 1);
-		sales.addToCart(p2, 2);
-		sales.addToCart(p3, 2);
 	}
 	
 //	@Test
@@ -102,19 +88,7 @@ public class SalesTest {
 		assertEquals(2, sales.checkQuantity(p3));
 	}
 
-	@Test
-	public void emptyCartTest() {
-		sales.emptyCart();
-		assertEquals(0, sales.getSaleLineItems().size());
-	}
 
-	@Test
-	public void addToCartTest() {
-		sales.emptyCart();
-		sales.addToCart(p1,1);
-		assertEquals(1, sales.getSaleLineItems().size());
-		
-	}
 	
 	
 //	@Test
