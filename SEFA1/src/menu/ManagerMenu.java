@@ -14,6 +14,7 @@ import static enums.MenuOptions.MM_REPORT_FAST_SELLING_PRODUCTS;
 import static enums.MenuOptions.MM_RETURN_TO_LOGIN_SCREEN;
 import static enums.MenuOptions.MM_UPDATE_PRODUCT;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeSet;
 
 import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
@@ -84,7 +84,7 @@ public class ManagerMenu {
 			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey().equalsIgnoreCase(optionSelected)) {
 				autoReplenishPurchaseOrder();
 			}else if (MM_GENERATE_SALES_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
-				//TODO
+				generateSalesReport();
 			} else if (MM_GENERATE_SUPPLY_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 				
 			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
@@ -101,6 +101,51 @@ public class ManagerMenu {
 		}
 	}
 	
+	private static void generateSalesReport() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** Generate Sales Report  ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		
+		System.out.println("Enter start date: (dd-MM-yyyy)");
+		LocalDate startDate = Util.readDate(userInput);
+
+		System.out.println("Enter end date: (dd-MM-yyyy)");
+		LocalDate endDate = Util.readDate(userInput);
+
+		Set<Customer> customers = UserDataAccess.getAllCustomers();
+
+		// create the set of sales in for the given period
+		Map<String, ProductSale> aggregatedProducts = new HashMap<>();
+
+		//Created an aggregated hashMap for product's sales
+		for (Customer customer : customers) {
+			for (Sale sale : customer.getPreviousSales()) {
+				if (startDate.isBefore(sale.getDateTime().toLocalDate())
+						&& endDate.isAfter(sale.getDateTime().toLocalDate())) {
+					for (SalesLineItem sli : sale.getSaleLineItems()) {
+						
+						String productId = sli.getProduct().getProductId();
+						if (!aggregatedProducts.containsKey(productId)) {
+							aggregatedProducts.put(productId, new ProductSale(sli.getProduct(), sli.getQuantity(),
+									sli.getProduct().getPrice() * sli.getQuantity()));
+						} else {
+							ProductSale productSale = aggregatedProducts.get(productId);
+							productSale.addTotalVolume(sli.getQuantity());
+							productSale.addTotalValue(sli.getProduct().getPrice() * sli.getQuantity());
+						}
+					}
+				}
+			}
+		}
+		
+		System.out.println("*** PRODUCTS IN GIVEN PERIOD ***");
+		for (ProductSale productSale : aggregatedProducts.values()) {
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
+					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalVolume(), productSale.getTotalValue());
+		}
+		
+	}
 	private static void autoReplenishPurchaseOrder() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** Purchase Order for the following low stock items will be submitted  ***");

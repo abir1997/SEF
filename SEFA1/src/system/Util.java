@@ -1,6 +1,10 @@
 package system;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import javax.swing.text.DateFormatter;
 
 public class Util {
 
@@ -10,9 +14,12 @@ public class Util {
 		while (!success)
 			try {
 				intNum = userInput.nextInt();
-				success = true;
 				if (intNum >= 0)
 					success = true;
+				else {
+					success = false;
+					System.out.println("Invalid positive Integer, please try again");
+				}
 			} catch (Exception e) {
 				System.out.println("Invalid positive Integer, please try again");
 			} finally {
@@ -20,6 +27,25 @@ public class Util {
 			}
 
 		return intNum;
+	}
+
+	public final static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	
+	public static LocalDate readDate(Scanner userInput) {
+		boolean success = false;
+		LocalDate localDate = null;
+		while (!success)
+			try {
+				String dateStr = userInput.nextLine();
+				localDate = LocalDate.parse(dateStr, DATE_FORMATTER); 
+				success = true;
+			} catch (Exception e) {
+				System.out.println("Invalid positive Integer, please try again");
+			} finally {
+				userInput.nextLine();
+			}
+
+		return localDate;
 	}
 
 	public static double readPositiveDouble(Scanner userInput) {
@@ -30,6 +56,10 @@ public class Util {
 				doubleNum = userInput.nextDouble();
 				if (doubleNum >= 0)
 					success = true;
+				else {
+					success = false;
+					System.out.println("Invalid positive Integer, please try again");
+				}
 			} catch (Exception e) {
 				System.out.println("Invalid positive Double, please try again");
 			} finally {
