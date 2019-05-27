@@ -77,8 +77,7 @@ public class ManagerMenu {
 			} else if (MM_REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
 				SuperMarketMenus.replenishProduct();
 			} else if (MM_LIST_SUPPLIER_DETAILS.getKey().equalsIgnoreCase(optionSelected)) {
-				boolean includeProducts = false;
-				System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
+				generateSupplierReport();
 			} else if (MM_OFFER_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
 				addBulkDiscount();
 			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey().equalsIgnoreCase(optionSelected)) {
@@ -101,17 +100,22 @@ public class ManagerMenu {
 		}
 	}
 	
+	
+	private static void generateSupplierReport() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** Generate Supplier Report  ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		
+		boolean includeProducts = false;
+		System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
+	}
+	
 	private static void generateSupplyReport() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** Generate Supply Report  ***");
 		System.out.println("------------------------------------------------------------------------\n");
 		
-		System.out.println("Enter start date: (dd-MM-yyyy)");
-//		LocalDate startDate = Util.readDate(userInput);
-//		System.out.println("Enter end date: (dd-MM-yyyy)");
-//		LocalDate endDate = Util.readDate(userInput);
 		System.out.println(SupplierDataAccess.listSupplierDetails(true));
-		
 	}
 
 	private static void generateSalesReport() {
