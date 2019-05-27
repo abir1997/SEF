@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class DataStore implements DataStoreInterface{
 	
-	private static void saveMapData(Map map,String fName) {
+	private static void saveMapData(@SuppressWarnings("rawtypes") Map map,String fName) {
 		try {
 			FileOutputStream fos = new FileOutputStream(fName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -24,12 +24,13 @@ public class DataStore implements DataStoreInterface{
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void loadMapData(Map map,String loadFile) {
-		map = null;
+		map.clear();
 		try {
 			FileInputStream fis = new FileInputStream(loadFile);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			map = (Map) ois.readObject();
+			map.putAll((Map) ois.readObject());
 			ois.close();
 			fis.close();
 		}catch(IOException ioe) {

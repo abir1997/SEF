@@ -234,7 +234,8 @@ public class SuperMarketMenus {
 		int id = Util.readPositiveInt(userInput);
 		System.out.println("Enter password: ");
 		String password = userInput.nextLine();
-		if (UserDataAccess.users.get(id).getPwd().equals(password)) {
+		loggedInUser = UserDataAccess.users.get(id);
+		if (loggedInUser != null && loggedInUser.getPwd() != null && loggedInUser.getPwd().equals(password)) {
 			loggedInUser = UserDataAccess.users.get(id);
 			if (loggedInUser instanceof Customer) {
 				System.out.print("You have successfully logged in as a Customer");

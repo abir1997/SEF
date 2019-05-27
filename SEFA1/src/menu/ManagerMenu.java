@@ -43,7 +43,7 @@ public class ManagerMenu {
 	public static void managerMenu(Manager mgr) {
 		String optionSelected = "";
 		
-		while (!optionSelected.equalsIgnoreCase("8")) {
+		while (!optionSelected.equalsIgnoreCase(MM_RETURN_TO_LOGIN_SCREEN.getKey())) {
 			System.out.println("\n------------------------------------------------------------------------");
 			System.out.println("*** MANAGER FUNCTION ***");
 			System.out.println("------------------------------------------------------------------------\n");
@@ -94,7 +94,7 @@ public class ManagerMenu {
 			} else if (MM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
-				new SuperMarketMenus().mainMenu();
+//				new SuperMarketMenus().mainMenu();
 			} else {
 				System.out.println("\nInvalid input");
 			}

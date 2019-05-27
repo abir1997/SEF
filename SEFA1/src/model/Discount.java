@@ -1,8 +1,12 @@
 package model;
 
-public class Discount implements Comparable<Discount> {
-	int quantity;
-	int discountPercent;
+import java.io.Serializable;
+
+public class Discount implements Comparable<Discount>, Serializable {
+	private static final long serialVersionUID = 4288890572272016673L;
+	
+	private int quantity;
+	private int discountPercent;
 	
 
 	public Discount(int quantity, int discountPercent) {
