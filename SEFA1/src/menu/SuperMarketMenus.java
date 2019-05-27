@@ -279,8 +279,6 @@ public class SuperMarketMenus {
 			quantity = Util.readPositiveInt(userInput);
 		}
 	
-		// For loop is used to check if the product ID already exists
-		// in the system
 		if (ProductDataAccess.replenishProductQuantity(productID,quantity)) {
 			System.out.println(productID + " has succesfully been replinished by " + quantity + " stocks");
 		} else if (!ProductDataAccess.products.containsKey(productID)) {

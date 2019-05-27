@@ -50,17 +50,20 @@ public class CustomerTest {
 	@Test
 	public void checkOutTest() {
 		//Test Maximum discounts are automatically given based on current loyalty points at 
-		//the end of transaction
+		//the end of transaction (8)
+		//Test discounts are computed correctly when loyalty points are combined with bulk 
+		//discount (9)
+		//Test sale price is computed correctly for discounted items (4)
 		double n = (600/20);
 		double discount = 5 * n;
 		assertEquals(600-discount,customer.checkout());
 		
-		// Check for decreasing stock
+		// Test performing a sales reduces the stock level for all products in the sale(1)
 		assertEquals(99,p1.getWarehouseQuantity());
 		assertEquals(99,p2.getWarehouseQuantity());
 		assertEquals(99,p3.getWarehouseQuantity());
 		
-		// Check for loyalty point
+		// Test the loyalty points are allocated correctly (7)
 		assertEquals(600/10,card.getLoyaltyPts());
 	}
 	
