@@ -7,7 +7,7 @@ public enum MenuOptions {
 	WM_REPLENISH_PRODUCT_QUANTITY("Replenish Product Quantity","2"),
 	WM_RETURN_TO_LOGIN_SCREEN("Return to Login Screen","3"),
 	
-	CM_PURCHASE_PRODUCT("Purchase Product", "1"),
+	CM_PURCHASE_PRODUCT("Add Product to Cart", "1"),
 	CM_LIST_PRODUCTS("List Products","2"),
 	CM_CHECK_PRICE("Check Price", "3"),
 	CM_CHECK_DISCOUNTS("Check Discounts", "4"),
