@@ -235,23 +235,21 @@ public class SuperMarketMenus {
 		System.out.println("Enter password: ");
 		String password = userInput.nextLine();
 		if (UserDataAccess.users.get(id).getPwd().equals(password)) {
-
-			if (UserDataAccess.users.get(id) instanceof Customer) {
+			loggedInUser = UserDataAccess.users.get(id);
+			if (loggedInUser instanceof Customer) {
 				System.out.print("You have successfully logged in as a Customer");
-				loggedInUser = UserDataAccess.users.get(id);
 				CustomerMenu.customerMenu(((Customer) loggedInUser));
 				return;
 			}
-			else if (UserDataAccess.users.get(id) instanceof WareHouseStaff) {
+			else if (loggedInUser instanceof WareHouseStaff) {
 				System.out.print("You have successfully logged in as a WareHouseStaff");
-				loggedInUser = UserDataAccess.users.get(id);
 				WareHouseStaffMenu.wareHouseStaffMenu((WareHouseStaff)loggedInUser);
 				return;
-			} else if (UserDataAccess.users.get(id) instanceof SalesStaff) {
+			} else if (loggedInUser instanceof SalesStaff) {
 				System.out.print("You have successfully logged in as a SalesStaff");
 				SalesStaffMenu.salesStaffMenu((SalesStaff)loggedInUser);
 				return;
-			} else if (UserDataAccess.users.get(id) instanceof Manager) {
+			} else if (loggedInUser instanceof Manager) {
 				System.out.print("You have successfully logged in as a Manager");
 				ManagerMenu.managerMenu((Manager)loggedInUser);
 				return;

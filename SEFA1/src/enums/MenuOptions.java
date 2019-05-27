@@ -21,7 +21,7 @@ public enum MenuOptions {
 	MM_REPLENISH_PRODUCT_QUANTITY("Replenish Product Quantity", "5"),
 	MM_LIST_SUPPLIER_DETAILS("List Supplier Details", "6"),
 	MM_OFFER_DISCOUNTS("Offer Bulk Discounts", "7"),
-	MM_AUTO_REPLENISH_PURCHASE_ORDER("Place purchase orderfor all items below replenishmentlevel", "8"),
+	MM_AUTO_REPLENISH_PURCHASE_ORDER("Place purchase orderfor all items below replenishment level", "8"),
 	MM_GENERATE_SALES_REPORT("Generate Sales Report", "9"),
 	MM_GENERATE_SUPPLY_REPORT("Generate Supply Report", "10"),
 	MM_LIST_TOP_PRODUCTS("List Top Products", "11"),
