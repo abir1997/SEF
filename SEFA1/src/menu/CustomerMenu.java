@@ -13,6 +13,8 @@ import dataAccess.ProductDataAccess;
 import model.Customer;
 import model.Discount;
 import model.Product;
+import qrCode.AppFrame;
+import qrCode.CreateQR;
 import system.Util;
 
 public class CustomerMenu {
@@ -72,6 +74,9 @@ public class CustomerMenu {
 		try {
 		double price = ProductDataAccess.getProductPrice(productID);
 			System.out.println("the price of " + productID + " is " + price);
+			CreateQR qr = new CreateQR("https://shop.coles.com.au/a/a-national/product/arnotts-biscuits-shapes-savoury");
+			new AppFrame();
+			
 		}
 		catch (Exception e) {
 			System.out.println("this product does not exist");

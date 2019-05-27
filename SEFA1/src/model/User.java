@@ -2,8 +2,8 @@ package model;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public abstract class User implements Serializable{
+	private static final long serialVersionUID = 2151004612530144652L;
 	private String name;
 	private int id;
 	private String pwd;

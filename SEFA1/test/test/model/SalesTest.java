@@ -55,6 +55,7 @@ public class SalesTest {
 
 	@Test
 	public void calcTotalBaseCostDiscountedTest() {
+		//Test sale price is computed correctly based on sale line items (3)
 		//20 + 40 + 80 + (11 * 40 * 85%) = 514 
 		SalesLineItem sl3 = new SalesLineItem(p4, 11);
 		sales.getSaleLineItems().add(sl3);
@@ -64,6 +65,7 @@ public class SalesTest {
 		p4.addDiscount(30, 30);
 		p4.addDiscount(8, 8);
 
+		//Test sale price is computed correctly for items offering discounts for bulk sale(5)
 		assertEquals(514,sales.calcTotalBaseCostWithDiscount());
 	}
 

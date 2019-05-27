@@ -2,6 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * discounts are dynamic so the manager can place more than one of them on a given product. 
+ *
+ */
+
 public class Discount implements Comparable<Discount>, Serializable {
 	private static final long serialVersionUID = 4288890572272016673L;
 	

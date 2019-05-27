@@ -86,7 +86,7 @@ public class ManagerMenu {
 			}else if (MM_GENERATE_SALES_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 				generateSalesReport();
 			} else if (MM_GENERATE_SUPPLY_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
-				
+				generateSupplyReport();
 			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				
 			} else if (MM_REPORT_FAST_SELLING_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
@@ -101,6 +101,19 @@ public class ManagerMenu {
 		}
 	}
 	
+	private static void generateSupplyReport() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** Generate Supply Report  ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		
+		System.out.println("Enter start date: (dd-MM-yyyy)");
+//		LocalDate startDate = Util.readDate(userInput);
+//		System.out.println("Enter end date: (dd-MM-yyyy)");
+//		LocalDate endDate = Util.readDate(userInput);
+		System.out.println(SupplierDataAccess.listSupplierDetails(true));
+		
+	}
+
 	private static void generateSalesReport() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** Generate Sales Report  ***");

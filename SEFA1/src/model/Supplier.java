@@ -41,7 +41,6 @@ public class Supplier implements Serializable {
 		return sb.toString();
 	}
 	
-	// get methods
 	public String getName() {
 		return name;
 	}

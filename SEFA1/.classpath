@@ -4,5 +4,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="D:/Software Engineering Fundamentals/a1/SEF/SEFA1/lib/core-2.2.jar"/>
+	<classpathentry kind="lib" path="D:/Software Engineering Fundamentals/a1/SEF/SEFA1/lib/javase-2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

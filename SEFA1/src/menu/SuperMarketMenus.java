@@ -202,8 +202,6 @@ public class SuperMarketMenus {
 		System.out.println("Enter Id: ");
 		int id = Util.readPositiveInt(userInput);
 
-		// For loop is used to check if the email already exists
-		// in the system
 		if (UserDataAccess.users.containsKey(id)) {
 			System.out.println("Error - Id:  " + id + " already exists in the system!");
 			return;
