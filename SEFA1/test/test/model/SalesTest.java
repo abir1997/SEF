@@ -90,13 +90,6 @@ public class SalesTest {
 	public void totalItemsTest() {
 		assertEquals(5,sales.totalItems());
 	}
-//	@Test
-//	public void removeProductTest2() {
-//		//reduce amount to 0 and remove the product
-//		sales.removeProduct(p1,2 );
-//		assertEquals(1, sales.getSaleLineItems().size());
-//
-//	}
 	
 	@Test
 	public void checkSetQuantityTest() throws ProductNotFoundException {
@@ -109,24 +102,5 @@ public class SalesTest {
 		assertEquals(0, sales.getSaleLineItems().size());
 	}
 
-	
-
-	
-	
-//	@Test
-//	public void addProduct2Test() {
-//		sales.addProduct(p3, 8);
-//		assertEquals(3, sales.getSaleLineItems().size());
-//	}
-//	
-//	
-//	@Test
-//	public void deductTest() {
-//		double total = sales.getTotal();
-//		sales.deduct(10);
-//		assertEquals(total - 10, sales.getTotal());
-//	}
-//	
-//	
 	
 }

@@ -56,7 +56,9 @@ public class CustomerTest {
 		assertEquals(600-discount,customer.checkout());
 		
 		// Check for decreasing stock
-		assertEquals(4-3,ProductDataAccess.products.size());
+		assertEquals(99,p1.getWarehouseQuantity());
+		assertEquals(99,p2.getWarehouseQuantity());
+		assertEquals(99,p3.getWarehouseQuantity());
 		
 		// Check for loyalty point
 		assertEquals(600/10,card.getLoyaltyPts());

@@ -49,7 +49,7 @@ public class ProductDataAccess {
 	public static void consumeProduct(String productID, int qty) {
 		Product prd = products.get(productID);
 		//TODO does not account for having stock going below zero
-		prd.setWarehouseQuantity(prd.getWarehouseQuantity() - qty);		
+		prd.setWarehouseQuantity(prd.getWarehouseQuantity() - qty);	
 	}
 
 	/**
