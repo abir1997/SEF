@@ -40,6 +40,18 @@ public class ProductDataAccess {
 		return replenishableProducts;
 	}
 
+	
+	/**
+	 * 
+	 * @param productID
+	 * @return true if removed, false otherwise
+	 */
+	public static void consumeProduct(String productID, int qty) {
+		Product prd = products.get(productID);
+		//TODO does not account for having stock going below zero
+		prd.setWarehouseQuantity(prd.getWarehouseQuantity() - qty);		
+	}
+
 	/**
 	 * 
 	 * @param productID

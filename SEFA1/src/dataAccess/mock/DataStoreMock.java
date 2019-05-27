@@ -101,7 +101,12 @@ public class DataStoreMock implements DataStoreInterface {
 		ProductDataAccess.products.put(p6.getProductId(), p6);
 		ProductDataAccess.products.put(p7.getProductId(), p7);
 		ProductDataAccess.products.put(p8.getProductId(), p8);
+		p8.addDiscount(20, 12);
 		p8.addDiscount(5, 5);
+		p8.addDiscount(10, 10);
+		p8.addDiscount(30, 30);
+		p8.addDiscount(8, 8);
+		
 		ProductDataAccess.products.put(p9.getProductId(), p9);
 		ProductDataAccess.products.put(p10.getProductId(), p10);
 		ProductDataAccess.products.put(p11.getProductId(), p11);

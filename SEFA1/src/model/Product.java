@@ -1,8 +1,8 @@
 package model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Product implements Serializable{
 
@@ -14,7 +14,7 @@ public class Product implements Serializable{
 	private int replenishLevel;
 	private int orderQty;
 	private double price;
-	private Set<Discount> discounts = new HashSet<>();
+	private Set<Discount> discounts = new TreeSet<>();
 
 	public Product(String productId, String name, int warehouseQty, int replenishLevel, int orderQty, double price) {
 		super();
@@ -31,6 +31,22 @@ public class Product implements Serializable{
 		this.replenishLevel = replenishLevel;
 		this.orderQty = orderQty;
 		this.price = price;
+	}
+	
+	/**
+	 * loop through the descendingly sorted tree based on quantity and return
+	 * applicable percentage for the given quantity.
+	 * 
+	 * @param qty
+	 * @return
+	 */
+	public int calcDiscount(int qty) {
+		for (Discount discount : discounts) {
+			if (discount.getQuantity() <= qty) {
+				return discount.discountPercent;
+			}
+		}
+		return 0;
 	}
 
 	public String toString() {

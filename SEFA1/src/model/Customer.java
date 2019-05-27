@@ -39,16 +39,16 @@ public class Customer extends User {
 		this.postCode = postCode;
 	}
 
-	private void removeFromStock() {
+	private void consumeFromStock() {
 		for (SalesLineItem sli : cart.getSaleLineItems()) {
-			ProductDataAccess.removeProduct(sli.getProductId());
+			ProductDataAccess.consumeProduct(sli.getProductId(),sli.getQuantity());
 		}
 	}
 
 	public double checkout() {
-		double baseCost = cart.calcTotalBaseCost();
+		double baseCost = cart.calcTotalBaseCostWithDiscount();
 		double currentLoyaltyPts = card.getLoyaltyPts();
-		System.out.printf("Total cost : %f", baseCost);
+		System.out.printf("Total base cost : %f", baseCost);
 		cart.setDateTime(LocalDateTime.now());
 		previousSales.add(cart);
 
@@ -63,9 +63,10 @@ public class Customer extends User {
 			card.deductLoyaltyPoints(currentLoyaltyPts);
 			System.out.printf("%f loyalty points used up!", currentLoyaltyPts);
 		}
+		cart.setTotalPaid(cost);
 		int pts = cart.calcPts();
 		card.addLoyaltyPts(pts);
-		removeFromStock();
+		consumeFromStock();
 		cart = null;
 		return cost;
 	}

@@ -31,6 +31,7 @@ public class SalesTest {
 		SalesLineItem sl = new SalesLineItem(p1, 1);
 		SalesLineItem sl1 = new SalesLineItem(p2, 2);
 		SalesLineItem sl2 = new SalesLineItem(p3, 2);
+
 		sales.getSaleLineItems().add(sl);
 		sales.getSaleLineItems().add(sl1);
 		sales.getSaleLineItems().add(sl2);
@@ -48,9 +49,23 @@ public class SalesTest {
 	@Test
 	public void calcTotalBaseCostTest() {
 		//20 + 40 + 80 = 140
-		assertEquals(140,sales.calcTotalBaseCost());
+		assertEquals(140,sales.calcTotalBaseCostWithDiscount());
 	}
 	
+
+	@Test
+	public void calcTotalBaseCostDiscountedTest() {
+		//20 + 40 + 80 + (11 * 40 * 85%) = 514 
+		SalesLineItem sl3 = new SalesLineItem(p4, 11);
+		sales.getSaleLineItems().add(sl3);
+		p4.addDiscount(20, 18);
+		p4.addDiscount(5, 5);
+		p4.addDiscount(10, 15); //this discount should be applied
+		p4.addDiscount(30, 30);
+		p4.addDiscount(8, 8);
+
+		assertEquals(514,sales.calcTotalBaseCostWithDiscount());
+	}
 
 	@Test
 	public void removeProductTest() throws ProductNotFoundException {

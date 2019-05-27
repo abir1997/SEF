@@ -1,9 +1,10 @@
 package model;
 
-public class Discount {
+public class Discount implements Comparable<Discount> {
 	int quantity;
 	int discountPercent;
 	
+
 	public Discount(int quantity, int discountPercent) {
 		this.quantity = quantity;
 		this.discountPercent = discountPercent;
@@ -41,6 +42,9 @@ public class Discount {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public int compareTo(Discount discount) {
+		return discount.quantity - quantity;
+	}
 }

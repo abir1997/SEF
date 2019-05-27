@@ -39,37 +39,32 @@ public class Sale implements Serializable {
 	 * @return points for total cost
 	 */
 	public int calcPts() {
-		return (int) (calcTotalBaseCost() / Const.DOLLARS_FOR_A_POINT);
+		return (int) (calcTotalBaseCostWithDiscount() / Const.DOLLARS_FOR_A_POINT);
 	}
 
-	/**
-	 * @return the combined base cost of all items  
-	 */
-	public double calcTotalBaseCost() {
+//	/**
+//	 * @return the combined base cost of all items  
+//	 */
+//	@Deprecated
+//	public double calcTotalBaseCost() {
+//		double total = 0;
+//		for	(SalesLineItem sli : saleLineItems) {
+//			total += sli.getProduct().getPrice() * sli.getQuantity(); 
+//		}
+//		return total;
+//	}
+	
+	public double calcTotalBaseCostWithDiscount() {
 		double total = 0;
 		for	(SalesLineItem sli : saleLineItems) {
-			total += sli.getProduct().getPrice() * sli.getQuantity(); 
+			double itemBase = sli.getProduct().getPrice() * sli.getQuantity();
+			double itemWithDiscount = itemBase * ( 100 - sli.getProduct().calcDiscount(sli.getQuantity())) /100; 
+			total += itemWithDiscount; 
 		}
 		return total;
 	}
 
-//	/**
-//	 * @return the total amount to be charged to the customer
-//	 */
-//	public double calcCheckoutCost() {
-//		//TODO account for discount
-//		double baseTotal = calcTotalBaseCost();
-//		double newPts = calcPts();
-//		// If base cost > $5 and 20 pts in card give discount.
-//		if(baseTotal > 5 && newPts>Const.BASE_POINTS_DISCOUNT_DIV) {
-//			
-//		}
-//		
-//		double total = baseTotal - (((int)(newPts / Const.BASE_POINTS_DISCOUNT_DIV))* Const.DISCOUNT_AMOUNT_FOR_POINTS );
-//
-//		return total;
-//	}
-
+	
 	public Set<SalesLineItem> getSaleLineItems() {
 		return saleLineItems;
 	}
