@@ -50,11 +50,10 @@ public class CustomerMenu {
 				checkPrice();
 
 			} else if (CM_CHECK_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
+				checkDiscounts();
+			} else if (CM_CHECKOUT.getKey().equalsIgnoreCase(optionSelected)) {
 				double paid = customer.checkout();
 				System.out.println("\nCheck out successful, paid:" + paid + "\n");
-
-			} else if (CM_CHECKOUT.getKey().equalsIgnoreCase(optionSelected)) {
-				checkDiscounts();
 			}
 			else if (CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\nReturning to login sceen...\n");

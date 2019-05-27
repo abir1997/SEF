@@ -67,7 +67,7 @@ public class Customer extends User {
 		int pts = cart.calcPts();
 		card.addLoyaltyPts(pts);
 		consumeFromStock();
-		cart = null;
+		cart = new Sale();
 		return cost;
 	}
 
