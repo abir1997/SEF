@@ -14,7 +14,7 @@ public class AppFrame extends JFrame {
 		ImageIcon icon = new ImageIcon("code.png");
 		JLabel img = new JLabel(icon);
 		add(img);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setVisible(true);
 	}
 	
