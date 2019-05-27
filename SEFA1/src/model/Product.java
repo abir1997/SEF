@@ -43,7 +43,7 @@ public class Product implements Serializable{
 	public int calcDiscount(int qty) {
 		for (Discount discount : discounts) {
 			if (discount.getQuantity() <= qty) {
-				return discount.discountPercent;
+				return discount.getDiscountPercent();
 			}
 		}
 		return 0;

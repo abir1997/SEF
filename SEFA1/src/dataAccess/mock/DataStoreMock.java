@@ -1,5 +1,6 @@
 package dataAccess.mock;
 
+import dataAccess.DataStore;
 import dataAccess.DataStoreInterface;
 import dataAccess.ProductDataAccess;
 import dataAccess.SupplierDataAccess;
@@ -17,7 +18,7 @@ public class DataStoreMock implements DataStoreInterface {
 
 	@Override
 	public void saveData() {
-		// TODO Auto-generated method stub
+//		new DataStore().saveData();
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package model;
 
-public class CustomerCard {
+import java.io.Serializable;
 
+public class CustomerCard implements Serializable{
+
+	private static final long serialVersionUID = -8451023219931180667L;
 	private double loyaltyPts;
 
 
