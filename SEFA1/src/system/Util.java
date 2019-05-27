@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import javax.swing.text.DateFormatter;
-
 public class Util {
 
 	public static int readPositiveInt(Scanner userInput) {
@@ -40,10 +38,8 @@ public class Util {
 				localDate = LocalDate.parse(dateStr, DATE_FORMATTER); 
 				success = true;
 			} catch (Exception e) {
-				System.out.println("Invalid positive Integer, please try again");
-			} finally {
-				userInput.nextLine();
-			}
+				System.out.println("Invalid Date Entered, needs to follow the following format: dd-MM-yyyy");
+			} 
 
 		return localDate;
 	}

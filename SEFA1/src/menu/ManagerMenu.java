@@ -90,7 +90,7 @@ public class ManagerMenu {
 			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				
 			} else if (MM_REPORT_FAST_SELLING_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
-				reportFastSellingProducts();
+				generateFastSellingProductsReport();
 			} else if (MM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 
 				System.out.println("\nReturning to login sceen...\n");
@@ -111,11 +111,22 @@ public class ManagerMenu {
 
 		System.out.println("Enter end date: (dd-MM-yyyy)");
 		LocalDate endDate = Util.readDate(userInput);
+		
+		Map<String, ProductSale> aggregatedProducts = listProductsForSalesReport(startDate, endDate);
+		
+		System.out.println("*** PRODUCTS IN GIVEN PERIOD ***");
+		for (ProductSale productSale : aggregatedProducts.values()) {
+			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
+					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
+					productSale.getTotalVolume(), productSale.getTotalValue());
+		}
+	}
 
-		Set<Customer> customers = UserDataAccess.getAllCustomers();
-
+	private static Map<String, ProductSale> listProductsForSalesReport(LocalDate startDate, LocalDate endDate) {
 		// create the set of sales in for the given period
 		Map<String, ProductSale> aggregatedProducts = new HashMap<>();
+		
+		Set<Customer> customers = UserDataAccess.getAllCustomers();
 
 		//Created an aggregated hashMap for product's sales
 		for (Customer customer : customers) {
@@ -137,14 +148,7 @@ public class ManagerMenu {
 				}
 			}
 		}
-		
-		System.out.println("*** PRODUCTS IN GIVEN PERIOD ***");
-		for (ProductSale productSale : aggregatedProducts.values()) {
-			System.out.printf("%10s: name: %30s, Total volume: %6d, Total Value: %8.2f\n",
-					productSale.getProduct().getProductId(), productSale.getProduct().getName(),
-					productSale.getTotalVolume(), productSale.getTotalValue());
-		}
-		
+		return aggregatedProducts;
 	}
 	private static void autoReplenishPurchaseOrder() {
 		System.out.println("\n------------------------------------------------------------------------");
@@ -278,34 +282,11 @@ public class ManagerMenu {
 	/**
 	 * Look for the sales in the past two weeks and report on top 10 selling products in volume and 10 top selling in value separately 
 	 */
-	public static void reportFastSellingProducts() {
+	public static void generateFastSellingProductsReport() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** FAST SELLING PRODUCTS ***");
 		System.out.println("------------------------------------------------------------------------\n");
-		Set<Customer> customers = UserDataAccess.getAllCustomers();
-
-		// create the set of sales in recent times
-		Map<String, ProductSale> recentProducts = new HashMap<>();
-
-		//Created an aggregated hashMap for product's sales
-		for (Customer customer : customers) {
-			for (Sale sale : customer.getPreviousSales()) {
-				if (LocalDateTime.now().minusDays(Const.TOP_SELLING_REPORT_DAYS).isBefore(sale.getDateTime())) {
-					for (SalesLineItem sli: sale.getSaleLineItems()) {
-						
-						String productId = sli.getProduct().getProductId();
-						if (!recentProducts.containsKey(productId)) {
-							recentProducts.put(productId, new ProductSale(sli.getProduct(), sli.getQuantity(),
-									sli.getProduct().getPrice() * sli.getQuantity()));
-						} else {
-							ProductSale productSale = recentProducts.get(productId);
-							productSale.addTotalVolume(sli.getQuantity());
-							productSale.addTotalValue(sli.getProduct().getPrice() * sli.getQuantity());
-						}
-					}
-				}
-			}
-		}
+		Map<String, ProductSale> recentProducts = aggregatedSoldProducts();
 
 		System.out.println("*** TOP 10 PRODUCTS BY VOLUME ***");
 		List<ProductSale> productSaleSet = new ArrayList<>();
@@ -338,5 +319,33 @@ public class ManagerMenu {
 					productSale.getTotalVolume(), productSale.getTotalValue());
 			count++;
 		}
+	}
+
+	private static Map<String, ProductSale> aggregatedSoldProducts() {
+		Set<Customer> customers = UserDataAccess.getAllCustomers();
+
+		// create the set of sales in recent times
+		Map<String, ProductSale> recentProducts = new HashMap<>();
+
+		//Created an aggregated hashMap for product's sales
+		for (Customer customer : customers) {
+			for (Sale sale : customer.getPreviousSales()) {
+				if (LocalDateTime.now().minusDays(Const.TOP_SELLING_REPORT_DAYS).isBefore(sale.getDateTime())) {
+					for (SalesLineItem sli: sale.getSaleLineItems()) {
+						
+						String productId = sli.getProduct().getProductId();
+						if (!recentProducts.containsKey(productId)) {
+							recentProducts.put(productId, new ProductSale(sli.getProduct(), sli.getQuantity(),
+									sli.getProduct().getPrice() * sli.getQuantity()));
+						} else {
+							ProductSale productSale = recentProducts.get(productId);
+							productSale.addTotalVolume(sli.getQuantity());
+							productSale.addTotalValue(sli.getProduct().getPrice() * sli.getQuantity());
+						}
+					}
+				}
+			}
+		}
+		return recentProducts;
 	}
 }
