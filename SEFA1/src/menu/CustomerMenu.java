@@ -53,7 +53,7 @@ public class CustomerMenu {
 				checkDiscounts();
 			} else if (CM_CHECKOUT.getKey().equalsIgnoreCase(optionSelected)) {
 				double paid = customer.checkout();
-				System.out.println("\nCheck out successful, paid:" + paid + "\n");
+				System.out.printf("\nCheck out successful, paid: $%7.2f\n\n", paid );
 			}
 			else if (CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\nReturning to login sceen...\n");

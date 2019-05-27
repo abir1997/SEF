@@ -46,29 +46,35 @@ public class Customer extends User {
 	}
 
 	public double checkout() {
-		double baseCost = cart.calcTotalBaseCostWithDiscount();
+		
+		double baseCost = cart.calcTotalBaseCost();
+		System.out.printf("Total undiscounted cost : $%7.2f\n", baseCost);
+		
+		double bulkDiscountedCost = cart.calcTotalBaseCostWithDiscount();
+		System.out.printf("Total bulk discounted cost : $%7.2f\n", bulkDiscountedCost);
+		
 		double currentLoyaltyPts = card.getLoyaltyPts();
-		System.out.printf("Total base cost : %f", baseCost);
+
 		cart.setDateTime(LocalDateTime.now());
 		previousSales.add(cart);
 
-		double cost = 0;
-		if (baseCost > Const.DISCOUNT_AMOUNT_FOR_POINTS &&
+		double finalCost = bulkDiscountedCost;
+		if (bulkDiscountedCost > Const.DISCOUNT_AMOUNT_FOR_POINTS &&
 			card.getLoyaltyPts() > Const.BASE_POINTS_DISCOUNT_DIV) {
 			
-			double n = baseCost / Const.BASE_POINTS_DISCOUNT_DIV;
+			double n = bulkDiscountedCost / Const.BASE_POINTS_DISCOUNT_DIV;
 			double discount = Const.DISCOUNT_AMOUNT_FOR_POINTS * n;
-			cost = baseCost - discount;
-			System.out.printf("Discount applied : %f", discount);
+			finalCost -= discount; //TODO account for loyalty point being bigger than current cost!
+			System.out.printf("Discount applied : $%7.2f\n", discount);
 			card.deductLoyaltyPoints(currentLoyaltyPts);
-			System.out.printf("%f loyalty points used up!", currentLoyaltyPts);
+			System.out.printf("%7.0f loyalty points used up!\n", currentLoyaltyPts);
 		}
-		cart.setTotalPaid(cost);
+		cart.setTotalPaid(finalCost);
 		int pts = cart.calcPts();
 		card.addLoyaltyPts(pts);
 		consumeFromStock();
 		cart = new Sale();
-		return cost;
+		return finalCost;
 	}
 
 

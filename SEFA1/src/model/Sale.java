@@ -42,17 +42,16 @@ public class Sale implements Serializable {
 		return (int) (calcTotalBaseCostWithDiscount() / Const.DOLLARS_FOR_A_POINT);
 	}
 
-//	/**
-//	 * @return the combined base cost of all items  
-//	 */
-//	@Deprecated
-//	public double calcTotalBaseCost() {
-//		double total = 0;
-//		for	(SalesLineItem sli : saleLineItems) {
-//			total += sli.getProduct().getPrice() * sli.getQuantity(); 
-//		}
-//		return total;
-//	}
+	/**
+	 * @return the combined base cost of all items  
+	 */
+	public double calcTotalBaseCost() {
+		double total = 0;
+		for	(SalesLineItem sli : saleLineItems) {
+			total += sli.getProduct().getPrice() * sli.getQuantity(); 
+		}
+		return total;
+	}
 	
 	public double calcTotalBaseCostWithDiscount() {
 		double total = 0;

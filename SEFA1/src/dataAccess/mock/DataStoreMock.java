@@ -77,12 +77,26 @@ public class DataStoreMock implements DataStoreInterface {
 		c.addToCart(p5, 1);
 		c.addToCart(p6, 1);
 		c.addToCart(p7, 1);
-		c.addToCart(p8, 2);
+		c.addToCart(p8, 1);
 		c.addToCart(p9, 2);
 		c.addToCart(p10, 1);
 		c.addToCart(p11, 1);
 		c.addToCart(p12, 1);
 		c.checkout();
+		c.addToCart(p1, 1);
+		c.addToCart(p2, 1);
+		c.addToCart(p3, 1);
+		c.addToCart(p4, 1000);
+		c.addToCart(p5, 1);
+		c.addToCart(p6, 1);
+		c.addToCart(p7, 1);
+		c.addToCart(p8, 11);
+		c.addToCart(p9, 2);
+		c.addToCart(p10, 1);
+		c.addToCart(p11, 1);
+		c.addToCart(p12, 1);
+		System.out.println("\n----------" + c.getCard().getLoyaltyPts());
+//		c.getCard().addLoyaltyPts(30);
 		
 		
 		System.out.println("\n\n********  MOCK: USERS added 	********* ");
