@@ -1,5 +1,6 @@
 package menu;
 
+import static enums.MenuOptions.CM_CHECKOUT;
 import static enums.MenuOptions.CM_CHECK_DISCOUNTS;
 import static enums.MenuOptions.CM_CHECK_PRICE;
 import static enums.MenuOptions.CM_LIST_PRODUCTS;
@@ -30,6 +31,8 @@ public class CustomerMenu {
 			System.out.printf("%-30s %s\n", CM_LIST_PRODUCTS.getTxt(), CM_LIST_PRODUCTS.getKey());
 			System.out.printf("%-30s %s\n", CM_CHECK_PRICE.getTxt(), CM_CHECK_PRICE.getKey());
 			System.out.printf("%-30s %s\n", CM_CHECK_DISCOUNTS.getTxt(), CM_CHECK_DISCOUNTS.getKey());
+			System.out.printf("%-30s %s\n", CM_CHECKOUT.getTxt(), CM_CHECKOUT.getKey());
+			
 			System.out.printf("%-30s %s\n", CM_RETURN_TO_LOGIN_SCREEN.getTxt(), CM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
 
@@ -47,9 +50,13 @@ public class CustomerMenu {
 				checkPrice();
 
 			} else if (CM_CHECK_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
-				checkDiscounts();
+				double paid = customer.checkout();
+				System.out.println("\nCheck out successful, paid:" + paid + "\n");
 
-			}else if (CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
+			} else if (CM_CHECKOUT.getKey().equalsIgnoreCase(optionSelected)) {
+				checkDiscounts();
+			}
+			else if (CM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
 				System.out.println("\nReturning to login sceen...\n");
 
 			} else {
