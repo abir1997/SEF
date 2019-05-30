@@ -64,7 +64,9 @@ public class Customer extends User {
 			
 			double n = bulkDiscountedCost / Const.BASE_POINTS_DISCOUNT_DIV;
 			double discount = Const.DISCOUNT_AMOUNT_FOR_POINTS * n;
-			finalCost -= discount; //TODO account for loyalty point being bigger than current cost!
+			if(discount < finalCost) {
+			finalCost -= discount;
+			}
 			System.out.printf("Discount applied : $%7.2f\n", discount);
 			card.deductLoyaltyPoints(currentLoyaltyPts);
 			System.out.printf("%7.0f loyalty points used up!\n", currentLoyaltyPts);
@@ -114,24 +116,5 @@ public class Customer extends User {
 	public List<Sale> getPreviousSales() {
 		return previousSales;
 	}
-
-	// public void payment() {
-	// double usedPoints = 0;
-	// while (sale.getTotal() >= 5 && card.getBalance() >= 20) { // if the payment
-	// amount more than 5 and there are
-	// // more than 20 point in the account, it will get
-	// // the discount
-	// sale.deduct(5);
-	// card.deductLoyaltyPoints(20);
-	// usedPoints += 20;
-	// }
-	// System.out.println(usedPoints + " Loyalty Points used.");
-	// System.out.println("the amount you need to pay is " + sale.getTotal());
-	// sale.makePayment(sale.getTotal());
-	// System.out.println(sale.getPts() + " loyalty Points added to your account.");
-	// sale.claimPts(card);
-	// previousSales.add(sale);
-	// sale = new Sale();
-	// }
 
 }

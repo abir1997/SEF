@@ -11,7 +11,6 @@ public class ProductSale {
 	private double totalValue;
 	
 	public ProductSale(Product product, int totalVolume, double totalValue) {
-		super();
 		this.product = product;
 		this.totalVolume = totalVolume;
 		this.totalValue = totalValue;
@@ -34,6 +33,10 @@ public class ProductSale {
 		this.totalValue += value;
 	}
 	
+	
+	/**
+	 * 
+	 */
 	public static final Comparator<ProductSale> VOLUME_COMPARATOR = new Comparator<ProductSale>() {
 		@Override
 		public int compare(ProductSale ps0, ProductSale ps1) {

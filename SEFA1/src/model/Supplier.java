@@ -66,7 +66,6 @@ public class Supplier implements Serializable {
 	}
 
 
-	// method to print out Supplier details
 	public String getDetails(boolean includeProducts) {
 		return id + ";  Name:" + name + ";  Email:" + email + ";  Phone:" + phone + ";  Address:" + address
 				+ (includeProducts ? ("; Products:\n" + productsToStr()) : "");

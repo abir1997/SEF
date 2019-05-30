@@ -13,17 +13,16 @@ public class SalesLineItem implements Serializable{
 		this.product=product;
 		this.quantity=quantity;
 	}
-	//get method
+	
 	public int getQuantity(){
 		return quantity;
 	}
 	
 	
-	//set method
 	public void setQuantity(int quantity){
 		this.quantity = quantity;
 	}
-	//method to increase quantity
+	
 	public void addQuantity(){
 		quantity++;
 	}

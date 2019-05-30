@@ -1,9 +1,7 @@
 package report;
 
-import dataAccess.SupplierDataAccess;
 import model.Product;
 import model.SalesLineItem;
-import model.Supplier;
 
 public class Reports {
 	
