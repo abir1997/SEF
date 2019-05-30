@@ -7,7 +7,7 @@ public enum MenuOptions {
 	WM_REPLENISH_PRODUCT_QUANTITY("Replenish Product Quantity","2"),
 	WM_RETURN_TO_LOGIN_SCREEN("Return to Login Screen","3"),
 	
-	CM_PURCHASE_PRODUCT("Purchase Product", "1"),
+	CM_PURCHASE_PRODUCT("Add Product to Cart", "1"),
 	CM_LIST_PRODUCTS("List Products","2"),
 	CM_CHECK_PRICE("Check Price", "3"),
 	CM_CHECK_DISCOUNTS("Check Discounts", "4"),
@@ -24,9 +24,8 @@ public enum MenuOptions {
 	MM_AUTO_REPLENISH_PURCHASE_ORDER("Place purchase orderfor all items below replenishment level", "8"),
 	MM_GENERATE_SALES_REPORT("Generate Sales Report", "9"),
 	MM_GENERATE_SUPPLY_REPORT("Generate Supply Report", "10"),
-	MM_LIST_TOP_PRODUCTS("List Top Products", "11"),
-	MM_REPORT_FAST_SELLING_PRODUCTS("Report Fast Selling Products", "12"),
-	MM_RETURN_TO_LOGIN_SCREEN("Return to Login Screen", "13");
+	MM_REPORT_FAST_SELLING_PRODUCTS("Report Fast Selling Products", "11"),
+	MM_RETURN_TO_LOGIN_SCREEN("Return to Login Screen", "12");
 
 	
 	private String txt;

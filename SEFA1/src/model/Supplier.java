@@ -68,13 +68,15 @@ public class Supplier implements Serializable {
 
 	// method to print out Supplier details
 	public String getDetails(boolean includeProducts) {
-		return id + ":" + name  + ":" + email + ":" + phone + ":" + address + (includeProducts ? "" : (":" + productsToStr()));
+		return id + ";  Name:" + name + ";  Email:" + email + ";  Phone:" + phone + ";  Address:" + address
+				+ (includeProducts ? ("; Products:\n" + productsToStr()) : "");
 	}
 
 	// method to get products that is supplied by a supplier object
 	public String productsToStr() {
 		String productList = "";
 		for (Product product : products) {
+			productList += "/n";
 			productList += product.toString();
 			productList += "/n";
 		}

@@ -6,7 +6,6 @@ import static enums.MenuOptions.MM_GENERATE_SALES_REPORT;
 import static enums.MenuOptions.MM_GENERATE_SUPPLY_REPORT;
 import static enums.MenuOptions.MM_LIST_PRODCUT;
 import static enums.MenuOptions.MM_LIST_SUPPLIER_DETAILS;
-import static enums.MenuOptions.MM_LIST_TOP_PRODUCTS;
 import static enums.MenuOptions.MM_OFFER_DISCOUNTS;
 import static enums.MenuOptions.MM_REMOVE_PRODUCT;
 import static enums.MenuOptions.MM_REPLENISH_PRODUCT_QUANTITY;
@@ -59,7 +58,6 @@ public class ManagerMenu {
 			System.out.printf("%-30s %s\n", MM_AUTO_REPLENISH_PURCHASE_ORDER.getTxt(), MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey());
 			System.out.printf("%-30s %s\n", MM_GENERATE_SALES_REPORT.getTxt(), MM_GENERATE_SALES_REPORT.getKey());
 			System.out.printf("%-30s %s\n", MM_GENERATE_SUPPLY_REPORT.getTxt(), MM_GENERATE_SUPPLY_REPORT.getKey());
-			System.out.printf("%-30s %s\n", MM_LIST_TOP_PRODUCTS.getTxt(), MM_LIST_TOP_PRODUCTS.getKey());
 			System.out.printf("%-30s %s\n", MM_REPORT_FAST_SELLING_PRODUCTS.getTxt(), MM_REPORT_FAST_SELLING_PRODUCTS.getKey());
 			System.out.printf("%-30s %s\n", MM_RETURN_TO_LOGIN_SCREEN.getTxt(), MM_RETURN_TO_LOGIN_SCREEN.getKey());
 			System.out.printf("\nEnter selection:");
@@ -77,8 +75,7 @@ public class ManagerMenu {
 			} else if (MM_REPLENISH_PRODUCT_QUANTITY.getKey().equalsIgnoreCase(optionSelected)) {
 				SuperMarketMenus.replenishProduct();
 			} else if (MM_LIST_SUPPLIER_DETAILS.getKey().equalsIgnoreCase(optionSelected)) {
-				boolean includeProducts = false;
-				System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
+				generateSupplierReport();
 			} else if (MM_OFFER_DISCOUNTS.getKey().equalsIgnoreCase(optionSelected)) {
 				addBulkDiscount();
 			} else if (MM_AUTO_REPLENISH_PURCHASE_ORDER.getKey().equalsIgnoreCase(optionSelected)) {
@@ -87,8 +84,6 @@ public class ManagerMenu {
 				generateSalesReport();
 			} else if (MM_GENERATE_SUPPLY_REPORT.getKey().equalsIgnoreCase(optionSelected)) {
 				generateSupplyReport();
-			} else if (MM_LIST_TOP_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
-				
 			} else if (MM_REPORT_FAST_SELLING_PRODUCTS.getKey().equalsIgnoreCase(optionSelected)) {
 				generateFastSellingProductsReport();
 			} else if (MM_RETURN_TO_LOGIN_SCREEN.getKey().equalsIgnoreCase(optionSelected)) {
@@ -101,17 +96,22 @@ public class ManagerMenu {
 		}
 	}
 	
+	
+	private static void generateSupplierReport() {
+		System.out.println("\n------------------------------------------------------------------------");
+		System.out.println("*** Generate Supplier Report  ***");
+		System.out.println("------------------------------------------------------------------------\n");
+		
+		boolean includeProducts = false;
+		System.out.println(SupplierDataAccess.listSupplierDetails(includeProducts));
+	}
+	
 	private static void generateSupplyReport() {
 		System.out.println("\n------------------------------------------------------------------------");
 		System.out.println("*** Generate Supply Report  ***");
 		System.out.println("------------------------------------------------------------------------\n");
 		
-		System.out.println("Enter start date: (dd-MM-yyyy)");
-//		LocalDate startDate = Util.readDate(userInput);
-//		System.out.println("Enter end date: (dd-MM-yyyy)");
-//		LocalDate endDate = Util.readDate(userInput);
 		System.out.println(SupplierDataAccess.listSupplierDetails(true));
-		
 	}
 
 	private static void generateSalesReport() {
@@ -168,6 +168,9 @@ public class ManagerMenu {
 		System.out.println("*** Purchase Order for the following low stock items will be submitted  ***");
 		System.out.println("------------------------------------------------------------------------\n");
 		Set<Product> replenishableProducts = ProductDataAccess.findProductsBelowReplenish();
+		if (replenishableProducts.size() == 0) {
+			System.out.println("No products is below replenish level.");
+		}
 		for (Product product : replenishableProducts) {
 			System.out.printf("%s %s\n", product.getProductId(), product.getName(), product.getOrderQty(), product.getReplenishLevel(), product.getWarehouseQuantity());
 		}
