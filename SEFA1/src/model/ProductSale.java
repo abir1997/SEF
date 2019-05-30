@@ -3,7 +3,9 @@ package model;
 import java.util.Comparator;
 
 /**
- * This class is used for Top selling report
+ * This class is used for Top selling report. This class should not be persisted but rather is used for report
+ * generation as a transient convenient class that can be sorted easily and can hold aggregated information for total
+ * value and volume of product sale.
  */
 public class ProductSale {
 	private Product product;
@@ -33,10 +35,8 @@ public class ProductSale {
 		this.totalValue += value;
 	}
 	
-	
-	/**
-	 * 
-	 */
+
+	//A comparator for this calss to sort based on totalVolume sale
 	public static final Comparator<ProductSale> VOLUME_COMPARATOR = new Comparator<ProductSale>() {
 		@Override
 		public int compare(ProductSale ps0, ProductSale ps1) {
@@ -44,7 +44,8 @@ public class ProductSale {
 			return ps1.getTotalVolume() - ps0.getTotalVolume();
 		}
 	};
-	
+
+	//A comparator for this calss to sort based on totalValue sale
 	public static final Comparator<ProductSale> VALUE_COMPARATOR = new Comparator<ProductSale>() {
 		@Override
 		public int compare(ProductSale ps0, ProductSale ps1) {
