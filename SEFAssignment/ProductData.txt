@@ -1,4 +1,0 @@
-PRODUCT:Apple:25:23.34
-PRODUCT:Pizza:4:10.5
-PRODUCT:Chips:120:3.2
-PRODUCT:icecream:2:30.0
