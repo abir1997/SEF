@@ -134,26 +134,4 @@ public class Customer extends User {
 	// sale = new Sale();
 	// }
 
-	//
-	// public void purchase(String productID, int amount) {
-	// while (amount > 0) {
-	// pickUp(SuperMarketSystem.products.get(productID));
-	// amount -= 1;
-	// }
-	// calAmount();
-	// payment();
-	// }
-
-	// private double calAmount() {
-	// return sale.getTotal();
-	// }
-
-	// public void pickUp(Product product) {
-	// sale.addProduct(product);
-	// }
-
-	// private void pickUp(Product product, int quantity) {
-	// sale.addProduct(product, quantity);
-	// }
-
 }
