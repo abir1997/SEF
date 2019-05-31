@@ -74,7 +74,9 @@ public class CustomerMenu {
 		try {
 		double price = ProductDataAccess.getProductPrice(productID);
 			System.out.println("the price of " + productID + " is " + price);
-			CreateQR qr = new CreateQR("https://shop.coles.com.au/a/a-national/product/arnotts-biscuits-shapes-savoury");
+			System.out.println(ProductDataAccess.getProduct(productID).getName());
+			CreateQR qr = new CreateQR("https://shop.coles.com.au/a/a-national/product/"
+			+ProductDataAccess.getProduct(productID).getName()+"/");
 			new AppFrame();
 			
 		}

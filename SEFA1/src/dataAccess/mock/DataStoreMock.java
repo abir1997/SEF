@@ -18,7 +18,7 @@ public class DataStoreMock implements DataStoreInterface {
 
 	@Override
 	public void saveData() {
-//		new DataStore().saveData();
+	//	new DataStore().saveData();
 	}
 
 	@Override
@@ -30,13 +30,13 @@ public class DataStoreMock implements DataStoreInterface {
 	
 	private int pId = 0;
 	//public Product(String productId, String name, int warehouseQty, int replenishLevel, int orderQty, double price) 
-	private Product p0 = new Product("p"+pId++, "Lemonade", 500, 200, 100, 5);
-	private Product p1 = new Product("p"+pId++, "Coke", 500, 200, 100, 5);
-	private Product p2 = new Product("p"+pId++, "Pepsi", 300, 200, 100, 4);
-	private Product p3 = new Product("p"+pId++, "Plates", 1500, 400, 200, 2);
-	private Product p4 = new Product("p"+pId++, "Spoons", 3000, 600, 300, 1);
-	private Product p5 = new Product("p"+pId++, "Curtain", 500, 10, 20, 200);
-	private Product p6 = new Product("p"+pId++, "Milk", 500, 100, 200, 2);
+	private Product p0 = new Product("p"+pId++, "schweppes-soft-drink-lemonade-3270191p", 500, 200, 100, 5);
+	private Product p1 = new Product("p"+pId++, "coca-cola-soft-drink-coke-bottle-chilled", 500, 200, 100, 5);
+	private Product p2 = new Product("p"+pId++, "pepsi-soft-drink-cola", 300, 200, 100, 4);
+	private Product p3 = new Product("p"+pId++, "cook-dine-porcelain-cereal-bowl", 1500, 400, 200, 2);
+	private Product p4 = new Product("p"+pId++, "cook-dine-wooden-risotto-spoon", 3000, 600, 300, 1);
+	private Product p5 = new Product("p"+pId++, "coles-rspca-approved-chicken-burger-plain-crumb", 500, 10, 20, 200);
+	private Product p6 = new Product("p"+pId++, "coles-milk-full-cream-8150288p", 500, 100, 200, 2);
 	private Product p7 = new Product("p"+pId++, "Chips", 300, 60, 30, 3);
 	private Product p8 = new Product("p"+pId++, "Gold", 100, 20, 50, 5000);
 	private Product p9 = new Product("p"+pId++, "Gum", 300, 60, 30, 1);
